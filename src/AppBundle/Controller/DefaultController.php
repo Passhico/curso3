@@ -10,6 +10,8 @@ use AppBundle\Entity\Producto;
 use AppBundle\Entity\Usuario;
 
 
+define("NL", "<br>");
+
 class DefaultController extends Controller
 {
  
@@ -109,4 +111,21 @@ class DefaultController extends Controller
         die();  
     }
     
+    public function nativeSqlAction()
+    {
+        $ddbb = $this->getDoctrine()->getManager()->getConnection();
+        $stmt = $ddbb->prepare("select * from cursos;");
+        $stmt->execute(array());
+        
+        $cursos = $stmt->fetchAll();
+       
+   
+        foreach ($cursos as $c)//printa
+        {
+            echo "TITULO:" . $c['titulo'] . NL;
+            echo "PRECIO:" . $c['precio'] . NL;
+            echo NL;
+        }
+        die();
+    }
 }
