@@ -23,4 +23,9 @@ nativeSql:
     path: nativeSql/
     defaults: 
         {_controller: AppBundle:Default:nativeSql}
+
+queryBuilder:
+    path: queryBuilder/
+    defaults: 
+        {_controller: AppBundle:Default:queryBuilder}
     

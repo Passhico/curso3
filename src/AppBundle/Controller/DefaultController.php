@@ -103,9 +103,9 @@ class DefaultController extends Controller
             $this->getDoctrine()->getManager()->getRepository("AppBundle:curso")->find($id_to_delete)
         );
         
-        if ( $this->getDoctrine()->getManager()->flush() )
+        if ( $this->getDoctrine()->getManager()->flush() )//si null ok  
             echo "error deleteando ". $id_to_delete . "<br>";
-        else
+        else //Error
             echo "ELIMINADO REGISTRO " . $id_to_delete . "<br>"; 
         
         die();  
@@ -126,6 +126,23 @@ class DefaultController extends Controller
             echo "PRECIO:" . $c['precio'] . NL;
             echo NL;
         }
+        die();
+    }
+    
+    
+    public function queryBuilderAction()
+    {
+        //Preparamos el repo
+        $repo = $this->getDoctrine()->getManager()->getRepository("AppBundle:curso");
+        
+        
+        //Para preparar querys se usa el builder . 
+        $query = $repo->createQueryBuilder("c");
+ 
+        
+        $query-
+        
+        
         die();
     }
 }
