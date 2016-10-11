@@ -1,0 +1,19 @@
+## YAML Template.
+---
+
+index:
+    path: /
+    defaults:
+        {_controller: AppBundle:Default:index}
+
+    
+update:
+    path: update/{id}/{titulo}/{descripcion}/{precio}
+    defaults: 
+        {_controller: AppBundle:Default:update}
+    
+delete:
+    path: delete/{id_to_delete}
+    defaults: 
+        {_controller: AppBundle:Default:delete}
+    
