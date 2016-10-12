@@ -128,14 +128,11 @@ class DefaultController extends Controller
     }
 
     public function queryBuilderAction()
-    {	//Preparamos el repo
+    {	
+	//Preparamos el repo
 	$repo = $this->getDoctrine()->getManager()->getRepository("AppBundle:curso");
-
-
-	//Para preparar querys se usa el builder . 
 	
-
-
+	//Para preparar querys se usa el builder . 
 	$query = $repo->createQueryBuilder("c");
 	$query->where("c.precio > :precio");
 	$query->setParameter("precio", "79");
@@ -148,8 +145,8 @@ class DefaultController extends Controller
 	    echo $c->getTitulo() . NL;
 	    echo $c->getPrecio() . NL;
 	    echo NL;
-		
 	}
+
 	die();
     }
 
