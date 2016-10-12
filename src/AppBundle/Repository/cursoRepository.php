@@ -12,21 +12,14 @@ class cursoRepository extends \Doctrine\ORM\EntityRepository
 {
 	public function getCursos()
 	{
-			//Preparamos el repo
-	//$repo = $this->getDoctrine()->getManager()->getRepository("AppBundle:curso");
-	$repo = $this;
-	
-	//Para preparar querys se usa el builder . 
-	$query = $repo->createQueryBuilder("c");
-	$query->where("c.precio > :precio");
-	$query->setParameter("precio", "79");
-	$query = $query->getQuery();
-
-	$cursos = $query->getResult();
-
-	return  $cursos;
-
 	
 		
+		
+		$query = $this->createQueryBuilder("c")
+				->where("c.precio > :precio")
+				->setParameter("precio","805")
+				->getQuery();
+		
+		return $query->getResult(); //return cursos where cursos.precio > 805
 	}
 }
