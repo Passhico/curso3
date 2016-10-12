@@ -141,7 +141,8 @@ class DefaultController extends Controller
 
 	$cursos = $query->getResult();
 	*/
-        $cursos = \AppBundle\Repository\cursoRepository::getCursos();
+        $cursosRepo = $this->getDoctrine()->getManager()->getRepository("AppBundle:curso")->getCurso();
+		
 
 	foreach ($cursos as $c)//printa
 	{
