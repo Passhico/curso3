@@ -129,6 +129,7 @@ class DefaultController extends Controller
 
     public function queryBuilderAction()
     {	
+		/*
 	//Preparamos el repo
 	$repo = $this->getDoctrine()->getManager()->getRepository("AppBundle:curso");
 	
@@ -139,6 +140,8 @@ class DefaultController extends Controller
 	$query = $query->getQuery();
 
 	$cursos = $query->getResult();
+	*/
+        $cursos = \AppBundle\Repository\cursoRepository::getCursos();
 
 	foreach ($cursos as $c)//printa
 	{
@@ -146,8 +149,14 @@ class DefaultController extends Controller
 	    echo $c->getPrecio() . NL;
 	    echo NL;
 	}
+	
 
+
+	
 	die();
+	
+	
+	
     }
 
 }
