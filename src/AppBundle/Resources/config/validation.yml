@@ -1,0 +1,19 @@
+## YAML Template.
+---
+AppBundle\Entity\curso:
+    properties:
+        titulo:
+            - NotBlank: {message: "El titulo no puede estar vacio"}
+            - Lenght:
+                min: 2
+                minMessage: "El titulo debe tener más de 2 caracteres"
+        descripcion:
+            -NotBlank: {message: "la descripción no puede estar vacía"}
+        precio:
+            Type:
+                type: numeric
+                message: "el precio tiene que ser numérico" 
+                
+            
+                
+                

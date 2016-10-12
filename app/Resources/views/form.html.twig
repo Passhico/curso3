@@ -1,0 +1,22 @@
+
+
+<h1>FORMULARIO CON SYMFONY 3</h1>
+
+{% if (status != null) and (datos != null) %}
+    <h3>{{status}}</h3>
+    <div>
+        {{dump(datos)}}
+    </div>
+        
+{%endif%}
+
+{{form_start(form, {'action':'', 'method':'POST'})}}
+<label>
+    titulo:
+    {{form_errors(form.titulo)}}
+    {{form_widget(form.titulo)}}
+</label>
+    
+{{form_end(form)}}
+
+

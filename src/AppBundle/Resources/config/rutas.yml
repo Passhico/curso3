@@ -28,4 +28,13 @@ queryBuilder:
     path: queryBuilder/
     defaults: 
         {_controller: AppBundle:Default:queryBuilder}
-    
+
+formroute:
+    path: form/
+    defaults: 
+        {_controller: AppBundle:Default:form}
+
+validarEmail:
+    path: validar-email/{email_to_validate}
+    defaults: 
+        {_controller: AppBundle:Default:validarEmail}

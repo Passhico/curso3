@@ -9,6 +9,8 @@ use AppBundle\Entity\Curso;
 use AppBundle\Entity\Producto;
 use AppBundle\Entity\Usuario;
 use Doctrine\ORM\QueryBuilder as qb;
+use AppBundle\Form\cursoType;
+
 
 define("NL", "<br>");
 
@@ -159,5 +161,52 @@ class DefaultController extends Controller
 	
 	
     }
+	
+    function formAction(Request $r)
+	{
+		//El cusro donde se guardarán los datos . 
+		$curso = new \AppBundle\Entity\curso();
 
+		//Creamos el form y le pasamos el curso par que lo cargue. 
+		$form = $this->createForm(\AppBundle\Form\cursoType::class, $curso);
+		$form->handleRequest($r);
+
+		if ($form->isValid())
+		{
+			$status = "formulario válido" . NL;
+			$data = [
+				"titulo" => $form->get("titulo")->getData(),
+				"descripcion" => $form->get("descripcion")->getData(),
+				"precio" => $form->get("precio")->getData()
+			];
+		} else
+		{
+			$status = "PETORRORORORORORROEOEOEROEROERORROEOEORO";
+			$data = [];
+		}
+
+
+		return $this->render
+						(
+						'form.html.twig', [
+					'form' => $form->createView(), //Aquí montamos la vista.
+					'status' => $status,
+					'datos' => $data
+						]
+		);
+	}
+
+
+	public function validarEmailAction($email_to_validate)			
+	{
+		$emailconstraing = new \Symfony\Component\Validator\Constraints\Email();
+		$emailconstraing->message = "pasame un buen correo cabron"; 
+		
+		echo "vamos a validar el " . $email_to_validate . NL ; 
+	
+		$validator = $this->get('validator');
+		$validator->valida
+		
+		die();
+	}
 }
