@@ -1,0 +1,66 @@
+lacueva\BlogBundle\Entity\Entries:
+    type: entity
+    table: entries
+    indexes:
+        fk_entries_id_user:
+            columns:
+                - id_user
+        fk_entries_id_category:
+            columns:
+                - id_category
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        title:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        content:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        status:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        image:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+    manyToOne:
+        idUser:
+            targetEntity: Users
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_user:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idCategory:
+            targetEntity: Categories
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_category:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

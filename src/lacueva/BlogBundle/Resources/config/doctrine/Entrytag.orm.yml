@@ -1,0 +1,41 @@
+lacueva\BlogBundle\Entity\Entrytag:
+    type: entity
+    table: entrytag
+    indexes:
+        fk_entrytag_id_tag:
+            columns:
+                - id_tag
+        fk_entrytag_id_entry:
+            columns:
+                - id_entry
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        idTag:
+            targetEntity: Tags
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_tag:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idEntry:
+            targetEntity: Entries
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_entry:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }
