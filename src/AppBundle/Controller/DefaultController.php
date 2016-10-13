@@ -205,7 +205,7 @@ class DefaultController extends Controller
 		echo "vamos a validar el " . $email_to_validate . NL ; 
 	
 		$validator = $this->get('validator');
-		$validator->valida
+	
 		
 		die();
 	}
