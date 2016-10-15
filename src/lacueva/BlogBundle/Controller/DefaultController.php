@@ -16,21 +16,14 @@ class DefaultController extends Controller
 		$entry_repo = $em->getRepository('BlogBundle:Entries');
 		$entries = $entry_repo->findAll();
 		
-		$e = new \lacueva\BlogBundle\Entity\Entries;
-		foreach ($entries as $e)
-		{
-			echo $e->getTitle();
-		}
-		$e->setTitle("Desarrollo en Php"); 
-		echo "<br>"; 
-		
-		if ( $this->getDoctrine()->getManager()->flush() )
-			echo "error" && die();
+		echo "OSTIA COPON ". $entries[0]->getIdCategory()->getName();
 		
 	  return $this->render('BlogBundle:Default:index.html.twig',
 				[
-					'entradas' => $entries
-					//'entradas => $this->getDoctrine()->getManager()->getRepository('')
+				'entradas' => $entries, 
+				'usuarios' => $this->getDoctrine()->getManager()->getRepository('BlogBundle:Users')->findAll(), 
+				'tags' => $this->getDoctrine()->getManager()->getRepository('BlogBundle:Tags')->findAll(), 
+				'categorias' => $this->getDoctrine()->getManager()->getRepository('BlogBundle:Categories')->findAll()
 				]
 			  );
     }
