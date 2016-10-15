@@ -7,6 +7,8 @@ use lacueva\BlogBundle\Entity\Entries;
 
 class DefaultController extends Controller
 {
+    private $_repoNameEntries = 'BlogBundle:Entries'; 
+	
     public function indexAction()
     {
 
@@ -19,9 +21,17 @@ class DefaultController extends Controller
 		{
 			echo $e->getTitle();
 		}
-		die();
+		$e->setTitle("Desarrollo en Php"); 
+		echo "<br>"; 
 		
+		if ( $this->getDoctrine()->getManager()->flush() )
+			echo "error" && die();
 		
-		 //       return $this->render('BlogBundle:Default:index.html.twig');
+	  return $this->render('BlogBundle:Default:index.html.twig',
+				[
+					'entradas' => $entries
+					//'entradas => $this->getDoctrine()->getManager()->getRepository('')
+				]
+			  );
     }
 }

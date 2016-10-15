@@ -1,1 +1,23 @@
-Hello World!
+
+<html>
+
+    <head>
+			<title>{%block titulo%}Example Application{%endblock titulo%}</title>
+    </head>
+
+    <body nombre = 'miapp'>
+		
+	<ul>
+		{% for entrada  in entradas %}
+			<li>{{ entrada.getTitle()|e }}</li>
+		{% else %}
+			<li><em>Entrada no encontrada</em></li>
+		{% endfor %}
+	</ul>
+	
+	
+	
+
+    </body>
+    
+</html>
