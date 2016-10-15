@@ -9,10 +9,7 @@ class Entries
 {
 	
 
-	public function __construct()
-	{
-		$this->idUser = 1;
-	}
+
     /**
      * @var integer
      */
