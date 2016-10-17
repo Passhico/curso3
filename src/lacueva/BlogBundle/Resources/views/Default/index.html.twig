@@ -11,7 +11,7 @@
 			<ul>
 					{% for entrada  in entradas %}
 						<li>echo "si esto sale es la ostia"		{{ entrada.idUser.name|e|nl2br }}</li>
-						{{dump(entrada.EntryTags)}}
+						<li> echo efectivamente , esto funciona. {{dump(entrada.EntryTags)}} </li>
 						{% else %}
 						<li><em>Entrada no encontrada</em></li>
 						{% endfor %}

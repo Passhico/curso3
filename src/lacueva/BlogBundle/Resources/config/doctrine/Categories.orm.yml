@@ -23,4 +23,9 @@ lacueva\BlogBundle\Entity\Categories:
             length: 255
             options:
                 fixed: false
+    oneToMany:
+    Entries:
+    targetEntity: Entries
+    mappedBy: Entries
+    cascade: ["persist"] 
     lifecycleCallbacks: {  }

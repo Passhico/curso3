@@ -7,7 +7,7 @@ lacueva\BlogBundle\Entity\Users:
             nullable: false
             options:
                 unsigned: false
-            id: true
+            id: true 
             generator:
                 strategy: IDENTITY
     fields:

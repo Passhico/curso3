@@ -7,6 +7,8 @@ namespace lacueva\BlogBundle\Entity;
  */
 class Entries
 {
+	
+	protected $entryTag;
 
 	/**
 	 * @var integer
@@ -197,7 +199,7 @@ class Entries
 		return $this->idCategory;
 	}
 
-	protected $entryTag;
+	
 
 	public function __construct()
 	{
@@ -207,6 +209,7 @@ class Entries
 	public function addentryTag(\lacueva\BlogBundle\Entity\Tags $tag)
 	{
 		$this->entryTag[] = $tag;
+		return $this;
 	}
 
 	public function getEntryTags()
