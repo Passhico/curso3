@@ -68,10 +68,4 @@ lacueva\BlogBundle\Entity\Entries:
             targetEntity: Entrytag
             mappedBy: Entry
             cascade: ["persist"]
-
-
-
-         
-        
-            
     lifecycleCallbacks: {  }
