@@ -7,214 +7,211 @@ namespace lacueva\BlogBundle\Entity;
  */
 class Entries
 {
-	
 
+	/**
+	 * @var integer
+	 */
+	private $id;
 
-    /**
-     * @var integer
-     */
-    private $id;
+	/**
+	 * @var string
+	 */
+	private $title;
 
-    /**
-     * @var string
-     */
-    private $title;
+	/**
+	 * @var string
+	 */
+	private $content;
 
-    /**
-     * @var string
-     */
-    private $content;
+	/**
+	 * @var string
+	 */
+	private $status;
 
-    /**
-     * @var string
-     */
-    private $status;
+	/**
+	 * @var string
+	 */
+	private $image;
 
-    /**
-     * @var string
-     */
-    private $image;
+	/**
+	 * @var \lacueva\BlogBundle\Entity\Users
+	 */
+	private $idUser;
 
-    /**
-     * @var \lacueva\BlogBundle\Entity\Users
-     */
-    private $idUser;
+	/**
+	 * @var \lacueva\BlogBundle\Entity\Categories
+	 */
+	private $idCategory;
 
-    /**
-     * @var \lacueva\BlogBundle\Entity\Categories
-     */
-    private $idCategory;
+	/**
+	 * Get id
+	 *
+	 * @return integer
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 
+	/**
+	 * Set title
+	 *
+	 * @param string $title
+	 *
+	 * @return Entries
+	 */
+	public function setTitle($title)
+	{
+		$this->title = $title;
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+		return $this;
+	}
 
-    /**
-     * Set title
-     *
-     * @param string $title
-     *
-     * @return Entries
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
+	/**
+	 * Get title
+	 *
+	 * @return string
+	 */
+	public function getTitle()
+	{
+		return $this->title;
+	}
 
-        return $this;
-    }
+	/**
+	 * Set content
+	 *
+	 * @param string $content
+	 *
+	 * @return Entries
+	 */
+	public function setContent($content)
+	{
+		$this->content = $content;
 
-    /**
-     * Get title
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
+		return $this;
+	}
 
-    /**
-     * Set content
-     *
-     * @param string $content
-     *
-     * @return Entries
-     */
-    public function setContent($content)
-    {
-        $this->content = $content;
+	/**
+	 * Get content
+	 *
+	 * @return string
+	 */
+	public function getContent()
+	{
+		return $this->content;
+	}
 
-        return $this;
-    }
+	/**
+	 * Set status
+	 *
+	 * @param string $status
+	 *
+	 * @return Entries
+	 */
+	public function setStatus($status)
+	{
+		$this->status = $status;
 
-    /**
-     * Get content
-     *
-     * @return string
-     */
-    public function getContent()
-    {
-        return $this->content;
-    }
+		return $this;
+	}
 
-    /**
-     * Set status
-     *
-     * @param string $status
-     *
-     * @return Entries
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
+	/**
+	 * Get status
+	 *
+	 * @return string
+	 */
+	public function getStatus()
+	{
+		return $this->status;
+	}
 
-        return $this;
-    }
+	/**
+	 * Set image
+	 *
+	 * @param string $image
+	 *
+	 * @return Entries
+	 */
+	public function setImage($image)
+	{
+		$this->image = $image;
 
-    /**
-     * Get status
-     *
-     * @return string
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
+		return $this;
+	}
 
-    /**
-     * Set image
-     *
-     * @param string $image
-     *
-     * @return Entries
-     */
-    public function setImage($image)
-    {
-        $this->image = $image;
+	/**
+	 * Get image
+	 *
+	 * @return string
+	 */
+	public function getImage()
+	{
+		return $this->image;
+	}
 
-        return $this;
-    }
+	/**
+	 * Set idUser
+	 *
+	 * @param \lacueva\BlogBundle\Entity\Users $idUser
+	 *
+	 * @return Entries
+	 */
+	public function setIdUser(\lacueva\BlogBundle\Entity\Users $idUser = null)
+	{
+		$this->idUser = $idUser;
 
-    /**
-     * Get image
-     *
-     * @return string
-     */
-    public function getImage()
-    {
-        return $this->image;
-    }
+		return $this;
+	}
 
-    /**
-     * Set idUser
-     *
-     * @param \lacueva\BlogBundle\Entity\Users $idUser
-     *
-     * @return Entries
-     */
-    public function setIdUser(\lacueva\BlogBundle\Entity\Users $idUser = null)
-    {
-        $this->idUser = $idUser;
+	/**
+	 * Get idUser
+	 *
+	 * @return \lacueva\BlogBundle\Entity\Users
+	 */
+	public function getIdUser()
+	{
+		return $this->idUser;
+	}
 
-        return $this;
-    }
+	/**
+	 * Set idCategory
+	 *
+	 * @param \lacueva\BlogBundle\Entity\Categories $idCategory
+	 *
+	 * @return Entries
+	 */
+	public function setIdCategory(\lacueva\BlogBundle\Entity\Categories $idCategory = null)
+	{
+		$this->idCategory = $idCategory;
 
-    /**
-     * Get idUser
-     *
-     * @return \lacueva\BlogBundle\Entity\Users
-     */
-    public function getIdUser()
-    {
-        return $this->idUser;
-    }
+		return $this;
+	}
 
-    /**
-     * Set idCategory
-     *
-     * @param \lacueva\BlogBundle\Entity\Categories $idCategory
-     *
-     * @return Entries
-     */
-    public function setIdCategory(\lacueva\BlogBundle\Entity\Categories $idCategory = null)
-    {
-        $this->idCategory = $idCategory;
+	/**
+	 * Get idCategory
+	 *
+	 * @return \lacueva\BlogBundle\Entity\Categories
+	 */
+	public function getIdCategory()
+	{
+		return $this->idCategory;
+	}
 
-        return $this;
-    }
+	protected $entryTag;
 
-    /**
-     * Get idCategory
-     *
-     * @return \lacueva\BlogBundle\Entity\Categories
-     */
-    public function getIdCategory()
-    {
-        return $this->idCategory;
-    }
-	
-	protected   $entryTag;
-	
 	public function __construct()
 	{
 		$this->entryTag = new \Doctrine\Common\Collections\ArrayCollection();
 	}
+
 	public function addentryTag(\lacueva\BlogBundle\Entity\Tags $tag)
 	{
-		$this->entryTag[] = $tag; 
-		
+		$this->entryTag[] = $tag;
 	}
-	
+
 	public function getEntryTags()
 	{
 		return $this->entryTag;
-		
 	}
+
 }

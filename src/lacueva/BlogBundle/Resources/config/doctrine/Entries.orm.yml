@@ -7,7 +7,7 @@ lacueva\BlogBundle\Entity\Entries:
                 - id_user
         fk_entries_id_category:
             columns:
-                - id_category
+                - id_category			
     id:
         id:
             type: integer
