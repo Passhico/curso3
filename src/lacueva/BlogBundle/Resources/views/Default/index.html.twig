@@ -10,12 +10,15 @@
 			<pre>{{dump(entradas, usuarios, tags, categorias)}}</pre>
 			<ul>
 					{% for entrada  in entradas %}
-						<li>echo "si esto sale es la ostia"		{{ entrada.idUser.name|e }}</li>
+						<li>echo "si esto sale es la ostia"		{{ entrada.idUser.name|e|nl2br }}</li>
+						{{dump(entrada.EntryTags)}}
 						{% else %}
 						<li><em>Entrada no encontrada</em></li>
 						{% endfor %}
 			</ul>
-
+			
+			>
+			
 
     </body>
     

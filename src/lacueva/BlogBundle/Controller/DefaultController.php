@@ -5,6 +5,7 @@ namespace lacueva\BlogBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use lacueva\BlogBundle\Entity\Entries;
 
+
 class DefaultController extends Controller
 {
     private $_repoNameEntries = 'BlogBundle:Entries'; 
@@ -14,9 +15,12 @@ class DefaultController extends Controller
 
 		$em = $this->getDoctrine()->getManager();
 		$entry_repo = $em->getRepository('BlogBundle:Entries');
+		
+		
+		
 		$entries = $entry_repo->findAll();
 		
-		echo "OSTIA COPON ". $entries[0]->getIdCategory()->getName();
+		
 		
 	  return $this->render('BlogBundle:Default:index.html.twig',
 				[

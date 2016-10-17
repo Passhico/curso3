@@ -199,4 +199,22 @@ class Entries
     {
         return $this->idCategory;
     }
+	
+	protected   $entryTag;
+	
+	public function __construct()
+	{
+		$this->entryTag = new \Doctrine\Common\Collections\ArrayCollection();
+	}
+	public function addentryTag(\lacueva\BlogBundle\Entity\Tags $tag)
+	{
+		$this->entryTag[] = $tag; 
+		
+	}
+	
+	public function getEntryTags()
+	{
+		return $this->entryTag;
+		
+	}
 }

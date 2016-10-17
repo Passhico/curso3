@@ -63,4 +63,15 @@ lacueva\BlogBundle\Entity\Entries:
                 id_category:
                     referencedColumnName: id
             orphanRemoval: false
+    oneToMany:
+        entryTag:
+            targetEntity: Entrytag
+            mappedBy: Entry
+            cascade: ["persist"]
+
+
+
+         
+        
+            
     lifecycleCallbacks: {  }
