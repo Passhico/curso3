@@ -1,3 +1,15 @@
+#PARA ENTRAR 
+login:
+    path: /login
+    defaults: {_controller: BlogBundle:Default:login}
+#PARA SALIR
+logout:
+    path: /login
+
+login_check:
+    path: /login_check
+
 blog_homepage:
     path:     /blog
     defaults: { _controller: BlogBundle:Default:index }
+
