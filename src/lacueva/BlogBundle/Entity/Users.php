@@ -1,12 +1,35 @@
 <?php
 
 namespace lacueva\BlogBundle\Entity;
+use \Symfony\Component\Security\Core\User\UserInterface;
+
 
 /**
  * Users
  */
-class Users
+class Users implements \Symfony\Component\Security\Core\User\UserInterface
 {
+	
+		public function eraseCredentials()
+	{
+		
+	}
+
+	public function getRoles()
+	{
+		
+	}
+
+	public function getSalt()
+	{
+		
+	}
+
+	public function getUsername(): string
+	{
+		
+	}
+
     /**
      * @var integer
      */
