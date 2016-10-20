@@ -10,24 +10,26 @@ use \Symfony\Component\Security\Core\User\UserInterface;
 class Users implements \Symfony\Component\Security\Core\User\UserInterface
 {
 	
-		public function eraseCredentials()
+	public function eraseCredentials()
 	{
 		
 	}
 
 	public function getRoles()
 	{
-		
+		return array($this->getRole());
 	}
 
 	public function getSalt()
 	{
+		return null;
 		
 	}
 
 	public function getUsername(): string
 	{
-		
+		/*Esto es el campo que vamos a usar para el usuario*/
+		return $this->email;
 	}
 
     /**
