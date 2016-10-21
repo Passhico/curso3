@@ -14,29 +14,19 @@ use \Symfony\Component\HttpFoundation\Request;
 use lacueva\BlogBundle\Entity\Users;
 
 
-class DefaultController extends Controller
-{
-    
-	
-   public function loginAction(\Request$r)    
+class UserController extends Controller
+{	
+   public function loginAction(Request $r)    
   {
 	   
 		$autenticationUtils = $this->get("security.authentication_utils");
 		$error = $autenticationUtils->getLastAuthenticationError(); 
 		$lastUsername = $autenticationUtils->getLastUsername();
 		
-		return $this->render("BlogBundle:login.html.twig", 
+		return $this->render("login.html.twig", 
 					[	"error" => $error , 
 						"last_username" => $lastUsername, 
-												
 					]
-				)
-		
-				
-				
-				;
-		
-		
-		
+				);
    } 
 }

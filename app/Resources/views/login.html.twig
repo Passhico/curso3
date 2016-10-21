@@ -1,6 +1,8 @@
 {# empty Twig template #}
 {% extends "layout.html.twig"  %}
 
+
+{#content#}
 {% block content %}
 
 	<form action="{{path("login_check")}}" method="post" >
@@ -10,7 +12,12 @@
 				   name="_username"  
 				   value="{{ last_username }}"
 				   class="form-control"
-				    <!--name=_username  es la key para que funcione Symfony-->
+				    
 			/>
+			<!--name=_username  es la key para que funcione Symfony-->
 	</form
 {%endblock%}
+
+{% block titulo%}
+		
+{%endblock titulo%}

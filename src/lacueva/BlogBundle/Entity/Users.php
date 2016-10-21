@@ -7,7 +7,7 @@ use \Symfony\Component\Security\Core\User\UserInterface;
 /**
  * Users
  */
-class Users implements \Symfony\Component\Security\Core\User\UserInterface
+class Users implements \Symfony\Component\Security\Core\User\UserInterface, \Serializable
 {
 	
 	public function eraseCredentials()

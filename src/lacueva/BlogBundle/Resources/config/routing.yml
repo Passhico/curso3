@@ -1,7 +1,7 @@
 #PARA ENTRAR 
 login:
     path: /login
-    defaults: {_controller: BlogBundle:Default:login}
+    defaults: {_controller: BlogBundle:User:login}
 #PARA SALIR
 logout:
     path: /login
@@ -11,5 +11,5 @@ login_check:
 
 blog_homepage:
     path:     /blog
-    defaults: { _controller: BlogBundle:Default:index }
+    defaults: { _controller: BlogBundle:User:index }
 
