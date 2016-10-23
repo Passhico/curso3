@@ -1,3 +1,8 @@
+login:
+    path: /
+    defaults: {_controller: BlogBundle:User:login}
+    
+
 #PARA ENTRAR 
 login:
     path: /login
