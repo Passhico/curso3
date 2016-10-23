@@ -11,10 +11,8 @@ login:
 logout:
     path: /login
 
+#
+#ESTO ES AUTOMÁTICO
 login_check:
     path: /login_check
-
-blog_homepage:
-    path:     /blog
-    defaults: { _controller: BlogBundle:User:index }
 
