@@ -5,6 +5,8 @@
 {#content#}
 {% block content %}
 
+
+	
 	<form action="{{path("login_check")}}" method="post" >
 			<label>Email:</label>
 			<input type="email" 
@@ -16,6 +18,13 @@
 			/>
 			<!--name=_username  es la key para que funcione Symfony-->
 	</form
+	
+	<pre>
+	{{dump()}} 
+	
+	{{dump(path("login_check"))}}
+	</pre>
+	
 {%endblock%}
 
 {% block titulo%}

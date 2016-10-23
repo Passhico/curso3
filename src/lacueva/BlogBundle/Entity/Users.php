@@ -221,4 +221,17 @@ class Users implements \Symfony\Component\Security\Core\User\UserInterface, \Ser
     {
         return $this->image;
     }
+
+	public function serialize(): string
+	{
+		return $this->email;
+	}
+
+	public function unserialize(string $serialized): void
+	{		
+		$this->setEmail($serialized) ;
+		
+		
+	}
+
 }
