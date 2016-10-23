@@ -16,3 +16,7 @@ logout:
 login_check:
     path: /login_check
 
+blog_homepage:
+    path: /login
+    defaults: {_controller: BlogBundle:User:login}
+#PARA SALIR
