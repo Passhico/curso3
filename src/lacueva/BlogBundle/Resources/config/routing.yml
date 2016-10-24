@@ -1,12 +1,16 @@
+#PARA ENTRAR 
+login:
+    path: /login
+    defaults: {_controller: BlogBundle:User:login}
+
+
+
 login:
     path: /
     defaults: {_controller: BlogBundle:User:login}
     
 
-#PARA ENTRAR 
-login:
-    path: /login
-    defaults: {_controller: BlogBundle:User:login}
+
 #PARA SALIR
 logout:
     path: /login
