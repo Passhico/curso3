@@ -7,12 +7,8 @@
 {#content#}
 {% block content %}
 	
-	{#{% if app.user != null %}#}
-		{{dump(app.user, error, app)}}
-{#	{% endif %}
-#}
 
-	<div class="col-md-4">
+	<div class="col-md-6">
 	  {% if is_granted('ROLE_ADMIN')    %}
 			  <h2>ERES EL ADMIN :)</h2>
 	  {% elseif is_granted('ROLE_USER') %}
@@ -24,6 +20,14 @@
 	
 	  <BR>
 	  
+	  <ul>
+		{% for user  in users %}
+			<li>{{ user.email  }}</li>
+			{% else %}
+			<li><em>Entrada no encontrada</em></li>
+			{% endfor %}
+	  </ul>
+	  
 	  <form action="{{path("login_check")}}" method="post" >
 		
 		<!--name=_username  es la key para que funcione Symfony-->	
@@ -32,7 +36,7 @@
 		<br>	
 		
 		<label>Contraseña: </label>
-		<input type="password" id="password" name="_password" value="capullo100">
+		<input type="password" id="password" name="_password" value="" class="form-control">
 		<br>	
 		
 		<input type="submit" value="Entrar Al Blog" class="btn btn-success"/>
@@ -42,6 +46,10 @@
 	</div>
 		  
 	 <div class="clear-fix"> </div>
+	 
+	 <br><br><br>
+	{{dump(app.user, error, app)}}
+
 {% endblock content %}
 
 {% block title %}
