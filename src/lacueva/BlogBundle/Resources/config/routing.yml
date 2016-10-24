@@ -4,6 +4,9 @@ login:
     defaults: {_controller: BlogBundle:User:login}
 
 
+#PARA SALIR
+logout:
+    path: /login
 
 login:
     path: /
@@ -11,9 +14,6 @@ login:
     
 
 
-#PARA SALIR
-logout:
-    path: /login
 
 #
 #ESTO ES AUTOMÁTICO
