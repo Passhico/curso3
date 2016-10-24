@@ -3,14 +3,14 @@
 security:
 
     encoders:
-        BlogBundle\Entity\Users:
+        lacueva\BlogBundle\Entity\Users:
             algorithm: bcrypt
             cost: 4
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
         our_db_provider:
             entity:
-                class: BlogBundle:user
+                class: BlogBundle:Users
                 property: email
               
 
