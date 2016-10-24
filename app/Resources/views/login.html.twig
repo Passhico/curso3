@@ -8,12 +8,20 @@
 {% block content %}
 	
 	{#{% if app.user != null %}#}
-		{{dump(app.user, error)}}
+		{{dump(app.user, error, app)}}
 {#	{% endif %}
 #}
 
 	<div class="col-md-4">
-	  <h2>IDENTIFICATE POR FAVOR</h2>
+	  {% if is_granted('ROLE_ADMIN')    %}
+			  <h2>ERES EL ADMIN :)</h2>
+	  {% elseif is_granted('ROLE_USER') %}
+			  <h3>No eres más que un User :(, pero logueado eso si :)</h3>				
+	  {% else %}
+		  <h2>IDENTIFICATE POR FAVOR</h2>
+	  {% endif %}
+	  
+	
 	  <BR>
 	  
 	  <form action="{{path("login_check")}}" method="post" >
@@ -29,8 +37,7 @@
 		
 		<input type="submit" value="Entrar Al Blog" class="btn btn-success"/>
 		<input type="hidden" name="_target_path" value="/login" />  
-		
-		
+			
 	  </form
 	</div>
 		  
