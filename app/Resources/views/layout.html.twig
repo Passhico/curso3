@@ -47,10 +47,10 @@
                                     {% if app.user == null%}
                                         <li><a href="{{path("login")}}">Entrar</a></li>
                                     {%else%}
-                                        <li><a href="{{path("blog_add_entry")}}">Añadir entrada</a></li>
+                                       {# <li><a href="{{path("blog_add_entry")}}">Añadir entrada</a></li>
                                         <li><a href="{{path("blog_index_tag")}}">Etiquetas</a></li>
                                         <li><a href="{{path("blog_index_category")}}">Categorías</a></li>
-                                        <li role="separator" class="divider"></li>
+                                        <li role="separator" class="divider"></li>#}
                                         <li><a href="{{path("logout")}}">Salir</a></li>
                                     {% endif%}
                                     <li><a href="#">Ayuda</a></li>
@@ -64,9 +64,9 @@
         <section id="content">
             {% block content %} Content default {% endblock %}
         </section>
-        <footer>
+        <footer class="row-md-4">
             <hr>
-            Curso de Symfony3 - Made by Passh &copy;
+            Curso de Symfony3 - Made by Passh	 &copy;
         </footer>
     </body>
 </html>

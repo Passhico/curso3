@@ -1,18 +1,42 @@
 {# empty Twig template #}
 {% extends "layout.html.twig"  %}
 
+
+
+
 {#content#}
 {% block content %}
+	
+	{#{% if app.user != null %}#}
+		{{dump(app.user, error)}}
+{#	{% endif %}
+#}
 
-	<form action="{{path("login_check")}}" method="post" 
-		 <!--name=_username  es la key para que funcione Symfony-->	
-		  <input type="email"  id="username"  name="_username"  value="{{ last_username }}"  class="form-control"/>
+	<div class="col-md-4">
+	  <h2>IDENTIFICATE POR FAVOR</h2>
+	  <BR>
+	  
+	  <form action="{{path("login_check")}}" method="post" >
 		
-			
-	</form
-
+		<!--name=_username  es la key para que funcione Symfony-->	
+		<label>Tu Email: </label>
+		<input type="email"  id="username"  name="_username"  value="{{ last_username }}"  class="form-control"/>
+		<br>	
+		
+		<label>Contraseña: </label>
+		<input type="password" id="password" name="_password" value="capullo100">
+		<br>	
+		
+		<input type="submit" value="Entrar Al Blog" class="btn btn-success"/>
+		<input type="hidden" name="_target_path" value="/login" />  
+		
+		
+	  </form
+	</div>
+		  
+	 <div class="clear-fix"> </div>
 {% endblock content %}
 
-{% block titulo %}
-		
-{% endblock titulo %}
+{% block title %}
+	El titulo guay
+{% endblock title %}
