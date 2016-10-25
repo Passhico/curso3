@@ -8,49 +8,61 @@
 
 {#content#}
 {% block content %}
+	/*LOGUEO*/
+		<div class="col-md-6">
+		  {% if is_granted('ROLE_ADMIN')    %}
+			  <h2>ERES EL ADMIN :)</h2>
+		  {% elseif is_granted('ROLE_USER') %}
+
+			  <h3>No eres más que un User :(, pero logueado eso si :)</h3>				
+		  {% else %}
+			  <h2>IDENTIFICATE POR FAVOR</h2>
+		  {% endif %}
+
+
+		  <BR>
+		  ESTOS SON LOS POSIBLES USUARIOS:
+		  <u class="col-md-6"l>
+			{% for user  in users %}
+				<li>{{ user.email  }} </li>
+				{% else %}
+				<li><em>Entrada no encontrada</em></li>
+				{% endfor %}
+			</ul>
+
+			<form action="{{path("login_check")}}" method="post" >
+
+			  <!--name=_username  es la key para que funcione Symfony-->	
+			  <label>Tu Email: </label>
+			  <input type="email"  id="username"  name="_username"  value="{{ last_username }}"  class="form-control"/>
+			  <br>	
+
+			  <label>Contraseña: </label>
+			  <input type="password" id="password" name="_password" value="" class="form-control">
+			  <br>	
+
+			  <input type="submit" value="Entrar Al Blog" class="btn btn-success"/>
+			  <input type="hidden" name="_target_path" value="/login" />  
+
+			</form>
+		</div>
+
+		<br><br><br>
+		
+		{#FORMULARIO DE REGISTRO DE USUARIOS#}
+		<div class="col-md-6">
+			<H2>REGISTRATE</h2>
+			<HR/>
+			{{form_start(formulario)}}
+
+			{{form_end(formulario)}}
 	
 
-	<div class="col-md-6">
-	  {% if is_granted('ROLE_ADMIN')    %}
-			  <h2>ERES EL ADMIN :)</h2>
-	  {% elseif is_granted('ROLE_USER') %}
-			  <h3>No eres más que un User :(, pero logueado eso si :)</h3>				
-	  {% else %}
-		  <h2>IDENTIFICATE POR FAVOR</h2>
-	  {% endif %}
-	  
-	
-	  <BR>
-	  ESTOS SON LOS POSIBLES USUARIOS:
-	  <u class="col-md-6"l>
-		{% for user  in users %}
-			<li>{{ user.email  }} </li>
-			{% else %}
-			<li><em>Entrada no encontrada</em></li>
-			{% endfor %}
-	  </ul>
-	  
-	  <form action="{{path("login_check")}}" method="post" >
+		</div>
 		
-		<!--name=_username  es la key para que funcione Symfony-->	
-		<label>Tu Email: </label>
-		<input type="email"  id="username"  name="_username"  value="{{ last_username }}"  class="form-control"/>
-		<br>	
-		
-		<label>Contraseña: </label>
-		<input type="password" id="password" name="_password" value="" class="form-control">
-		<br>	
-		
-		<input type="submit" value="Entrar Al Blog" class="btn btn-success"/>
-		<input type="hidden" name="_target_path" value="/login" />  
-			
-	  </form
-	</div>
-		  
-	 <div class="clear-fix"> </div>
-	 
-	 <br><br><br>
-	{{dump(app.user, error, app)}}
+		{#ESTO ES PARA LIMPIEZA #}
+		<div class="clear-fix"> </div>
+		{{dump(app.user, error, app)}}
 
 {% endblock content %}
 
