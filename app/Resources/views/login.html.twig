@@ -21,14 +21,20 @@
 
 
 		  <BR>
-		  ESTOS SON LOS POSIBLES USUARIOS:
-		  <u class="col-md-6"l>
-			{% for user  in users %}
-				<li>{{ user.email  }} </li>
-				{% else %}
-				<li><em>Entrada no encontrada</em></li>
-				{% endfor %}
-			</ul>
+		  
+		  <table class="table-bordered"l>
+				  <tr>
+					<th> ESTOS SON LOS POSIBLES USUARIOS </th>
+				  </tr>
+				  
+				  <tr>
+					{% for user  in users %}
+						<td>{{ user.email  }} </td>
+					{% else %}
+						<td>Entrada no encontrada</td>
+					{% endfor %}
+				  </tr>
+		  </table>>
 
 			<form action="{{path("login_check")}}" method="post" >
 
@@ -49,9 +55,10 @@
 
 		<br><br><br>
 		
+
 		{#FORMULARIO DE REGISTRO DE USUARIOS#}
-		<div class="col-md-6">
-			<H2 name="formAltaLabel">REGISTRATE</h2>
+		<div name="formularioAlta" class="col-md-6">
+			<LABEL name="formAltaLabel">REGISTRATE</LABEL>
 			<HR/>
 			{{form_start(formulario)}}
 
@@ -60,14 +67,18 @@
 
 		{#ESTO ES PARA LIMPIEZA #}
 		<div class="clear-fix"> </div>
-		{{dump(app.user, error, app)}}
-
 		
-		<script>
-			function HideFormAlta(bool) {
-				this.document.forms.lacueva_blogbundle_users.hidden = bool;
-				this.getdoccu
-			}
-		</script>
+{#		{{dump(app.user, error, app)}}#}
+
+		{% if app.user != null %}
+			<script>
+				function HideFormAlta(bool) {
+					this.document.forms.lacueva_blogbundle_users.hidden = bool;
+				}
+				HideFormAlta(true);
+			</script>
+		{% endif %}
+		
+
 {% endblock content %}
 
