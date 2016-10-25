@@ -8,8 +8,8 @@
 
 {#content#}
 {% block content %}
-	/*LOGUEO*/
-		<div class="col-md-6">
+	{#logueo#}
+	<div class="col-md-6">
 		  {% if is_granted('ROLE_ADMIN')    %}
 			  <h2>ERES EL ADMIN :)</h2>
 		  {% elseif is_granted('ROLE_USER') %}
@@ -51,18 +51,23 @@
 		
 		{#FORMULARIO DE REGISTRO DE USUARIOS#}
 		<div class="col-md-6">
-			<H2>REGISTRATE</h2>
+			<H2 name="formAltaLabel">REGISTRATE</h2>
 			<HR/>
 			{{form_start(formulario)}}
 
 			{{form_end(formulario)}}
-	
-
 		</div>
-		
+
 		{#ESTO ES PARA LIMPIEZA #}
 		<div class="clear-fix"> </div>
 		{{dump(app.user, error, app)}}
 
+		
+		<script>
+			function HideFormAlta(bool) {
+				this.document.forms.lacueva_blogbundle_users.hidden = bool;
+				this.getdoccu
+			}
+		</script>
 {% endblock content %}
 
