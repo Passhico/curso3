@@ -1,7 +1,9 @@
 {# empty Twig template #}
 {% extends "layout.html.twig"  %}
 
-
+{% block title %}
+	Mi Blog en symfhony3 (Pascual Muñoz)
+{% endblock title %}
 
 
 {#content#}
@@ -19,10 +21,10 @@
 	  
 	
 	  <BR>
-	  
-	  <ul>
+	  ESTOS SON LOS POSIBLES USUARIOS:
+	  <u class="col-md-6"l>
 		{% for user  in users %}
-			<li>{{ user.email  }}</li>
+			<li>{{ user.email  }} </li>
 			{% else %}
 			<li><em>Entrada no encontrada</em></li>
 			{% endfor %}
@@ -52,6 +54,3 @@
 
 {% endblock content %}
 
-{% block title %}
-	El titulo guay
-{% endblock title %}
