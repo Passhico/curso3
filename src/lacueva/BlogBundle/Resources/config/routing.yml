@@ -1,3 +1,7 @@
+login:
+    path: /
+    defaults: {_controller: BlogBundle:User:login}
+
 #PARA ENTRAR 
 login:
     path: /login
@@ -8,14 +12,7 @@ login:
 logout:
     path: /logout
 
-login:
-    path: /
-    defaults: {_controller: BlogBundle:User:login}
-    
 
-
-
-#
 #ESTO ES AUTOMÁTICO
 login_check:
     path: /login_check
