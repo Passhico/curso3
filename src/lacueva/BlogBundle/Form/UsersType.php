@@ -23,7 +23,7 @@ class UsersType extends AbstractType
 		    "required" => "required", 
 		    "attr" => 
 		    [
-			"class" => "col-lg-4"
+			"class" => "form-name form-control"
 		    ]
 		]);
         $builder->add('surname', \Symfony\Component\Form\Extension\Core\Type\TextType::class,
@@ -31,7 +31,7 @@ class UsersType extends AbstractType
 		    "required" => "required", 
 		    "attr" => 
 		    [
-			"class" => "col-lg-4"
+			"class" => "form-surname form-control"
 		    ]
 		]);
         $builder->add('email', \Symfony\Component\Form\Extension\Core\Type\EmailType::class,
@@ -39,7 +39,7 @@ class UsersType extends AbstractType
 		    "required" => "required", 
 		    "attr" => 
 		    [
-			"class" => "col-lg-4"
+			"class" => "form-email form-control"
 		    ]
 		]);
         $builder->add('password', \Symfony\Component\Form\Extension\Core\Type\EmailType::class,
@@ -47,7 +47,7 @@ class UsersType extends AbstractType
 		    "required" => "required", 
 		    "attr" => 
 		    [
-			"class" => "col-lg-4"
+			"class" => "form-password form-control"
 		    ]
 		]);
 	
