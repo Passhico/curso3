@@ -6,6 +6,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+
 class UsersType extends AbstractType
 {
     /**
@@ -13,8 +16,43 @@ class UsersType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('role')->add('name')->add('surname')->add('email')->add('password')->add('image')        ;
+	    //        $builder->add('role')->add('name')->add('surname')->add('email')->add('password')->add('image')        ;
+
+        $builder->add('name', \Symfony\Component\Form\Extension\Core\Type\TextType::class,
+		[
+		    "required" => "required", 
+		    "attr" => 
+		    [
+			"class" => "col-lg-4"
+		    ]
+		]);
+        $builder->add('surname', \Symfony\Component\Form\Extension\Core\Type\TextType::class,
+		[
+		    "required" => "required", 
+		    "attr" => 
+		    [
+			"class" => "col-lg-4"
+		    ]
+		]);
+        $builder->add('email', \Symfony\Component\Form\Extension\Core\Type\EmailType::class,
+		[
+		    "required" => "required", 
+		    "attr" => 
+		    [
+			"class" => "col-lg-4"
+		    ]
+		]);
+        $builder->add('password', \Symfony\Component\Form\Extension\Core\Type\EmailType::class,
+		[
+		    "required" => "required", 
+		    "attr" => 
+		    [
+			"class" => "col-lg-4"
+		    ]
+		]);
+	
     }
+    
     
     /**
      * {@inheritdoc}
