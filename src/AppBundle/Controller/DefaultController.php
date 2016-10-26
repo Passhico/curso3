@@ -12,7 +12,6 @@ use Doctrine\ORM\QueryBuilder as qb;
 use AppBundle\Form\cursoType;
 
 
-define("NL", "<br>");
 
 class DefaultController extends Controller
 {
