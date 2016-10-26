@@ -23,14 +23,14 @@ class UsersType extends AbstractType
 		    "required" => "required", 
 		    "attr" => 
 		    [
-			"class" => "form-name form-control"
+			"class" => "form-name form-control" //AQUÍ LOS CSS
 		    ]
 		]);
         $builder->add('surname', \Symfony\Component\Form\Extension\Core\Type\TextType::class,
 		[
 		    "required" => "required", 
 		    "attr" => 
-		    [
+		    [   
 			"class" => "form-surname form-control"
 		    ]
 		]);
@@ -51,8 +51,13 @@ class UsersType extends AbstractType
 		    ]
 		]);
 		
-		$builder->add('Guardar', \Symfony\Component\Form\Extension\Core\Type\SubmitType::class);
-	
+		$builder->add('Guardar', \Symfony\Component\Form\Extension\Core\Type\SubmitType::class,
+			[
+		    "attr" => 
+		    [
+			"class" => "form-submit btn btn-success"
+		    ]
+		]);
 	}
     
     
