@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 class UsersType extends AbstractType
 {
     /**
@@ -42,7 +42,7 @@ class UsersType extends AbstractType
 			"class" => "form-email form-control"
 		    ]
 		]);
-        $builder->add('password', \Symfony\Component\Form\Extension\Core\Type\EmailType::class,
+        $builder->add('password', \Symfony\Component\Form\Extension\Core\Type\PasswordType::class,
 		[
 		    "required" => "required", 
 		    "attr" => 
@@ -50,8 +50,10 @@ class UsersType extends AbstractType
 			"class" => "form-password form-control"
 		    ]
 		]);
+		
+		$builder->add('Guardar', \Symfony\Component\Form\Extension\Core\Type\SubmitType::class);
 	
-    }
+	}
     
     
     /**

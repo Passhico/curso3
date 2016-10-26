@@ -3,6 +3,8 @@
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
+\define('NL', "<BR>");
+		
 class AppKernel extends Kernel
 {
     public function registerBundles()
