@@ -21,20 +21,21 @@ class UsersType extends AbstractType
         $builder->add('name', \Symfony\Component\Form\Extension\Core\Type\TextType::class,
 		[
 		    "required" => "required", 
+		    "label" => "REGISTRATE!! Inserta tu nombre: ", 
 		    "attr" => 
 		    [
 			"class" => "form-name form-control" //AQUÍ LOS CSS
 		    ]
 		]);
-        $builder->add('surname', \Symfony\Component\Form\Extension\Core\Type\TextType::class,
-		[
-		    "required" => "required", 
-		    "attr" => 
-		    [   
-			"class" => "form-surname form-control"
-		    ]
+        $builder->add('surname', \Symfony\Component\Form\Extension\Core\Type\TextType::class, [
+			"required" => "required",
+			"label" => "apellido",
+			"attr" =>
+			[
+				"class" => "form-surname form-control"
+			]
 		]);
-        $builder->add('email', \Symfony\Component\Form\Extension\Core\Type\EmailType::class,
+		$builder->add('email', \Symfony\Component\Form\Extension\Core\Type\EmailType::class,
 		[
 		    "required" => "required", 
 		    "attr" => 
@@ -51,15 +52,16 @@ class UsersType extends AbstractType
 		    ]
 		]);
 		
-		$builder->add('Guardar', \Symfony\Component\Form\Extension\Core\Type\SubmitType::class,
+		$builder->add('Guardar', \Symfony\Component\Form\Extension\Core\Type\SubmitType::class, [
+			"attr" =>
 			[
-		    "attr" => 
-		    [
-			"class" => "form-submit btn btn-success"
-		    ]
+				"class" => "form-submit btn btn-success"
+			], 
+			"label" => "pulsame"
 		]);
+
 	}
-    
+
     
     /**
      * {@inheritdoc}
