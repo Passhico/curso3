@@ -58,8 +58,6 @@
 
 		{#FORMULARIO DE REGISTRO DE USUARIOS#}
 		<div name="formularioAlta" class="col-md-6">
-			{#<LABEL name="formAltaLabel">REGISTRATE</LABEL>#}
-			<HR/>
 			{{form_start(formulario)}}
 
 			{{form_end(formulario)}}
@@ -68,7 +66,6 @@
 		{#ESTO ES PARA LIMPIEZA #}
 		<div class="clear-fix"> </div>
 		
-{#		{{dump(app.user, error, app)}}#}
 		{% if app.user != null %}
 			<script>
 				function HideFormAlta(bool) {
@@ -78,6 +75,9 @@
 				HideFormAlta(true);
 			</script>
 		{% endif %}
+
+{#		{{dump(app.user, error, app, estado)}}#}
+		{{dump(estado)}}
 		
 
 {% endblock content %}

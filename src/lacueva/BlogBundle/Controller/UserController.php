@@ -1,11 +1,5 @@
 <?php
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace lacueva\BlogBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -18,7 +12,7 @@ use lacueva\BlogBundle\Form\UsersType;
 
 class UserController extends Controller
 {	
-   public function loginAction(Request $r)    
+   public function loginAction(Request $request)    
   {
 	   
 		$autenticationUtils = $this->get("security.authentication_utils");
@@ -31,11 +25,12 @@ class UserController extends Controller
 
 		//Creamos el form y le pasamos el curso par que lo cargue. 
 		$form = $this->createForm(\lacueva\BlogBundle\Form\UsersType::class , $user_to_log);
-		$form->handleRequest($r);
+		$form->handleRequest($request);
 
+		
 		if ($form->isValid())
 		{
-			$status = "formulario válido" . NL;
+			$status = "formulario válido";
 //			$data = [
 //				"titulo" => $form->get("titulo")->getData(),
 //				"descripcion" => $form->get("descripcion")->getData(),
@@ -52,7 +47,8 @@ class UserController extends Controller
 					[	"error" => $error , 
 						"last_username" => $lastUsername, 
 						"users" => $this->getDoctrine()->getRepository('BlogBundle:Users')->findAll(), 
-						"formulario" => $form->createView()
+						"formulario" => $form->createView(), 
+						"estado" => $status
 					]
 				);
    } 
