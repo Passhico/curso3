@@ -58,7 +58,7 @@
 
 		{#FORMULARIO DE REGISTRO DE USUARIOS#}
 		<div name="formularioAlta" class="col-md-6">
-			<LABEL name="formAltaLabel">REGISTRATE</LABEL>
+			{#<LABEL name="formAltaLabel">REGISTRATE</LABEL>#}
 			<HR/>
 			{{form_start(formulario)}}
 
@@ -69,11 +69,11 @@
 		<div class="clear-fix"> </div>
 		
 {#		{{dump(app.user, error, app)}}#}
-
 		{% if app.user != null %}
 			<script>
 				function HideFormAlta(bool) {
 					this.document.forms.lacueva_blogbundle_users.hidden = bool;
+					this.document.body.style.backgroundColor = "orange";p
 				}
 				HideFormAlta(true);
 			</script>
