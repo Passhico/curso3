@@ -18,7 +18,7 @@ class UserController extends Controller
 	
 	public function __construct()
 	{
-		$this->_session = new sessi
+		$this->_session = new \Symfony\Component\HttpFoundation\Session\Session();
 		
 	}
 
@@ -48,7 +48,7 @@ class UserController extends Controller
 			$this->getDoctrine()->getManager()->persist($userToAdd);
 			$this->getDoctrine()->getManager()->flush();
 			
-			$status = [ $form->getName() ,  " Tiene datos válidos", $userToAdd];
+			$status =  $form->getName()  .   " Tiene datos válidos";
 			
 		} else
 		{
@@ -57,12 +57,7 @@ class UserController extends Controller
 			
 		}
 		
-		$s = new \Symfony\Component\HttpFoundation\Session();
-		\Symfony\Component\HttpFoundation\Session
-		$s = $this->_session;
-		
-		$s = new \Symfony\Component\HttpFoundation\Session\Session();
-	
+		$this->_session->getFlashBag()->add("status", $status)
 	
 		return $this->render("login.html.twig", 
 					[	"error" => $error , 
