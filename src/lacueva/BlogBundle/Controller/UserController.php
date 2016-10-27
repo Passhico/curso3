@@ -22,40 +22,30 @@ class UserController extends Controller
 		
 		
 		//El usuario a loguear . 
-		$usetoAdd = new \lacueva\BlogBundle\Entity\Users();
+		$userToAdd = new \lacueva\BlogBundle\Entity\Users();
 
 		//Creamos el form y le pasamos el curso par que lo cargue. 
-		$form = $this->createForm(\lacueva\BlogBundle\Form\UsersType::class , $usetoAdd);
+		$form = $this->createForm(\lacueva\BlogBundle\Form\UsersType::class , $userToAdd);
 		$form->handleRequest($request);
 
 		
 		if ($form->isValid())
 		{
-			$status = $form->getName() . " Tiene dattos válidos. "; 
-			
-			$usetoAdd->setName($form->get("name")->getData());
-			$usetoAdd->setSurname($form->get("surname")->getData());
-			$usetoAdd->setEmail($form->get("email")->getData());
-			$usetoAdd->setPassword($form->get("password")->getData());
-			
-			$status = [$usetoAdd, "algo", "mierda" ,$this] ;
-			
-			$this->getDoctrine()->getManager()->persist($usetoAdd);
+			$userToAdd->setName($form->get("name")->getData());
+			$userToAdd->setSurname($form->get("surname")->getData());
+			$userToAdd->setEmail($form->get("email")->getData());
+			$userToAdd->setPassword($form->get("password")->getData());
+				
+			$this->getDoctrine()->getManager()->persist($userToAdd);
 			$this->getDoctrine()->getManager()->flush();
 			
+			$status = [ $form->getName() ,  " Tiene dattos válidos", $userToAdd];
 			
-			
-			
-			
-//			$data = [
-//				"titulo" => $form->get("titulo")->getData(),
-//				"descripcion" => $form->get("descripcion")->getData(),
-//				"precio" => $form->get("precio")->getData()
-//			];
 		} else
 		{
+		
 			$status = $form->getName() . " No tiene datos válidos o faltan. ";
-			$data = [];
+			
 		}
 
 	
