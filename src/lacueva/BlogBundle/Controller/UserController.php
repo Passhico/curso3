@@ -14,7 +14,7 @@ class UserController extends Controller
 {	
    public function loginAction(Request $request)    
   {
-	   
+
 	
 		$autenticationUtils = $this->get("security.authentication_utils");
 		$error = $autenticationUtils->getLastAuthenticationError(); 
