@@ -22,14 +22,14 @@
 
 		  <BR>
 		  
-		  <table class="table-bordered"l>
+		  <table class="table-bordered"l>		  
 				  <tr>
 					<th> ESTOS SON LOS POSIBLES USUARIOS </th>
 				  </tr>
 				  
 				  <tr>
 					{% for user  in users %}
-						<td>{{ user.email  }} </td>
+						<tr>{{ user.email  }} <br> </tr>
 					{% else %}
 						<td>Entrada no encontrada</td>
 					{% endfor %}
