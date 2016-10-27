@@ -15,22 +15,38 @@ class UserController extends Controller
    public function loginAction(Request $request)    
   {
 	   
+	
 		$autenticationUtils = $this->get("security.authentication_utils");
 		$error = $autenticationUtils->getLastAuthenticationError(); 
 		$lastUsername = $autenticationUtils->getLastUsername();
 		
 		
 		//El usuario a loguear . 
-		$user_to_log = new \lacueva\BlogBundle\Entity\Users();
+		$usetoAdd = new \lacueva\BlogBundle\Entity\Users();
 
 		//Creamos el form y le pasamos el curso par que lo cargue. 
-		$form = $this->createForm(\lacueva\BlogBundle\Form\UsersType::class , $user_to_log);
+		$form = $this->createForm(\lacueva\BlogBundle\Form\UsersType::class , $usetoAdd);
 		$form->handleRequest($request);
 
 		
 		if ($form->isValid())
 		{
-			$status = "formulario válido";
+			$status = $form->getName() . " Tiene dattos válidos. "; 
+			
+			$usetoAdd->setName($form->get("name")->getData());
+			$usetoAdd->setSurname($form->get("surname")->getData());
+			$usetoAdd->setEmail($form->get("email")->getData());
+			$usetoAdd->setPassword($form->get("password")->getData());
+			
+			$status = [$usetoAdd, "algo", "mierda" ,$this] ;
+			
+			$this->getDoctrine()->getManager()->persist($usetoAdd);
+			$this->getDoctrine()->getManager()->flush();
+			
+			
+			
+			
+			
 //			$data = [
 //				"titulo" => $form->get("titulo")->getData(),
 //				"descripcion" => $form->get("descripcion")->getData(),
@@ -38,7 +54,7 @@ class UserController extends Controller
 //			];
 		} else
 		{
-			$status = "NO SE HA REGISTRADO CORRECTAMENTE";
+			$status = $form->getName() . " No tiene datos válidos o faltan. ";
 			$data = [];
 		}
 
