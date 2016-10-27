@@ -56,6 +56,13 @@
 		<br><br><br>
 		
 
+		{#		MOSTRAMOS EL MENSAJE DEL FLASHBAG #}
+		{% for mensaje  in app.session.flashbag().get('status') %}
+			<div class="alert alert-warning">{{mensaje}}</div>
+		{% endfor %}
+
+
+
 		{#FORMULARIO DE REGISTRO DE USUARIOS#}
 		<div name="formularioAlta" class="col-md-6">
 			{{form_start(formulario)}}
@@ -75,11 +82,6 @@
 				HideFormAlta(true);
 			</script>
 		{% endif %}
-
-{#		{{dump(app.user, error, app, estado)}}#}
-		<pre>
-		{{dump(estado)}}
-		</pre>
 
 		 
 		
