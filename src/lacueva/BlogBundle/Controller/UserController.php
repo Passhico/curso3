@@ -18,7 +18,8 @@ class UserController extends Controller
 	
 	public function __construct()
 	{
-		$this->_session = new \Symfony\Component\HttpFoundation\Session();
+		$this->_session = new sessi
+		
 	}
 
 	
@@ -57,8 +58,11 @@ class UserController extends Controller
 		}
 		
 		$s = new \Symfony\Component\HttpFoundation\Session();
+		\Symfony\Component\HttpFoundation\Session
 		$s = $this->_session;
-		$s->
+		
+		$s = new \Symfony\Component\HttpFoundation\Session\Session();
+	
 	
 		return $this->render("login.html.twig", 
 					[	"error" => $error , 
