@@ -23,7 +23,6 @@ class UserController extends Controller
 	}
 
 	
-	
 	public function loginAction(Request $request)    
   {
 
@@ -38,7 +37,10 @@ class UserController extends Controller
 		$form = $this->createForm(\lacueva\BlogBundle\Form\UsersType::class , $userToAdd);
 		$form->handleRequest($request);
 
-		if ($form->isValid())
+		$status = "El formulario...";
+		
+		
+		if ($form->isSubmitted() & $form->isValid())
 		{
 			$userToAdd->setName($form->get("name")->getData());
 			$userToAdd->setSurname($form->get("surname")->getData());
@@ -48,16 +50,19 @@ class UserController extends Controller
 			$this->getDoctrine()->getManager()->persist($userToAdd);
 			$this->getDoctrine()->getManager()->flush();
 			
-			$status =  $form->getName()  .   " Tiene datos válidos";
+			$status .=  $form->getName()  .   " Tiene datos válidos, insertando user";
 			
 		} else
 		{
 		
-			$status = $form->getName() . " No tiene datos válidos o faltan. ";
+			$status .= $form->getName() . " No tiene datos válidos o faltan. ";
 			
 		}
+				//Concatenamos al status el id de la flash session , por que sí . 
+		$status .= "Por cierto, estamos en la sesión con id : " . $this->_session->getId() ;
+
 		
-		$this->_session->getFlashBag()->add("status", $status)
+		$this->_session->getFlashBag()->add("status", $status);
 	
 		return $this->render("login.html.twig", 
 					[	"error" => $error , 

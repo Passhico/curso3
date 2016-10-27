@@ -16,42 +16,44 @@
 
 			  <h3>No eres más que un User :(, pero logueado eso si :)</h3>				
 		  {% else %}
+			  <div class="alert alert-warning">
 			  <h2>IDENTIFICATE POR FAVOR</h2>
+			  </div>
 		  {% endif %}
 
 
 		  <BR>
-		  
-		  <table class="table-bordered"l>		  
-				  <tr>
-					<th> ESTOS SON LOS POSIBLES USUARIOS </th>
-				  </tr>
-				  
-				  <tr>
-					{% for user  in users %}
-						<tr>{{ user.email  }} <br> </tr>
-					{% else %}
-						<td>Entrada no encontrada</td>
-					{% endfor %}
-				  </tr>
-		  </table>>
 
-			<form action="{{path("login_check")}}" method="post" >
+				  <table class=" table table-striped"l>		  
+						  <tr class="info">usuarios</tr>
+						  {% for user  in users %}
+							  <tr>
+									  <td>	  {{ user.email  }} </td>
+							  </tr>
+						  {% else %}
+							  <td>No hay usuarios!!!</td>
+						  {% endfor %}
+				  </table>>
+		
 
-			  <!--name=_username  es la key para que funcione Symfony-->	
-			  <label>Tu Email: </label>
-			  <input type="email"  id="username"  name="_username"  value="{{ last_username }}"  class="form-control"/>
-			  <br>	
 
-			  <label>Contraseña: </label>
-			  <input type="password" id="password" name="_password" value="" class="form-control">
-			  <br>	
+		  <div class="col-md-6">
+				  <form action="{{path("login_check")}}" method="post" >
 
-			  <input type="submit" value="Entrar Al Blog" class="btn btn-success"/>
-			  <input type="hidden" name="_target_path" value="/login" />  
+						  <!--name=_username  es la key para que funcione Symfony-->	
+						  <label>Tu Email: </label>
+						  <input type="email"  id="username"  name="_username"  value="{{ last_username }}"  class="form-control"/>
+						  <br>	
 
-			</form>
-		</div>
+						  <label>Contraseña: </label>
+						  <input type="password" id="password" name="_password" value="" class="form-control">
+						  <br>	
+
+						  <input type="submit" value="Entrar Al Blog" class="btn btn-success"/>
+						  <input type="hidden" name="_target_path" value="/login" />  
+
+				  </form>
+		  </div>
 
 		<br><br><br>
 		
