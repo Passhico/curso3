@@ -4,6 +4,7 @@ namespace lacueva\BlogBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use \Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session;
 
 use lacueva\BlogBundle\Entity\Users;
 
@@ -12,15 +13,23 @@ use lacueva\BlogBundle\Form\UsersType;
 
 class UserController extends Controller
 {	
-   public function loginAction(Request $request)    
-  {
+	
+	private  $_session;
+	
+	public function __construct()
+	{
+		$this->_session = new \Symfony\Component\HttpFoundation\Session();
+	}
 
 	
-		$autenticationUtils = $this->get("security.authentication_utils");
+	
+	public function loginAction(Request $request)    
+  {
+
+	  $autenticationUtils = $this->get("security.authentication_utils");
 		$error = $autenticationUtils->getLastAuthenticationError(); 
 		$lastUsername = $autenticationUtils->getLastUsername();
-		
-		
+				
 		//El usuario a loguear . 
 		$userToAdd = new \lacueva\BlogBundle\Entity\Users();
 
@@ -28,7 +37,6 @@ class UserController extends Controller
 		$form = $this->createForm(\lacueva\BlogBundle\Form\UsersType::class , $userToAdd);
 		$form->handleRequest($request);
 
-		
 		if ($form->isValid())
 		{
 			$userToAdd->setName($form->get("name")->getData());
@@ -39,7 +47,7 @@ class UserController extends Controller
 			$this->getDoctrine()->getManager()->persist($userToAdd);
 			$this->getDoctrine()->getManager()->flush();
 			
-			$status = [ $form->getName() ,  " Tiene dattos válidos", $userToAdd];
+			$status = [ $form->getName() ,  " Tiene datos válidos", $userToAdd];
 			
 		} else
 		{
@@ -47,7 +55,10 @@ class UserController extends Controller
 			$status = $form->getName() . " No tiene datos válidos o faltan. ";
 			
 		}
-
+		
+		$s = new \Symfony\Component\HttpFoundation\Session();
+		$s = $this->_session;
+		$s->
 	
 		return $this->render("login.html.twig", 
 					[	"error" => $error , 
