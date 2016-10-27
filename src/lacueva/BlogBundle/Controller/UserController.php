@@ -45,12 +45,28 @@ class UserController extends Controller
 			$userToAdd->setName($form->get("name")->getData());
 			$userToAdd->setSurname($form->get("surname")->getData());
 			$userToAdd->setEmail($form->get("email")->getData());
-			$userToAdd->setPassword($form->get("password")->getData());
-				
+			$userToAdd->setRole("ROLE_USER");
+		
+//			_encrypt
+
+			$pass_to_encode = $form->get("password")->getData();
+
+			//para netbeans..
+//			$factory = new \Symfony\Component\Security\Core\Encoder\EncoderFactory();
+			
+			$factory = $this->get("security.encoder_factory");
+			$encoder = $factory->getEncoder($userToAdd);
+			$password_codificado = $encoder->encodePassword($pass_to_encode, $userToAdd->getSalt());
+			
+			
+			$userToAdd->setPassword($password_codificado);
+			
+//	i		_persist
 			$this->getDoctrine()->getManager()->persist($userToAdd);
 			$this->getDoctrine()->getManager()->flush();
 			
-			$status .=  $form->getName()  .   " Tiene datos válidos, insertando user";
+			$status .=  $form->getName()  .   " Tiene datos válidos" . 
+					" insertando user con password codificado" . $password_codificado;
 			
 		} else
 		{

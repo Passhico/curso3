@@ -21,7 +21,7 @@ class UsersType extends AbstractType
         $builder->add('name', \Symfony\Component\Form\Extension\Core\Type\TextType::class,
 		[
 		    "required" => "required", 
-		    "label" => "REGISTRATE!! Inserta tu nombre: ", 
+		    "label" => "¿Como te llamas?", 
 		    "attr" => 
 		    [
 			"class" => "form-name form-control" //AQUÍ LOS CSS
@@ -46,6 +46,7 @@ class UsersType extends AbstractType
         $builder->add('password', \Symfony\Component\Form\Extension\Core\Type\PasswordType::class,
 		[
 		    "required" => "required", 
+			"label" => "teclea en voz baja tu contraseña :)", 
 		    "attr" => 
 		    [
 			"class" => "form-password form-control"
@@ -57,7 +58,7 @@ class UsersType extends AbstractType
 			[
 				"class" => "form-submit btn btn-success"
 			], 
-			"label" => "pulsame"
+			"label" => "Darse de alta en el Blog"
 		]);
 
 	
