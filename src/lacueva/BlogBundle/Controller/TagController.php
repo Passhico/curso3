@@ -26,6 +26,7 @@ class TagController extends Controller
 	{
 		$this->render("addTag.html.twig");
 		
+		
 	}
 
 }
