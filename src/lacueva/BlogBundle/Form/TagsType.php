@@ -30,10 +30,7 @@ class TagsType extends AbstractType
 				"class" => "form-control col-md-6"
 			]
 		]);
-		
-		
-		
-		
+				
 		//El botón 
 		$builder->add('BOTON', \Symfony\Component\Form\Extension\Core\Type\SubmitType::class, 		[
 			"label" => "CREAR TAG", 
