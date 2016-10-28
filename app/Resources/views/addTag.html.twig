@@ -1,9 +1,15 @@
 {% extends "layout.html.twig" %}
 
 {% block content  %}
-	<div class="col-lg-6">
-		<h2>AÑADIR TAGS<H2>
+	<div class="form-type col-md-6">
+		<h2>AÑADIR TAGS</H2>
 		{{form_start(formAddTag)}}
 		{{form_end(formAddTag)}}
 	</div>
+		<div class="clear-fix"></div>
+		
+		{% for mensaje  in app.session.flashbag().get('status') %}
+			<div class="alert alert-warning">{{mensaje}}</div>
+		{% endfor %}
+		
 {% endblock content %}

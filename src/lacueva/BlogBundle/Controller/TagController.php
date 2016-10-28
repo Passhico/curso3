@@ -32,6 +32,19 @@ class TagController extends Controller
 		//Le decimos que manejará la request cuando se pulse el botón submit... 
 		$formAddTag->handleRequest($request);
 		
+		$status = "El form " . $formAddTag->getName() . " "; 
+		if ($formAddTag->isValid())
+		{
+			$status .= "El formulario se ha creado correctamente";
+		}
+		else
+		{
+			$status .= "El formulario no es válido"; 
+		}
+		
+		
+		$this->_session->getFlashBag()->add("status", $status);
+		
 		
 		return $this->render("addTag.html.twig", [
 			"formAddTag" => $formAddTag->createView()

@@ -18,7 +18,7 @@ class TagsType extends AbstractType
 			"label" => "TAG", 
 			"attr" =>
 			[
-				"class" => "css_stylel"
+				"class" => "form_control"
 			]
 		]);
 		
@@ -27,16 +27,19 @@ class TagsType extends AbstractType
 			"label" => "Descripción del TAG", 
 			"attr" =>
 			[
-				"class" => "css_stylel"
+				"class" => "form-control col-md-6"
 			]
 		]);
+		
+		
+		
 		
 		//El botón 
 		$builder->add('BOTON', \Symfony\Component\Form\Extension\Core\Type\SubmitType::class, 		[
 			"label" => "CREAR TAG", 
 			"attr" =>
 			[
-				"class" => "css_stylel"
+				"class" => "form-control btn-success"
 			]
 		]);
 		
