@@ -22,9 +22,20 @@ class TagController extends Controller
 		$this->_session = new \Symfony\Component\HttpFoundation\Session\Session();
 	}
 	
-	function AddAction(\Symfony\Component\HttpFoundation\Request $request)
+	function addAction(\Symfony\Component\HttpFoundation\Request $request)
 	{
-		$this->render("addTag.html.twig");
+		//rpeparamos una tag 
+		$tagToAdd = new \lacueva\BlogBundle\Entity\Tags();
+		
+		//Creamos el form 
+		$formAddTag = $this->createForm(\lacueva\BlogBundle\Form\TagsType::class, $tagToAdd);	
+		//Le decimos que manejará la request cuando se pulse el botón submit... 
+		$formAddTag->handleRequest($request);
+		
+		
+		return $this->render("addTag.html.twig", [
+			"formAddTag" => $formAddTag->createView()
+		]);
 		
 		
 	}
