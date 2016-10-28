@@ -90,6 +90,10 @@ class UserController extends Controller
 		);
 	}
 
+	/*
+	 * 	TODO: Debería de implementarse como propiedad en la Entidad User directamente en vez de en el 
+	 *	controlador
+	 */
 	private function _esUsuarioRegistrado(\lacueva\BlogBundle\Entity\Users $usuarioAverificar)
 	{
 		//eL return nos lo podemos ahorrar si el 0 es false... pero es mas legible...
