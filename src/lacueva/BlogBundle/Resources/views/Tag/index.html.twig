@@ -5,19 +5,30 @@
 {#content#}
 {% block content %}
 	
-			<table class=" table table-striped" name="allTags">		  
-					<tr class="info">allTags</tr>
-
-					{% for un_allTags  in allTags %}
+	<table class="container table" name="Tag">		  
+			<h2>Etiquetas</h2><!--Titulo-->
+			<hr/>
+			<a href="{{ path("blog_tag_add") }}" class="btn btn-success">Añadir Etiqueta</a>
+		
+			
+			<thead>
+					<tr>
+							<th>Nombre de la Tag</th><!--Duplicame-->
+							<th>Descripción</th><!--Duplicame-->
+					</tr>
+			</thead>
+			<tbody>
+					{% for un_Tag  in Tag %}
 						<tr>
-								<td>	  {{ un_allTags.name  }} </td>
-								<td>	  {{ un_allTags.description  }} </td>
+								<td>  {{ un_Tag.name  }} </td><!--Duplicame-->
+								<td>  {{ un_Tag.description  }} </td><!--Duplicame-->
 						</tr>
 					{% else %}
-						<td>No hay allTagss!!!</td>
-					{% endfor %}
-			</table>>
-			
+					<td>No hay Tags!!!</td>
+			{% endfor %}
+	</tbody>
+</table>>
+
 					
 {% endblock content %}
 

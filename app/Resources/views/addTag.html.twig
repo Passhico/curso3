@@ -5,22 +5,14 @@
 		<h2>AÑADIR TAGS</H2>
 		{{form_start(formAddTag)}}
 		{{form_end(formAddTag)}}
+		<a href="{{ path("blog_index_tag") }}" class="btn btn-success form-type col-md-6">LISTAR TODAS</a>
 	</div>
+		
 		<div class="clear-fix"></div>
 		
 		{% for m  in app.session.flashbag().get('status') %}
 			<div class="alert alert-warning">{{m}}</div>
 		{% endfor %}
-		
-		<ul>
-				{% for tag  in allTag %}
-					<li>{{  tag.name  }}</li>
-					<li>{{  tag.description  }}</li>
-					{% else %}
-					<li><em>Entrada no encontrada</em></li>
-					{% endfor %}
-		</ul>
-	
 		
 		
 {% endblock content %}

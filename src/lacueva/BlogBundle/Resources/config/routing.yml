@@ -28,3 +28,6 @@ blog_index_tag:
 blog_tag_add:
     path: /tag/add
     defaults: {_controller: BlogBundle:Tag:add}
+blog_add_tag:
+    path: /tag/add
+    defaults: {_controller: BlogBundle:Tag:add}

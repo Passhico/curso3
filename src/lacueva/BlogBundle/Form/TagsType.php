@@ -39,7 +39,16 @@ class TagsType extends AbstractType
 				"class" => "form-control btn-success"
 			]
 		]);
-    }
+// TODO: Añadir dentro del propio tipo de formulario un botón que redirija hacia alguna otra acción . 
+//		$builder->add('Listar Tags', \Symfony\Component\Form\Extension\Core\Type\ButtonType::class, [
+//			"label" => "Listar las Etiquetas",
+//			"attr" =>
+//			[
+//				"class" => "btn btn-success",
+//				"href " => "/tag"
+//			]
+//		]);
+	}
     
     /**
      * {@inheritdoc}

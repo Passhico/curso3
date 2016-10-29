@@ -40,7 +40,7 @@ class TagController extends Controller
 		 * ejecutarse , esto , afortunadamente es como en C++
 		 * asi que no hace falta anidar IFs.
 		 */
-		if ($formAddTag->isSubmitted() || $formAddTag->isValid())
+		if ( $formAddTag->isValid())
 		{
 				$this->_log("isValid(true)");
 
@@ -60,8 +60,7 @@ class TagController extends Controller
 
 		$this->_log("Y el nombre de la  flashbag es...: " . $this->_session->getFlashBag()->getName());
 		return $this->render("addTag.html.twig", [
-					"formAddTag" => $formAddTag->createView(),
-					"allTag" => $this->getDoctrine()->getManager()->getRepository("BlogBundle:Tags")->findAll()
+					"formAddTag" => $formAddTag->createView()
 		]);
 	}
 
@@ -74,7 +73,7 @@ class TagController extends Controller
 	{
 		return $this->render("BlogBundle:Tag:index.html.twig" , 
 				[
-					'allTags' => $this->getDoctrine()->getManager()->getRepository("BlogBundle:Tags")->findAll()
+					'Tag' => $this->getDoctrine()->getManager()->getRepository("BlogBundle:Tags")->findAll()
 				]
 				);
 	}
