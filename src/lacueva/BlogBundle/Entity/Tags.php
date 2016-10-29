@@ -2,11 +2,17 @@
 
 namespace lacueva\BlogBundle\Entity;
 
+
 /**
  * Tags
  */
 class Tags
 {
+	
+	
+	
+	
+	
     /**
      * @var integer
      */
