@@ -49,10 +49,12 @@ class TagController extends Controller
 			$status .= "Y el nombre de la  flashbag es...: " . $this->_session->getFlashBag()->getName();
 
 			$this->_session->getFlashBag()->add("status", $status);
+			
+			
+			
+			
 		} else
 			$status .= "sin pulsar boton";
-
-
 
 
 		return $this->render("addTag.html.twig", [
@@ -62,4 +64,10 @@ class TagController extends Controller
 		
 	}
 
+	
+	private function _log($string)
+	{
+		$this->_session->getFlashBag()->add("status", $string);
+		
+	}
 }
