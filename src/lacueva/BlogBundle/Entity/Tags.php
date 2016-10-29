@@ -107,7 +107,7 @@ class Tags
 			"minMessage" => "La descripción debería de ser de al menos {{ limit }}  Caracteres"
 		]));
 
-		//TODO : Las tags , no se deben repetir  (no va bien esta getter constraint , nose por que , fix mas tarde.
+//ESTO FUNCIONA , pero no como yo creía , el mensaje de error de la validación sale como error de la consola de la barra de debug...
 //	  https://symfony.com/doc/current/validation.html
 		$metadatos->addGetterConstraint('PreviamenteCreada', new \Symfony\Component\Validator\Constraints\IsFalse(['message' => 'Esta Tag ya existe!!']));
 	}

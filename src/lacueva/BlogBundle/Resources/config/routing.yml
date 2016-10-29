@@ -21,6 +21,10 @@ blog_homepage:
     path: /login
     defaults: {_controller: BlogBundle:User:login}
     
+blog_index_tag:
+    path: /tag
+    defaults: {_controller: BlogBundle:Tag:index}
+    
 blog_tag_add:
     path: /tag/add
     defaults: {_controller: BlogBundle:Tag:add}

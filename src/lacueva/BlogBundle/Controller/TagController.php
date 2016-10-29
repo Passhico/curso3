@@ -52,6 +52,10 @@ class TagController extends Controller
 				$this->getDoctrine()->getManager()->persist($tagToPersist);
 				if ($this->getDoctrine()->getManager()->flush())
 					$this->_log("La tag no se ha podido crear");
+				
+				
+				return $this->redirectToRoute("blog_index_tag");
+				
 		}
 
 		$this->_log("Y el nombre de la  flashbag es...: " . $this->_session->getFlashBag()->getName());
@@ -66,6 +70,13 @@ class TagController extends Controller
 		$this->_session->getFlashBag()->add("status", $string);
 	}
 	
-
+	public function indexAction(\Symfony\Component\HttpFoundation\Request $request)
+	{
+		return $this->render("BlogBundle:Tag:index.html.twig" , 
+				[
+					'allTags' => $this->getDoctrine()->getManager()->getRepository("BlogBundle:Tags")->findAll()
+				]
+				);
+	}
 
 }
