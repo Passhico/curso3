@@ -8,8 +8,10 @@
 	</div>
 		<div class="clear-fix"></div>
 		
-		{% for mensaje  in app.session.flashbag().get('status') %}
-			<div class="alert alert-warning">{{mensaje}}</div>
+		{% for m  in app.session.flashbag().get('status') %}
+			<div class="alert alert-warning">{{m}}</div>
 		{% endfor %}
+	
+		
 		
 {% endblock content %}

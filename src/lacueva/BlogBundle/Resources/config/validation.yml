@@ -1,0 +1,7 @@
+BlogBundle\Entity\Tag:
+    properties:
+            name:
+                    -NotBlank: {message: "El nombre no puede estar vacío1"}
+                    -Length:
+                        min: 2
+                        minMessage: "El nombre tiene que tener al menos 2 caracteres"

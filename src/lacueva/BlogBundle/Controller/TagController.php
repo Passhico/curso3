@@ -19,7 +19,7 @@ class TagController extends Controller
 
 	public function __construct()
 	{
-		$this->_session = new \Symfony\Component\HttpFoundation\Session\Session();
+		$this->_session = new \Symfony\Component\HttpFoundation\Session\Session();	
 	}
 	
 	function addAction(\Symfony\Component\HttpFoundation\Request $request)
@@ -33,19 +33,28 @@ class TagController extends Controller
 		$formAddTag->handleRequest($request);
 		
 		$status = "El form " . $formAddTag->getName() . " "; 
-		if ($formAddTag->isValid())
+	
+		if ($formAddTag->isSubmitted())
 		{
-			$status .= "El formulario se ha creado correctamente";
-		}
-		else
-		{
-			$status .= "El formulario no es válido"; 
-		}
-		
-		
-		$this->_session->getFlashBag()->add("status", $status);
-		
-		
+			$status .= "issubmited()";
+			if ($formAddTag->isValid())
+			{
+				$status .= "isValid(true)";
+			} else
+			{
+				$status .= "isValid(false)";
+			}
+
+
+			$status .= "Y el nombre de la  flashbag es...: " . $this->_session->getFlashBag()->getName();
+
+			$this->_session->getFlashBag()->add("status", $status);
+		} else
+			$status .= "sin pulsar boton";
+
+
+
+
 		return $this->render("addTag.html.twig", [
 			"formAddTag" => $formAddTag->createView()
 		]);
