@@ -1,0 +1,23 @@
+
+{# empty Twig template #}
+{% extends "layout.html.twig"  %}
+
+{#content#}
+{% block content %}
+	
+			<table class=" table table-striped" name="allTags">		  
+					<tr class="info">allTags</tr>
+
+					{% for un_allTags  in allTags %}
+						<tr>
+								<td>	  {{ un_allTags.name  }} </td>
+								<td>	  {{ un_allTags.description  }} </td>
+						</tr>
+					{% else %}
+						<td>No hay allTagss!!!</td>
+					{% endfor %}
+			</table>>
+			
+					
+{% endblock content %}
+
