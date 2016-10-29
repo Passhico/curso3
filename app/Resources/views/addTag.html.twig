@@ -11,6 +11,15 @@
 		{% for m  in app.session.flashbag().get('status') %}
 			<div class="alert alert-warning">{{m}}</div>
 		{% endfor %}
+		
+		<ul>
+				{% for tag  in allTag %}
+					<li>{{  tag.name  }}</li>
+					<li>{{  tag.description  }}</li>
+					{% else %}
+					<li><em>Entrada no encontrada</em></li>
+					{% endfor %}
+		</ul>
 	
 		
 		

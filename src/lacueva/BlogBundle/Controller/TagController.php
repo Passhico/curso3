@@ -7,10 +7,9 @@ use \Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session;
 use lacueva\BlogBundle\Entity\Users;
 use lacueva\BlogBundle\Form\UsersType;
-
 //Clases principales 
-use lacueva\BlogBundle\Entity\Tags; 
-use lacueva\BlogBundle\Form\TagsType; 
+use lacueva\BlogBundle\Entity\Tags;
+use lacueva\BlogBundle\Form\TagsType;
 
 class TagController extends Controller
 {
@@ -19,55 +18,51 @@ class TagController extends Controller
 
 	public function __construct()
 	{
-		$this->_session = new \Symfony\Component\HttpFoundation\Session\Session();	
+		$this->_session = new \Symfony\Component\HttpFoundation\Session\Session();
 	}
-	
+
 	function addAction(\Symfony\Component\HttpFoundation\Request $request)
 	{
-		//rpeparamos una tag 
-		$tagToAdd = new \lacueva\BlogBundle\Entity\Tags();
-		
+		//rpeparamos una tag  (y le pasamos el EM ya que hay constraints que requieren de su uso ., 
+		// la restricción es "PreviamenteCreada"  y se imiplementa en el propio objeto como tiene que ser.. 
+		$tagToAdd = new \lacueva\BlogBundle\Entity\Tags($this->getDoctrine()->getManager());
+
 		//Creamos el form 
-		$formAddTag = $this->createForm(\lacueva\BlogBundle\Form\TagsType::class, $tagToAdd);	
+		$formAddTag = $this->createForm(\lacueva\BlogBundle\Form\TagsType::class, $tagToAdd);
 		//Le decimos que manejará la request cuando se pulse el botón submit... 
 		$formAddTag->handleRequest($request);
-		
-		$status = "El form " . $formAddTag->getName() . " "; 
-	
+
+		$status = "El form " . $formAddTag->getName() . " ";
+
 		if ($formAddTag->isSubmitted())
 		{
-			$status .= "issubmited()";
+			$this->_log("issubmited()");
 			if ($formAddTag->isValid())
 			{
-				$status .= "isValid(true)";
+				$this->_log("isValid(true)");
+
+				//_formget 
+				$tagToAdd->setName($formAddTag->get("name")->getData());
+				$tagToAdd->setDescription($formAddTag->get("description")->getData());
+
+				// _persist	
+				$this->getDoctrine()->getManager()->persist($tagToAdd);
+				$this->getDoctrine()->getManager()->flush();
 			} else
-			{
-				$status .= "isValid(false)";
-			}
-
-
-			$status .= "Y el nombre de la  flashbag es...: " . $this->_session->getFlashBag()->getName();
-
-			$this->_session->getFlashBag()->add("status", $status);
-			
-			
-			
-			
+				$this->_log("isValid(false)");
 		} else
-			$status .= "sin pulsar boton";
+			$this->_log("sin pulsar boton");
 
-
+		$this->_log("Y el nombre de la  flashbag es...: " . $this->_session->getFlashBag()->getName());
 		return $this->render("addTag.html.twig", [
-			"formAddTag" => $formAddTag->createView()
+					"formAddTag" => $formAddTag->createView(),
+					"allTag" => $this->getDoctrine()->getManager()->getRepository("BlogBundle:Tags")->findAll()
 		]);
-		
-		
 	}
 
-	
 	private function _log($string)
 	{
 		$this->_session->getFlashBag()->add("status", $string);
-		
 	}
+
 }

@@ -13,6 +13,7 @@ class TagsType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+		//name
 		$builder->add('name', \Symfony\Component\Form\Extension\Core\Type\TextType::class, 		[
 		
 			"label" => "TAG", 
@@ -21,7 +22,7 @@ class TagsType extends AbstractType
 				"class" => "form_control"
 			]
 		]);
-		
+		//description
 		$builder->add('description', \Symfony\Component\Form\Extension\Core\Type\TextareaType::class, 		[
 
 			"label" => "Descripción del TAG", 
@@ -29,8 +30,7 @@ class TagsType extends AbstractType
 			[
 				"class" => "form-control col-md-6"
 			]
-		]);
-				
+		]);		
 		//El botón 
 		$builder->add('BOTON', \Symfony\Component\Form\Extension\Core\Type\SubmitType::class, 		[
 			"label" => "CREAR TAG", 
@@ -39,8 +39,6 @@ class TagsType extends AbstractType
 				"class" => "form-control btn-success"
 			]
 		]);
-		
-		
     }
     
     /**
