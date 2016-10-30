@@ -52,6 +52,7 @@
 									  <thead>
 											  <tr>
 													  <th>name</th><!--Duplicame-->
+													  <th>email</th><!--Duplicame-->
 													  <th>password</th><!--Duplicame-->
 											  </tr>
 									  </thead>
@@ -59,6 +60,7 @@
 											  {% for un_users  in users %}
 												  <tr>
 														  <td>  {{ un_users.name  }} </td><!--Duplicame-->
+														  <td>  {{ un_users.email  }} </td><!--Duplicame-->
 														  <td>  {{ un_users.password  }} </td><!--Duplicame-->
 												  </tr>
 											  {% else %}

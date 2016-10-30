@@ -52,13 +52,10 @@
 						<ul class="nav navbar-nav">
 {#TODO LOS MENUS#}
 								{% block menu %}
-								<li class="active"><a href="#">add <span class="sr-only">(current)</span></a></li>
-								<li class="active"><a href="#">add <span class="sr-only">(current)</span></a></li>
-								<li class="active"><a href="#">add <span class="sr-only">(current)</span></a></li>
-								<li class="active"><a href="#">add <span class="sr-only">(current)</span></a></li>
+{#								<li class="active"><a href="#">add <span class="sr-only">(current)</span></a></li>#}
 					
-								<li><a href="#">Link</a></li>
-{% endblock %}
+{#								<li><a href="#">Link</a></li>#}
+								{% endblock %}
 						</ul>
 
 						<ul class="nav navbar-nav navbar-right">
@@ -76,7 +73,7 @@
 										{%else%}
 {#										<li><a href="{{path("blog_add_entry")}}">Añadir entrada</a></li>#}
 										 <li><a href="{{path("blog_index_tag")}}">Etiquetas</a></li>
-{#										 <li><a href="{{path("blog_index_category")}}">Categorías</a></li>#}
+										 <li><a href="{{path("blog_index_category")}}">Categorías</a></li>
 										<li role="separator" class="divider"></li>
 										<li><a href="{{path("logout")}}">Salir</a></li>
 										{% endif%}
