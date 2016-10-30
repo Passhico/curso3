@@ -68,11 +68,28 @@ class TagController extends Controller
 	public function deleteAction(\Symfony\Component\HttpFoundation\Request  $request)
 	{
 		
+				
+		$tagToDelete = $this->_miRepo()->find($request->get('id'));
+		
+		if ($tagToDelete) {
+			$this->getDoctrine()->getManager()->remove($tagToDelete);
 
+			// _persist
+			if( $this->getDoctrine()->getManager()->flush() )
+				$this->_log("El tag no se ha podido borrar");
 
-		return new \Symfony\Component\HttpFoundation\Response(
-			 "Esto es una Stub de deleteAction, posiblemente quieras usar en esta linea :
-			  return \$this->render(\$view)");	
+					$this->_log(\dump($tagToDelete));
+					
+		}else{
+			
+					$this->_log("El id ".$request->get('id')." no existe, por lo que no es posible borrarlo");
+			
+					
+		}
+		
+		return $this->redirectToRoute('blog_index_tag');
+			
+				
 	}
 
 
@@ -92,7 +109,7 @@ class TagController extends Controller
 	
 	
 	//PRIVS
-	private function _getMyRepo()
+	private function _miRepo()
 	{
 		return $this->getDoctrine()->getRepository("BlogBundle:Tags");
 	}
