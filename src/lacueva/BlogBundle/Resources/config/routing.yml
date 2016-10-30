@@ -40,3 +40,7 @@ blog_delete_tag:
 blog_index_category:
     path: /categoria
     defaults: {_controller: BlogBundle:Category:index}
+blog_delete_category:
+    path: /categoria/delete/{id}
+    defaults: {_controller: BlogBundle:Category:delete}
+    

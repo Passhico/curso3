@@ -46,7 +46,32 @@ class CategoryController extends Controller
 			}
 		}
 
-		return $this->render("BlogBundle:Category:index.html.twig");
+		return $this->render('BlogBundle:Category:index.html.twig', [
+					'formCategoryAdd' => $formularioCategoria->createView(),
+					'categorias' => $this->_miRepo()->findAll()
+		]);
+	}
+
+	public function deleteAction(\Symfony\Component\HttpFoundation\Request $request)
+	{
+		$categoryToDelete = new \lacueva\BlogBundle\Entity\Categories();
+		$categoryToDelete = $this->_miRepo()->find($request->get("id"));
+
+		if ($categoryToDelete)
+		{
+
+
+			// _persist
+			$this->getDoctrine()->getManager()->remove($categoryToDelete);
+			if ($this->getDoctrine()->getManager()->flush())
+				$this->_log("No se ha podido borrar la categoria.");
+		}else
+		{
+			$this->_log("Esta categoría ya no existe..");
+		}
+		
+		return $this->redirectToRoute('blog_index_category');
+		
 	}
 
 	private function _log($string)
@@ -57,7 +82,7 @@ class CategoryController extends Controller
 	//PRIVS
 	private function _miRepo()
 	{
-		return $this->getDoctrine()->getRepository("BlogBundle:Entries");
+		return $this->getDoctrine()->getRepository("BlogBundle:Categories");
 	}
 
 }

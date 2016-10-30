@@ -1,3 +1,34 @@
 {# empty Twig template #}
+{% extends "layout.html.twig" %}
 
-hola caracola.
+{#content#}
+{% block content %}
+
+		{{form_start(formCategoryAdd)}}
+		{{form_end(formCategoryAdd)}}
+		
+		<table class="container table" name="categorias">		  
+				<h2>Categorias</h2><!--Titulo-->
+				<thead>
+						<tr>
+								<th>Nombre</th><!--Duplicame-->
+								<th>Descripción</th><!--Duplicame-->
+								<th>Eliminar </th><!--Duplicame-->
+								
+						</tr>
+				</thead>
+				<tbody>
+						{% for un_categorias  in categorias %}
+							<tr>
+									<td>  {{ un_categorias.name  }} </td><!--Duplicame-->
+									<td>  {{ un_categorias.description  }} </td><!--Duplicame-->
+									<td> <a href="{{ path("blog_delete_category" ,{"id":un_categorias.id}) }}" class="btn btn-danger">Eliminar</a></td><!--Duplicame-->
+							</tr>
+						{% else %}
+						<td>No hay categoriass!!!</td>
+				{% endfor %}
+		</tbody>
+</table>>
+
+<div class='clearfix'></div>
+{% endblock content %}
