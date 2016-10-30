@@ -36,3 +36,7 @@ blog_add_tag:
 blog_delete_tag:
     path: /tag/delete/{id}
     defaults: {_controller: BlogBundle:Tag:delete}
+
+blog_index_category:
+    path: /categoria
+    defaults: {_controller: BlogBundle:Category:index}
