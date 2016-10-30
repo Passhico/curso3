@@ -37,10 +37,25 @@ blog_delete_tag:
     path: /tag/delete/{id}
     defaults: {_controller: BlogBundle:Tag:delete}
 
+#RUTAS PARA LAS CATEGORIAS
+
 blog_index_category:
     path: /categoria
     defaults: {_controller: BlogBundle:Category:index}
+    
 blog_delete_category:
     path: /categoria/delete/{id}
     defaults: {_controller: BlogBundle:Category:delete}
+    
+blog_add_category:
+    path: /categoria/add/
+    defaults: {_controller: BlogBundle:Category:add}
+    
+    
+blog_edit_category:
+    path: /categoria/edit/{id}
+    defaults: {_controller: BlogBundle:Category:edit}
+blog_edit_category_index:
+    path: /categoria/edit
+    defaults: {_controller: BlogBundle:Category:index}
     

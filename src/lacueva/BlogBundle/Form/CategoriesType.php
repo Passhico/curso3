@@ -13,7 +13,31 @@ class CategoriesType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')->add('description')        ;
+//        $builder->add('name')->add('description')        ;
+		
+		$builder->add('name', \Symfony\Component\Form\Extension\Core\Type\TextType::class, 		[
+			"required" => "required", 
+			"attr" =>
+
+			[
+				"class" => "col-md-6"
+			]
+		]);
+		$builder->add('description', \Symfony\Component\Form\Extension\Core\Type\TextType::class, 		[
+			"required" => "required", 
+			"attr" =>
+
+			[
+				"class" => "col-md-6"
+			]
+		]);
+		$builder->add('botonSubmit', \Symfony\Component\Form\Extension\Core\Type\SubmitType::class, 		[
+			"label" => "GUARDAR", 
+			"attr" =>
+			[
+				"class" => "btn btn-warning"
+			]
+		]);
     }
     
     /**

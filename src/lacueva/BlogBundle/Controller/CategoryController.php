@@ -22,6 +22,16 @@ class CategoryController extends Controller
 	public function indexAction(\Symfony\Component\HttpFoundation\Request $request)
 	{
 
+
+
+		return $this->render('BlogBundle:Category:index.html.twig', [
+					'categorias' => $this->_miRepo()->findAll()
+		]);
+	}
+
+	public function addAction(\Symfony\Component\HttpFoundation\Request $request)
+	{
+
 		$categoria = new \lacueva\BlogBundle\Entity\Categories();
 
 		$formularioCategoria = $this->createForm(\lacueva\BlogBundle\Form\CategoriesType::class);
@@ -46,7 +56,7 @@ class CategoryController extends Controller
 			}
 		}
 
-		return $this->render('BlogBundle:Category:index.html.twig', [
+		return $this->render('BlogBundle:Category:add.html.twig', [
 					'formCategoryAdd' => $formularioCategoria->createView(),
 					'categorias' => $this->_miRepo()->findAll()
 		]);
@@ -69,9 +79,41 @@ class CategoryController extends Controller
 		{
 			$this->_log("Esta categoría ya no existe..");
 		}
-		
+
 		return $this->redirectToRoute('blog_index_category');
+	}
+
+	public function editAction(\Symfony\Component\HttpFoundation\Request $request)
+	{
+
+		$categorytoEdit = new \lacueva\BlogBundle\Entity\Categories();
+
+
+		//Si no existe la categoría a editar...
+		if (!$categorytoEdit = $this->_miRepo()->find($request->get('id')))
+			return $this->redirectToRoute('blog_edit_category_index');
+
+		$formularioCategoria = $this->createForm(\lacueva\BlogBundle\Form\CategoriesType::class, $categorytoEdit);
+		$formularioCategoria->handleRequest($request);
 		
+		//Actualizamos entidad con valores del form...
+		$categorytoEdit->setName($formularioCategoria->get('name')->getData());
+		$categorytoEdit->setDescription($formularioCategoria->get('description')->getData());
+		
+		//Si se ha submiteado el form y es válido
+		if( $formularioCategoria->isSubmitted() && $formularioCategoria->isValid())
+		{
+			// _persist
+			$this->getDoctrine()->getManager()->persist($categorytoEdit);
+			if ($this->getDoctrine()->getManager()->flush())
+				$this->_log ("no se ha podido editar") ;
+		}
+
+
+		return $this->render('BlogBundle:Category:edit.html.twig', [
+					'formularioCategoria' => $formularioCategoria->createView(),
+					'categorias' => $this->_miRepo()->findAll()
+		]);
 	}
 
 	private function _log($string)

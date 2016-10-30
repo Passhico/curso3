@@ -2,11 +2,7 @@
 {% extends "layout.html.twig" %}
 
 {#content#}
-{% block content %}
-
-		{{form_start(formCategoryAdd)}}
-		{{form_end(formCategoryAdd)}}
-		
+{% block content %}		
 		<table class="container table" name="categorias">		  
 				<h2>Categorias</h2><!--Titulo-->
 				<thead>
@@ -14,6 +10,8 @@
 								<th>Nombre</th><!--Duplicame-->
 								<th>Descripción</th><!--Duplicame-->
 								<th>Eliminar </th><!--Duplicame-->
+								<th>Modificar </th><!--Duplicame-->
+								
 								
 						</tr>
 				</thead>
@@ -23,6 +21,7 @@
 									<td>  {{ un_categorias.name  }} </td><!--Duplicame-->
 									<td>  {{ un_categorias.description  }} </td><!--Duplicame-->
 									<td> <a href="{{ path("blog_delete_category" ,{"id":un_categorias.id}) }}" class="btn btn-danger">Eliminar</a></td><!--Duplicame-->
+									<td> <a href="{{ path("blog_edit_category" ,{"id":un_categorias.id}) }}" class="btn btn-warning">Editar</a></td><!--Duplicame-->
 							</tr>
 						{% else %}
 						<td>No hay categoriass!!!</td>
