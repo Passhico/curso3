@@ -22,26 +22,6 @@
 		  {% endif %}
 
 
-		  <BR>
-
-				  <table class=" table table-striped"l>		  
-						  <tr class="info">usuarios</tr>
-						  <tr> password </tr>
-						  {% for user  in users %}
-							  <tr>
-									  <td>	  {{ user.email  }} </td>
-									  <td>	  {{ user.password  }} </td>
-							  </tr>
-							  
-									  
-						  {% else %}
-							  <td>No hay usuarios!!!</td>
-						  {% endfor %}
-				  </table>>
-				  
-
-		
-
 		{#		MOSTRAMOS EL MENSAJE DEL FLASHBAG #}
 		{% for mensaje  in app.session.flashbag().get('status') %}
 			<div class="alert alert-warning">{{mensaje}}</div>
@@ -65,6 +45,36 @@
 
 				  </form>
 		  </div>
+						  
+						  {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+							  <table class="container table" name="users">		  
+									  <h2>users</h2><!--Titulo-->
+									  <thead>
+											  <tr>
+													  <th>name</th><!--Duplicame-->
+													  <th>password</th><!--Duplicame-->
+											  </tr>
+									  </thead>
+									  <tbody>
+											  {% for un_users  in users %}
+												  <tr>
+														  <td>  {{ un_users.name  }} </td><!--Duplicame-->
+														  <td>  {{ un_users.password  }} </td><!--Duplicame-->
+												  </tr>
+											  {% else %}
+											  <td>No hay userss!!!</td>
+									  {% endfor %}
+									  </tbody>
+							  </table>>
+
+						  {% elseif is_granted('IS_AUTHENTICATED') %}
+							  Entra como Administrador para ver los usuarios registrados.
+						  {% else %}
+							  Entra como usuario!!
+						  {% endif %}
+						  
+							
+						 
 
 		<br><br><br>
 		

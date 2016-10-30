@@ -64,11 +64,18 @@ class TagController extends Controller
 		]);
 	}
 
-	private function _log($string)
+
+	public function deleteAction(\Symfony\Component\HttpFoundation\Request  $request)
 	{
-		$this->_session->getFlashBag()->add("status", $string);
+		
+
+
+		return new \Symfony\Component\HttpFoundation\Response(
+			 "Esto es una Stub de deleteAction, posiblemente quieras usar en esta linea :
+			  return \$this->render(\$view)");	
 	}
-	
+
+
 	public function indexAction(\Symfony\Component\HttpFoundation\Request $request)
 	{
 		return $this->render("BlogBundle:Tag:index.html.twig" , 
@@ -77,5 +84,19 @@ class TagController extends Controller
 				]
 				);
 	}
+	
+		private function _log($string)
+	{
+		$this->_session->getFlashBag()->add("status", $string);
+	}
+	
+	
+	//PRIVS
+	private function _getMyRepo()
+	{
+		return $this->getDoctrine()->getRepository("BlogBundle:Tags");
+	}
+
+	
 
 }

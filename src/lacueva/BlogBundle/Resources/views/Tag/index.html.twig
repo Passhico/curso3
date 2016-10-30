@@ -15,6 +15,7 @@
 					<tr>
 							<th>Nombre de la Tag</th><!--Duplicame-->
 							<th>Descripción</th><!--Duplicame-->
+							<th>Eliminar </th><!--Duplicame-->
 					</tr>
 			</thead>
 			<tbody>
@@ -22,6 +23,8 @@
 						<tr>
 								<td>  {{ un_Tag.name  }} </td><!--Duplicame-->
 								<td>  {{ un_Tag.description  }} </td><!--Duplicame-->
+								<td> <a href="{{ path("blog_delete_tag") }}" class="btn btn-danger">Eliminar</a></td><!--Duplicame-->
+								
 						</tr>
 					{% else %}
 					<td>No hay Tags!!!</td>

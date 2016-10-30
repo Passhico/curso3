@@ -44,7 +44,7 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand" href="{{path("blog_homepage")}}">Blog Symfony3 !!</a>
+						<a class="navbar-brand" href="{{path("blog_homepage")}}">El blog de Passh en Symfony3</a>
 					</div>
 
 					<!-- Collect the nav links, forms, and other content for toggling -->
@@ -56,6 +56,7 @@
 								<li class="active"><a href="#">add <span class="sr-only">(current)</span></a></li>
 								<li class="active"><a href="#">add <span class="sr-only">(current)</span></a></li>
 								<li class="active"><a href="#">add <span class="sr-only">(current)</span></a></li>
+					
 								<li><a href="#">Link</a></li>
 {% endblock %}
 						</ul>
@@ -73,10 +74,10 @@
 									{% if app.user == null%}
 										<li><a href="{{path("login")}}">Entrar</a></li>
 										{%else%}
-										{#<li><a href="{{path("blog_add_entry")}}">Añadir entrada</a></li>
+{#										<li><a href="{{path("blog_add_entry")}}">Añadir entrada</a></li>#}
 										 <li><a href="{{path("blog_index_tag")}}">Etiquetas</a></li>
-										 <li><a href="{{path("blog_index_category")}}">Categorías</a></li>
-										<li role="separator" class="divider"></li>#}
+{#										 <li><a href="{{path("blog_index_category")}}">Categorías</a></li>#}
+										<li role="separator" class="divider"></li>
 										<li><a href="{{path("logout")}}">Salir</a></li>
 										{% endif%}
 									<li><a href="#">Ayuda</a></li>
