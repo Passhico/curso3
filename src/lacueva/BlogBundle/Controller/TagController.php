@@ -68,7 +68,9 @@ class TagController extends Controller
 	public function deleteAction(\Symfony\Component\HttpFoundation\Request  $request)
 	{
 		
-				
+			
+	
+										
 		$tagToDelete = $this->_miRepo()->find($request->get('id'));
 		
 		if ($tagToDelete) {
@@ -79,6 +81,7 @@ class TagController extends Controller
 				$this->_log("El tag no se ha podido borrar");
 
 					$this->_log(\dump($tagToDelete));
+					
 					
 		}else{
 			
