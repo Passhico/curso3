@@ -59,3 +59,8 @@ blog_edit_category_index:
     path: /categoria/edit
     defaults: {_controller: BlogBundle:Category:index}
     
+#RUTAS PARA LAS ENTRADAS
+
+blog_entrada_add:
+    path: /entrada/add
+    defaults: {_controller: BlogBundle:Entries:add}
