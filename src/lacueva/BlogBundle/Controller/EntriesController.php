@@ -46,6 +46,8 @@ class EntriesController extends Controller
 				 * la entidad , y esto hace que cuando se hace el flush() se sincroniza automáticamente
 				 * 
 				 */
+				
+				
 
 	
 				$this->getDoctrine()->getManager()->persist($entradaToAdd);

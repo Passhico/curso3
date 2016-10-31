@@ -65,6 +65,19 @@ class EntriesType extends AbstractType
 			"choices" => ["Público" => "public", "Privado" => "private"],
 			"attr" => ["class" => "form-control"]
 		]);
+		
+		/*
+		 * TODO: Hacer que la imagen funcione bien . 
+		 * 
+		 */
+		$builder->add('image', \Symfony\Component\Form\Extension\Core\Type\FileType::class, 		[
+			"label" => "Imagen", 
+			"attr" =>
+
+			[
+				"class" => "img  form-control"
+			]
+		]);
 
 		$builder->add('botonGuardar', \Symfony\Component\Form\Extension\Core\Type\SubmitType::class, [
 			"label" => "guardar",

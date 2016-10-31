@@ -11,6 +11,8 @@
 				<h2>entradas</h2><!--Titulo-->
 				<thead>
 						<tr>
+								
+								<th>id</th><!--Duplicame-->
 								<th>Título</th><!--Duplicame-->
 								<th>Contenido</th><!--Duplicame-->
 								<th>Estado</th><!--Duplicame-->
@@ -23,10 +25,12 @@
 						{% for un_entradas  in entradas %}
 							<tr>
                                                                                 {# $builder->add('title')->add('content')->add('status')->add('image')->add('idUser')->add('idCategory')        ;#}
+									<td>  {{ un_entradas.id  }} </td><!--Duplicame-->
 									<td>  {{ un_entradas.title  }} </td><!--Duplicame-->
 									<td>  {{ un_entradas.content  }} </td><!--Duplicame-->
 									<td>  {{ un_entradas.status  }} </td><!--Duplicame-->
-									<td>  {{ un_entradas.image  }} </td><!--Duplicame-->
+									<td><img src="{{ un_entradas.image  }}" class="img-responsive" ></td>
+{#									<td>  {{ un_entradas.image  }} </td><!--Duplicame-->#}
 									<td>  {{ un_entradas.idUser.email  }} </td><!--Duplicame-->
 									<td>  {{ un_entradas.idCategory.name  }} </td><!--Duplicame-->
 							</tr>
