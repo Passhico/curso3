@@ -30,33 +30,33 @@ class EntriesController extends Controller
 	public function addAction(\Symfony\Component\HttpFoundation\Request $request)
 	{
 
-		$categoria = new \lacueva\BlogBundle\Entity\Categories();
+		$entradaToAdd = new \lacueva\BlogBundle\Entity\Entries();
 
-		$formularioCategoria = $this->createForm(\lacueva\BlogBundle\Form\CategoriesType::class);
-		$formularioCategoria->handleRequest($request);
+		$formularioEntrada = $this->createForm(\lacueva\BlogBundle\Form\EntriesType::class, $entradaToAdd);
+		$formularioEntrada->handleRequest($request);
 
 
 
-		if ($formularioCategoria->isSubmitted())
+		if ($formularioEntrada->isSubmitted())
 		{
-			if (( $formularioCategoria->isValid()))
+			if (( $formularioEntrada->isValid()))
 			{
 
 
 
-				$categoria->setName($formularioCategoria->get("name")->getData());
-				$categoria->setDescription($formularioCategoria->get("description")->getData());
+				$entradaToAdd->setName($formularioEntrada->get("name")->getData());
+				$entradaToAdd->setDescription($formularioEntrada->get("description")->getData());
 
 				// _persist
-				$this->getDoctrine()->getManager()->persist($categoria);
+				$this->getDoctrine()->getManager()->persist($entradaToAdd);
 				if ($this->getDoctrine()->getManager()->flush())
-					$this->_log("No se ha podido insertar la categoria");
+					$this->_log("No se ha podido insertar la Entrada ");
 			}
 		}
 
-		return $this->render('BlogBundle:Category:add.html.twig', [
-					'formCategoryAdd' => $formularioCategoria->createView(),
-					'categorias' => $this->_miRepo()->findAll()
+		return $this->render('BlogBundle:Entries:add.html.twig', [
+					'formAddEntries' => $formularioEntrada->createView(),
+					'entradas' => $this->_miRepo()->findAll()
 		]);
 	}
 
