@@ -34,20 +34,20 @@ class EntriesController extends Controller
 
 		$formularioEntrada = $this->createForm(\lacueva\BlogBundle\Form\EntriesType::class, $entradaToAdd);
 		$formularioEntrada->handleRequest($request);
-
-
+		
 
 		if ($formularioEntrada->isSubmitted())
 		{
 			if (( $formularioEntrada->isValid()))
 			{
+				/*
+				 *  Aquí no tenemos que hacer nada más , ni geters ni seters 
+				 * Porque directamente , al crear el formulario hemos bindeado
+				 * la entidad , y esto hace que cuando se hace el flush() se sincroniza automáticamente
+				 * 
+				 */
 
-
-
-				$entradaToAdd->setName($formularioEntrada->get("name")->getData());
-				$entradaToAdd->setDescription($formularioEntrada->get("description")->getData());
-
-				// _persist
+	
 				$this->getDoctrine()->getManager()->persist($entradaToAdd);
 				if ($this->getDoctrine()->getManager()->flush())
 					$this->_log("No se ha podido insertar la Entrada ");
@@ -60,6 +60,7 @@ class EntriesController extends Controller
 		]);
 	}
 
+	
 	//PRIVS
 	private function _log($dumpeame)
 	{

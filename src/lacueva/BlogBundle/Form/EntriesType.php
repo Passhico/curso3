@@ -39,18 +39,12 @@ class EntriesType extends AbstractType
 			"class" => "BlogBundle:Users", //pero de clase de objeto.
 			"label" => "Usuario",
 			"attr" =>
+			
 			[
 				"class" => "form-control"
 			]
 		]);
-//		$builder->add('idTag', \Symfony\Bridge\Doctrine\Form\Type\EntityType::class, [
-//			"class" => "BlogBundle:Tags", //pero de clase de objeto.
-//			"label" => "Tags",
-//			"attr" =>
-//			[
-//				"class" => "form-control"
-//			]
-//		]);
+
 
 		$builder->add('title', \Symfony\Component\Form\Extension\Core\Type\TextType::class, [
 			"label" => "Titulo",
@@ -79,6 +73,8 @@ class EntriesType extends AbstractType
 				"class" => "btn btn-success form-control"
 			]
 		]);
+		
+
 //		$builder->add('tags', \Symfony\Component\Form\Extension\Core\Type\TextType::class, 		[
 //
 //			"label" => "tags", 

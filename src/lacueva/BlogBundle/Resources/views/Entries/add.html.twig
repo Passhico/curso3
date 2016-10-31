@@ -7,6 +7,35 @@
 		{{form_start(formAddEntries)}}
 		{{form_end(formAddEntries)}}
 		
+		<table class="container table" name="entradas">		  
+				<h2>entradas</h2><!--Titulo-->
+				<thead>
+						<tr>
+								<th>Título</th><!--Duplicame-->
+								<th>Contenido</th><!--Duplicame-->
+								<th>Estado</th><!--Duplicame-->
+								<th>Imagen</th><!--Duplicame-->
+								<th>Usuario</th><!--Duplicame-->
+								<th>Categoria</th><!--Duplicame-->
+						</tr>
+				</thead>
+				<tbody>
+						{% for un_entradas  in entradas %}
+							<tr>
+                                                                                {# $builder->add('title')->add('content')->add('status')->add('image')->add('idUser')->add('idCategory')        ;#}
+									<td>  {{ un_entradas.title  }} </td><!--Duplicame-->
+									<td>  {{ un_entradas.content  }} </td><!--Duplicame-->
+									<td>  {{ un_entradas.status  }} </td><!--Duplicame-->
+									<td>  {{ un_entradas.image  }} </td><!--Duplicame-->
+									<td>  {{ un_entradas.idUser.email  }} </td><!--Duplicame-->
+									<td>  {{ un_entradas.idCategory.name  }} </td><!--Duplicame-->
+							</tr>
+						{% else %}
+						<td>No hay entradass!!!</td>
+				{% endfor %}
+		</tbody>
+</table>>
+
 		
 <div class='clearfix'></div>
 {% endblock content %}
