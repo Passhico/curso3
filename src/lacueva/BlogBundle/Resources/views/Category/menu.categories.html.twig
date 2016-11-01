@@ -1,1 +1,8 @@
 {# empty Twig template #}
+
+		{% for categoria  in categorias %}
+			<li class="active"><a href="#">{{categoria.name}} <span class="sr-only">(current)</span></a></li>
+		{% else %}
+			<li><em>Entrada no encontrada</em></li>
+			{% endfor %}
+
