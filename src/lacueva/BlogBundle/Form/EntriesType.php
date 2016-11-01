@@ -39,7 +39,6 @@ class EntriesType extends AbstractType
 			"class" => "BlogBundle:Users", //pero de clase de objeto.
 			"label" => "Usuario",
 			"attr" =>
-			
 			[
 				"class" => "form-control"
 			]
@@ -65,19 +64,34 @@ class EntriesType extends AbstractType
 			"choices" => ["Público" => "public", "Privado" => "private"],
 			"attr" => ["class" => "form-control"]
 		]);
-		
+
 		/*
 		 * TODO: Hacer que la imagen funcione bien . 
 		 * 
 		 */
-		$builder->add('image', \Symfony\Component\Form\Extension\Core\Type\FileType::class, 		[
-			"label" => "Imagen", 
+		$builder->add('image', \Symfony\Component\Form\Extension\Core\Type\FileType::class, [
+			"label" => "Imagen",
 			"attr" =>
-
 			[
 				"class" => "img  form-control"
 			]
 		]);
+
+
+		/*
+		 * TODO: Por que no funciona esto ? 
+		 * 
+		 */
+		
+
+//		$builder->add('EntryTag', \Symfony\Component\Form\Extension\Core\Type\TextType::class, [
+//			"label" => "tags:",
+//			"mapped" => "false", 
+//			"attr" =>
+//			[
+//				"class" => "form-control  col-md-6l"
+//			]
+//		]);
 
 		$builder->add('botonGuardar', \Symfony\Component\Form\Extension\Core\Type\SubmitType::class, [
 			"label" => "guardar",
@@ -86,16 +100,6 @@ class EntriesType extends AbstractType
 				"class" => "btn btn-success form-control"
 			]
 		]);
-		
-
-//		$builder->add('tags', \Symfony\Component\Form\Extension\Core\Type\TextType::class, 		[
-//
-//			"label" => "tags", 
-//			"attr" =>
-//			[
-//				"class" => "form-control"
-//			]
-//		]);
 	}
 
 	/**

@@ -8,7 +8,7 @@ namespace lacueva\BlogBundle\Entity;
 class Entries
 {
 	
-	protected $entryTag;
+	
 
 	/**
 	 * @var integer
@@ -44,6 +44,10 @@ class Entries
 	 * @var \lacueva\BlogBundle\Entity\Categories
 	 */
 	private $idCategory;
+	/**
+	 * @var \lacueva\BlogBundle\Entity\Categories
+	 */
+	
 
 	/**
 	 * Get id
@@ -199,22 +203,44 @@ class Entries
 		return $this->idCategory;
 	}
 
-	
+	/*
+	 * AQUÍ SE CONFIGURAN LAS TAGS ASOCIADAS A UNA ENTRADA.
+	 */
 
 	public function __construct()
 	{
 		$this->entryTag = new \Doctrine\Common\Collections\ArrayCollection();
+	
+		
+		
 	}
 
-	public function addentryTag(\lacueva\BlogBundle\Entity\Tags $tag)
+	
+	/* @var \lacueva\BlogBundle\Entity\Entrytag */
+	private $entryTag;
+	
+	
+	
+	public function addEntryTag(\lacueva\BlogBundle\Entity\Entrytag $entryTag)
 	{
-		$this->entryTag[] = $tag;
+		$this->entryTag[] = $entryTag;
+		return $this;
+	}
+	
+	function removeEntryTag(\lacueva\BlogBundle\Entity\Entrytag $entryTag)
+	{
+		//todo: remove Entry tag 
+		
 		return $this;
 	}
 
-	public function getEntryTags()
+	public function getEntryTag()
 	{
 		return $this->entryTag;
 	}
+	
+	
+	
+	
 
 }

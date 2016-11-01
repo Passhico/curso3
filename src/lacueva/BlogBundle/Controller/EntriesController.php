@@ -23,11 +23,13 @@ class EntriesController extends Controller
 	public function indexAction(\Symfony\Component\HttpFoundation\Request $request)
 	{
 
-		;
-
-		return new \Symfony\Component\HttpFoundation\Response(dump($this) .
-				"Esto es una Stub de indexAction, posiblemente quieras usar en esta linea :
-		  return \$this->render(\$view)");
+		//_render
+		return $this->render('BlogBundle:Entries:index.html.twig', 						[
+					'entradas' => $this->getDoctrine()->getManager()->getRepository(\lacueva\BlogBundle\Entity\Entries::class)->findAll(), 
+					'categorias' => $this->getDoctrine()->getManager()->getRepository(\lacueva\BlogBundle\Entity\Categories::class)->findAll(), 
+		]);
+							
+				
 	}
 
 	public function addAction(\Symfony\Component\HttpFoundation\Request $request)
@@ -36,6 +38,9 @@ class EntriesController extends Controller
 		$entradaToAdd = new \lacueva\BlogBundle\Entity\Entries();
 
 		$formularioEntrada = $this->createForm(\lacueva\BlogBundle\Form\EntriesType::class, $entradaToAdd);
+		
+		
+
 		$formularioEntrada->handleRequest($request);
 
 
@@ -57,8 +62,6 @@ class EntriesController extends Controller
 				 * ha de hacerse de forma automática. 
 				 * 
 				 */
-
-
 
 				/*
 				 * TODO: LA IMAGEN... esto hay que seguir echandole pienso...
@@ -84,8 +87,6 @@ class EntriesController extends Controller
 				$entradaToAdd->setImage($new_filename);
 				
 				
-				/**FIN TODO********************************************* */
-
 				//setteamos el user con el usuario actual de la session
 				//_getuser
 				$entradaToAdd->setIdUser($this->getUser());
@@ -114,7 +115,8 @@ class EntriesController extends Controller
 
 	private function _miRepo()
 	{
-		return $this->getDoctrine()->getRepository("BlogBundle:Entries");
+		return $this->getDoctrine()->getRepository(\lacueva\BlogBundle\Entity\Entries::class);
 	}
+
 
 }

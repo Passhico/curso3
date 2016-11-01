@@ -1,0 +1,64 @@
+{# empty Twig template #}
+{% extends "layout.html.twig" %}
+
+{#content#}
+{% block content %}
+
+		
+	<table class="container table" name="entradas">		  
+			<h2>entradas</h2><!--Titulo-->
+			<thead>
+					<tr>
+
+							<th>id</th><!--Duplicame-->
+							<th>Título</th><!--Duplicame-->
+							<th>Contenido</th><!--Duplicame-->
+							<th>Estado</th><!--Duplicame-->
+							<th>Imagen</th><!--Duplicame-->
+							<th>filename</th><!--Duplicame-->
+							<th>Usuario</th><!--Duplicame-->
+							<th>Categoria</th><!--Duplicame-->
+					</tr>
+			</thead>
+			<tbody>
+					{% for un_entradas  in entradas %}
+						<tr>
+								{# $builder->add('title')->add('content')->add('status')->add('image')->add('idUser')->add('idCategory')        ;#}
+								<td>  {{ un_entradas.id  }} </td><!--Duplicame-->
+								<td>  {{ un_entradas.title  }} </td><!--Duplicame-->
+								<td>  {{ un_entradas.content  }} </td><!--Duplicame-->
+								<td>  {{ un_entradas.status  }} </td><!--Duplicame-->
+								{#	TODO: LA IMAGEN#}				<td><img src="{{un_entradas.image}}" class="img-responsive" ></td>
+								<td>{{ un_entradas.image  }}<td>
+								<td>  {{ un_entradas.idUser.email  }} </td><!--Duplicame-->
+								<td>  {{ un_entradas.idCategory.name  }} </td><!--Duplicame-->
+						</tr>
+					{% else %}
+					<td>No hay entradass!!!</td>
+			{% endfor %}
+	</tbody>
+</table>>
+
+<table class="container table" name="categorias">		  
+		<h2>categorias</h2><!--Titulo-->
+		<thead>
+				<tr>
+						<th>Nombre</th><!--Duplicame-->
+						<th>Descripcion</th><!--Duplicame-->
+				</tr>
+		</thead>
+		<tbody>
+				{% for un_categorias  in categorias %}
+					<tr>
+							<td>  {{ un_categorias.name  }} </td><!--Duplicame-->
+							<td>  {{ un_categorias.description  }} </td><!--Duplicame-->
+					</tr>
+				{% else %}
+				<td>No hay categoriass!!!</td>
+		{% endfor %}
+</tbody>
+</table>>
+
+		
+<div class='clearfix'></div>
+{% endblock content %}
