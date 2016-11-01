@@ -4,7 +4,7 @@
 {#content#}
 {% block content %}
 
-		{{form_start(formAddEntries)}}
+		{{form_start(formAddEntries,  {enctype:"multipart/form-data"})}}
 		{{form_end(formAddEntries)}}
 		
 		<table class="container table" name="entradas">		  
@@ -17,6 +17,7 @@
 								<th>Contenido</th><!--Duplicame-->
 								<th>Estado</th><!--Duplicame-->
 								<th>Imagen</th><!--Duplicame-->
+								<th>filename</th><!--Duplicame-->
 								<th>Usuario</th><!--Duplicame-->
 								<th>Categoria</th><!--Duplicame-->
 						</tr>
@@ -29,8 +30,8 @@
 									<td>  {{ un_entradas.title  }} </td><!--Duplicame-->
 									<td>  {{ un_entradas.content  }} </td><!--Duplicame-->
 									<td>  {{ un_entradas.status  }} </td><!--Duplicame-->
-									<td><img src={{ un_entradas.image  }}" class="img-responsive" ></td>
-{#									<td>  {{ un_entradas.image  }} </td><!--Duplicame-->#}
+									<td><img src="./{{ un_entradas.image  }}" class="img-responsive" ></td>
+									<td>{{ un_entradas.image  }}<td>
 									<td>  {{ un_entradas.idUser.email  }} </td><!--Duplicame-->
 									<td>  {{ un_entradas.idCategory.name  }} </td><!--Duplicame-->
 							</tr>
