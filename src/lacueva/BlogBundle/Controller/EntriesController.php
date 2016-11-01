@@ -5,7 +5,6 @@ namespace lacueva\BlogBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use \Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session;
-
 //para el form que use files.
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -24,12 +23,10 @@ class EntriesController extends Controller
 	{
 
 		//_render
-		return $this->render('BlogBundle:Entries:index.html.twig', 						[
-					'entradas' => $this->getDoctrine()->getManager()->getRepository(\lacueva\BlogBundle\Entity\Entries::class)->findAll(), 
-					'categorias' => $this->getDoctrine()->getManager()->getRepository(\lacueva\BlogBundle\Entity\Categories::class)->findAll(), 
+		return $this->render('BlogBundle:Entries:index.html.twig', [
+					'entradas' => $this->getDoctrine()->getManager()->getRepository(\lacueva\BlogBundle\Entity\Entries::class)->findAll(),
+					'categorias' => $this->getDoctrine()->getManager()->getRepository(\lacueva\BlogBundle\Entity\Categories::class)->findAll(),
 		]);
-							
-				
 	}
 
 	public function addAction(\Symfony\Component\HttpFoundation\Request $request)
@@ -38,11 +35,8 @@ class EntriesController extends Controller
 		$entradaToAdd = new \lacueva\BlogBundle\Entity\Entries();
 
 		$formularioEntrada = $this->createForm(\lacueva\BlogBundle\Form\EntriesType::class, $entradaToAdd);
-		
-		
 
 		$formularioEntrada->handleRequest($request);
-
 
 		if ($formularioEntrada->isSubmitted())
 		{
@@ -72,21 +66,20 @@ class EntriesController extends Controller
 
 				/* @var $uploadedFile  \Symfony\Component\HttpFoundation\File\UploadedFile  */
 				$uploadedFile = $formularioEntrada['image']->getData();
-				
+
 				//Guardamos el nombre y extensión orignales.
-				$filename_original = 'foto';//$uploadedFile->getClientOriginalName();
-				$extension_original ='jpg';// $uploadedFile>getClientOriginalExtension();
-				
+				$filename_original = 'foto'; //$uploadedFile->getClientOriginalName();
+				$extension_original = 'jpg'; // $uploadedFile>getClientOriginalExtension();
 				//Componemos el nuevo nombre único concatenando un time al nombre.
-				$new_filename = 'images/'.$filename_original . time() .".". $extension_original;
-				
+				$new_filename = 'images/' . $filename_original . time() . "." . $extension_original;
+
 				//movemos Al directorio indicado con el nombre...
 				$uploadedFile->move('images', $new_filename);
-				
+
 				//seteamos objeto imagen directamente con el nombre nuevo en la nueva entrada
 				$entradaToAdd->setImage($new_filename);
-				
-				
+
+
 				//setteamos el user con el usuario actual de la session
 				//_getuser
 				$entradaToAdd->setIdUser($this->getUser());
@@ -104,7 +97,57 @@ class EntriesController extends Controller
 		]);
 	}
 
-	//PRIVS
+	public function deleteAction(\Symfony\Component\HttpFoundation\Request $request, int $idEntrietoDelete)
+	{
+
+		/** @var $entryToDelete  \lacueva\BlogBundle\Entity\Entries */
+		$entryToDelete = $this->_miRepo()->find($idEntrietoDelete);
+
+		/** @var $entryTagRepo \Doctrine\ORM\Repository */
+		$entryTagRepo = $this->getDoctrine()->getManager()->getRepository(\lacueva\BlogBundle\Entity\Entrytag::class);
+
+
+
+		$entryTagsAsociadasAEntradatoDelete = $entryTagRepo->findBy(["idEntry" => $idEntrietoDelete]);
+
+
+
+
+
+
+		if ($entryToDelete)
+		{
+			try
+			{
+				foreach ($entryTagsAsociadasAEntradatoDelete as $et)
+				{
+					$this->getDoctrine()->getManager()->remove($et);
+				}
+
+				// _remove
+				$this->getDoctrine()->getManager()->remove($entryToDelete);
+				if ($this->getDoctrine()->getManager()->flush()){
+					$this->_log("no se ha podido eliminar " . $entryToDelete);
+				}
+			} catch (\Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException $e)
+			{
+				$this->_log($e->getCode() . " Esta entrada estaría eliminada si no existiera una constraint que lo impide ");
+				return $this->redirectToRoute('blog_entrada_index');
+			}
+		} else
+			$this->_log("La entrada " . $idEntrietoDelete . " ya no existe");
+	
+
+
+		return $this->redirectToRoute('blog_entrada_index');
+	}
+
+	/**
+	 * Logea al flasbag y ademas hace un dump en la vista.
+	 * 
+	 * @param type  $dumpeame string object o lo que quieras
+	 * 
+	 */
 	private function _log($dumpeame)
 	{
 
@@ -113,10 +156,18 @@ class EntriesController extends Controller
 		dump($dumpeame);
 	}
 
+	/**
+	 *  
+	 * aka _defeaultRepo. 
+	 * ---------------------------------------------------------------------------------------------
+	 * Devuelve el Repo asociado a la entidad principal del controlador . 
+	 * @return \Doctrine\ORM\Repository
+	 * @
+	 *
+	 */
 	private function _miRepo()
 	{
 		return $this->getDoctrine()->getRepository(\lacueva\BlogBundle\Entity\Entries::class);
 	}
-
 
 }

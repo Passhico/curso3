@@ -66,4 +66,7 @@ blog_entrada_index:
 blog_entrada_add:
     path: /entrada/add
     defaults: {_controller: BlogBundle:Entries:add}
+blog_entrada_delete:
+    path: /entrada/borrar/{idEntrietoDelete}
+    defaults: {_controller: BlogBundle:Entries:delete}
 

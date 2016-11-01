@@ -14,10 +14,12 @@
 							<th>Título</th><!--Duplicame-->
 							<th>Contenido</th><!--Duplicame-->
 							<th>Estado</th><!--Duplicame-->
-							<th>Imagen</th><!--Duplicame-->
+{#							<th>Imagen</th><!--Duplicame-->#}
 							<th>filename</th><!--Duplicame-->
 							<th>Usuario</th><!--Duplicame-->
 							<th>Categoria</th><!--Duplicame-->
+							<th>Borrar</th><!--Duplicame-->
+							
 					</tr>
 			</thead>
 			<tbody>
@@ -28,10 +30,11 @@
 								<td>  {{ un_entradas.title  }} </td><!--Duplicame-->
 								<td>  {{ un_entradas.content  }} </td><!--Duplicame-->
 								<td>  {{ un_entradas.status  }} </td><!--Duplicame-->
-								{#	TODO: LA IMAGEN#}				<td><img src="{{un_entradas.image}}" class="img-responsive" ></td>
+								{#	TODO: LA IMAGEN#}				{#<td><img src="{{un_entradas.image}}" class="img-responsive" ></td>#}
 								<td>{{ un_entradas.image  }}<td>
 								<td>  {{ un_entradas.idUser.email  }} </td><!--Duplicame-->
 								<td>  {{ un_entradas.idCategory.name  }} </td><!--Duplicame-->
+								<td><a href="{{ path("blog_entrada_delete", {"idEntrietoDelete":un_entradas.id}) }}" class="btn btn-danger">Eliminame</a></td>
 						</tr>
 					{% else %}
 					<td>No hay entradass!!!</td>
