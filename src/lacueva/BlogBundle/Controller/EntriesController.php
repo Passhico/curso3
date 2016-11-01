@@ -6,6 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use \Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session;
 
+//para el form que use files.
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 class EntriesController extends Controller
 {
 
@@ -54,21 +57,36 @@ class EntriesController extends Controller
 				 * ha de hacerse de forma automática. 
 				 * 
 				 */
-				
-				
-				
+
+
+
 				/*
-				 * TODO: LA IMAGEN
+				 * TODO: LA IMAGEN... esto hay que seguir echandole pienso...
+				 * falta sabr por que no funcionan las getClientOriginal* :S
+				 * y falta mostrar bien la foto en la vista.
+				 * 
 				 */
-				$imageUploaded = new \Symfony\Component\HttpFoundation\File\UploadedFile(
-						$formularioEntrada['image']->getData(), //ruta
-						'foto_entrada_' . $entradaToAdd->getIdUser() . $entradaToAdd->getTitle() //nombre
-				);
-				$imageUploaded->move("images", 'foto_entrada_' . $entradaToAdd->getIdUser() . $entradaToAdd->getTitle());
-				$entradaToAdd->setImage($imageUploaded);
+
+				/* @var $uploadedFile  \Symfony\Component\HttpFoundation\File\UploadedFile  */
+				$uploadedFile = $formularioEntrada['image']->getData();
 				
-				/************************************************/
+				//Guardamos el nombre y extensión orignales.
+				$filename_original = 'foto';//$uploadedFile->getClientOriginalName();
+				$extension_original ='jpg';// $uploadedFile>getClientOriginalExtension();
 				
+				//Componemos el nuevo nombre único concatenando un time al nombre.
+				$new_filename = 'images/'.$filename_original . time() .".". $extension_original;
+				
+				//movemos Al directorio indicado con el nombre...
+				$uploadedFile->move('images', $new_filename);
+				
+				//seteamos objeto imagen directamente con el nombre nuevo en la nueva entrada
+				$entradaToAdd->setImage($new_filename);
+				
+				
+				/**FIN TODO********************************************* */
+
+				//setteamos el user con el usuario actual de la session
 				//_getuser
 				$entradaToAdd->setIdUser($this->getUser());
 
@@ -90,8 +108,8 @@ class EntriesController extends Controller
 	{
 
 
-		$this->_session->getFlashBag()->add("log", $string);
-		dump($m);
+		$this->_session->getFlashBag()->add("log", $dumpeame);
+		dump($dumpeame);
 	}
 
 	private function _miRepo()
