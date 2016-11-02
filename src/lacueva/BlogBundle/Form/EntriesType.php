@@ -71,6 +71,7 @@ class EntriesType extends AbstractType
 		 */
 		$builder->add('image', \Symfony\Component\Form\Extension\Core\Type\FileType::class, [
 			"label" => "Imagen",
+			"data_class" => null, 
 			"attr" =>
 			[
 				"class" => "img  form-control"

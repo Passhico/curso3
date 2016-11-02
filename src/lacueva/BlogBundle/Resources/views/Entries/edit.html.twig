@@ -4,8 +4,8 @@
 {#content#}
 {% block content %}
 
-		{{form_start(form,  {enctype:"multipart/form-data"})}}
-		{{form_end(form)}}
+		{{form_start(formEditEntries,  {enctype:"multipart/form-data"})}}
+		{{form_end(formEditEntries)}}
 		
 		<table class="container table" name="entradas">		  
 				<h2>entradas</h2><!--Titulo-->
@@ -20,6 +20,7 @@
 								<th>filename</th><!--Duplicame-->
 								<th>Usuario</th><!--Duplicame-->
 								<th>Categoria</th><!--Duplicame-->
+								<th>Modificar</th><!--Duplicame-->
 						</tr>
 				</thead>
 				<tbody>
@@ -30,10 +31,11 @@
 									<td>  {{ un_entradas.title  }} </td><!--Duplicame-->
 									<td>  {{ un_entradas.content  }} </td><!--Duplicame-->
 									<td>  {{ un_entradas.status  }} </td><!--Duplicame-->
-	{#	TODO: LA IMAGEN#}				<td><img src="{{un_entradas.image}}" class="img-responsive" ></td>
 									<td>{{ un_entradas.image  }}<td>
 									<td>  {{ un_entradas.idUser.email  }} </td><!--Duplicame-->
 									<td>  {{ un_entradas.idCategory.name  }} </td><!--Duplicame-->
+									<td>  {{ un_entradas.idCategory.name  }} </td><!--Duplicame-->
+						<td><a href="{{ path("blog_entrada_edit", {idEntrieToEdit:un_entradas.id}) }}" class="btn btn-success">Editar</a></td>
 							</tr>
 						{% else %}
 						<td>No hay entradass!!!</td>

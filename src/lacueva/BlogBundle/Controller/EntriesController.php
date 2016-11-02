@@ -7,13 +7,8 @@ use \Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session;
 //para el form que use files.
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-
-
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-
-
 
 class EntriesController extends Controller
 {
@@ -107,21 +102,13 @@ class EntriesController extends Controller
 	public function deleteAction(\Symfony\Component\HttpFoundation\Request $request, int $idEntrietoDelete)
 	{
 
-		/** @var $entryToDelete  \lacueva\BlogBundle\Entity\Entries */
+		/* @var $entryToDelete  \lacueva\BlogBundle\Entity\Entries */
 		$entryToDelete = $this->_miRepo()->find($idEntrietoDelete);
 
-		/** @var $entryTagRepo \Doctrine\ORM\Repository */
+		/* @var $entryTagRepo \Doctrine\ORM\Repository */
 		$entryTagRepo = $this->getDoctrine()->getManager()->getRepository(\lacueva\BlogBundle\Entity\Entrytag::class);
 
-
-
 		$entryTagsAsociadasAEntradatoDelete = $entryTagRepo->findBy(["idEntry" => $idEntrietoDelete]);
-
-
-
-
-
-
 		if ($entryToDelete)
 		{
 			try
@@ -133,7 +120,8 @@ class EntriesController extends Controller
 
 				// _remove
 				$this->getDoctrine()->getManager()->remove($entryToDelete);
-				if ($this->getDoctrine()->getManager()->flush()){
+				if ($this->getDoctrine()->getManager()->flush())
+				{
 					$this->_log("no se ha podido eliminar " . $entryToDelete);
 				}
 			} catch (\Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException $e)
@@ -143,13 +131,12 @@ class EntriesController extends Controller
 			}
 		} else
 			$this->_log("La entrada " . $idEntrietoDelete . " ya no existe");
-	
-
 
 		return $this->redirectToRoute('blog_entrada_index');
 	}
 
 	/**
+	 * Edita una Entrada.
 	 * @Route("/entrada/edit/{id}")
 	 * @param Request $request
 	 * 
@@ -159,22 +146,28 @@ class EntriesController extends Controller
 	 */
 	public function editAction(\Symfony\Component\HttpFoundation\Request $r, $idEntrieToEdit)
 	{
+		/* @var $idEntrieToEdit \lacueva\BlogBundle\Entity\Entries  */
 		//con el paramconverter transformamos la id en el objeto directamente. 
 		
 		//Bindeamos la entidad al formulario. 
-		$formEditarEntrada = $this->createForm(\lacueva\BlogBundle\Form\EntriesType::class);
+		$formEditarEntrada = $this->createForm(\lacueva\BlogBundle\Form\EntriesType::class, $idEntrieToEdit);
 		$formEditarEntrada->handleRequest($r);
 		
-		return new \Symfony\Component\HttpFoundation\Response(dump($formEditarEntrada->createView()));
-							
-				
-		
-		
+		//Esto se ejecuta en orden y la siguiente únicamente lo hace si la anterior es true (ordenes de precedencia 4moreInfo.
+		if ( $formEditarEntrada->isSubmitted() 
+	         && $formEditarEntrada->isValid()
+		&& $this->getDoctrine()->getManager()->flush()
+		   )$this->_log ("no se ha podido modificar la entrada " . $idEntrieToEdit);
 
+		//_render
+		return $this->render('BlogBundle:Entries:edit.html.twig', [
+					'formEditEntries' => $formEditarEntrada->createView(), 
+					'entradas' => $this->_miRepo()->findAll()
+		]);
 
-
+		//return new \Symfony\Component\HttpFoundation\Response(dump($formEditarEntrada->createView()));
 	}
-	
+
 	/**
 	 * Logea al flasbag y ademas hace un dump en la vista.
 	 * 
@@ -183,20 +176,26 @@ class EntriesController extends Controller
 	 */
 	private function _log($dumpeame)
 	{
-
-
 		$this->_session->getFlashBag()->add("log", $dumpeame);
 		dump($dumpeame);
 	}
+	
+	/**
+	 * Dumpea lo que se pase genearndo una Response al Kernel y para todo.
+	 * 
+	 * @param String|obj $param Object | string 
+	 */
+	function _dumpAndDie($param){
+		\dump($param) && die();
+	}
 
 	/**
-	 *  
-	 * aka _defeaultRepo. 
+	 *  aka _defeaultRepo. 
 	 * ---------------------------------------------------------------------------------------------
 	 * Devuelve el Repo asociado a la entidad principal del controlador . 
+	 * 
 	 * @return \Doctrine\ORM\Repository
-	 * @
-	 *
+	 * 
 	 */
 	private function _miRepo()
 	{
