@@ -4,7 +4,7 @@
 {#content#}
 {% block content %}
 
-		
+
 	<table class="container table" name="entradas">		  
 			<h2>entradas</h2><!--Titulo-->
 			<thead>
@@ -14,12 +14,12 @@
 							<th>Título</th><!--Duplicame-->
 							<th>Contenido</th><!--Duplicame-->
 							<th>Estado</th><!--Duplicame-->
-{#							<th>Imagen</th><!--Duplicame-->#}
+									{#							<th>Imagen</th><!--Duplicame-->#}
 							<th>filename</th><!--Duplicame-->
 							<th>Usuario</th><!--Duplicame-->
 							<th>Categoria</th><!--Duplicame-->
 							<th>Borrar</th><!--Duplicame-->
-							
+
 					</tr>
 			</thead>
 			<tbody>
@@ -34,7 +34,13 @@
 								<td>{{ un_entradas.image  }}<td>
 								<td>  {{ un_entradas.idUser.email  }} </td><!--Duplicame-->
 								<td>  {{ un_entradas.idCategory.name  }} </td><!--Duplicame-->
-								<td><a href="{{ path("blog_entrada_delete", {"idEntrietoDelete":un_entradas.id}) }}" class="btn btn-danger">Eliminame</a></td>
+
+								{% if app.user.id == un_entradas.idUser.id %}
+									<td><a href="{{ path("blog_entrada_delete", {"idEntrietoDelete":un_entradas.id}) }}" class="btn btn-danger">Eliminame propietario</a></td>
+
+								
+								{% endif %}
+
 						</tr>
 					{% else %}
 					<td>No hay entradass!!!</td>
@@ -62,6 +68,6 @@
 </tbody>
 </table>>
 
-		
+
 <div class='clearfix'></div>
 {% endblock content %}

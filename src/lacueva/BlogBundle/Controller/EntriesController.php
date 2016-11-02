@@ -8,6 +8,13 @@ use Symfony\Component\HttpFoundation\Session;
 //para el form que use files.
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
+
+
 class EntriesController extends Controller
 {
 
@@ -142,6 +149,32 @@ class EntriesController extends Controller
 		return $this->redirectToRoute('blog_entrada_index');
 	}
 
+	/**
+	 * @Route("/entrada/edit/{id}")
+	 * @param Request $request
+	 * 
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 * @ParamConverter("idEntrieToEdit", class="BlogBundle:Entries")
+	 * 
+	 */
+	public function editAction(\Symfony\Component\HttpFoundation\Request $r, $idEntrieToEdit)
+	{
+		//con el paramconverter transformamos la id en el objeto directamente. 
+		
+		//Bindeamos la entidad al formulario. 
+		$formEditarEntrada = $this->createForm(\lacueva\BlogBundle\Form\EntriesType::class);
+		$formEditarEntrada->handleRequest($r);
+		
+		return new \Symfony\Component\HttpFoundation\Response(dump($formEditarEntrada->createView()));
+							
+				
+		
+		
+
+
+
+	}
+	
 	/**
 	 * Logea al flasbag y ademas hace un dump en la vista.
 	 * 
