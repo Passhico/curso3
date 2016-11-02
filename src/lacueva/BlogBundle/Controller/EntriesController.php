@@ -164,8 +164,6 @@ class EntriesController extends Controller
 					'formEditEntries' => $formEditarEntrada->createView(), 
 					'entradas' => $this->_miRepo()->findAll()
 		]);
-
-		//return new \Symfony\Component\HttpFoundation\Response(dump($formEditarEntrada->createView()));
 	}
 
 	/**
