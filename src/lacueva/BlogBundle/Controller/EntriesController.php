@@ -23,6 +23,15 @@ class EntriesController extends Controller
 	//_action
 	public function indexAction(\Symfony\Component\HttpFoundation\Request $request)
 	{
+		
+		/* @var $miRepo  \lacueva\BlogBundle\Repository\EntriesRepository */
+		$miRepo = $this->_miRepo();
+		$this->_log($miRepo->nombreDeClase());
+		
+		
+		
+		
+		
 
 		//_render
 		return $this->render('BlogBundle:Entries:index.html.twig', [

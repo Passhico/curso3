@@ -18,8 +18,8 @@ login_check:
     path: /login_check
 
 blog_homepage:
-    path: /login
-    defaults: {_controller: BlogBundle:User:login}
+    path: /pagina/{n_pag}
+    defaults: {_controller: BlogBundle:Entries:index, n_pag:1}
     
 blog_index_tag:
     path: /tag
