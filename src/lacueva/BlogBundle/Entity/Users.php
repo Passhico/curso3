@@ -226,5 +226,5 @@ class Users implements \Symfony\Component\Security\Core\User\UserInterface
 	{
 		return $this->getName();
 	}
-
+	
 }

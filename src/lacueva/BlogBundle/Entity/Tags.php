@@ -2,119 +2,83 @@
 
 namespace lacueva\BlogBundle\Entity;
 
-use Symfony\Component\Validator\Mapping\ClassMetadata;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints;
-
 /**
  * Tags
  */
 class Tags
 {
+    /**
+     * @var integer
+     */
+    private $id;
 
-	private $_entityManager = null;
+    /**
+     * @var string
+     */
+    private $name;
 
-	public function __construct(\Doctrine\ORM\EntityManager $em)
-	{
-		$this->_entityManager = $em;
-	}
-
-	/**
-	 * @var integer
-	 */
-	private $id;
-
-	/**
-	 * @var string
-	 */
-	private $name;
-
-	/**
-	 * @var string
-	 */
-	private $description;
-
-	/**
-	 * Get id
-	 *
-	 * @return integer
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
-
-	/**
-	 * Set name
-	 *
-	 * @param string $name
-	 *
-	 * @return Tags
-	 */
-	public function setName($name)
-	{
-
-		$this->name = $name;
+    /**
+     * @var string
+     */
+    private $description;
 
 
-		return $this;
-	}
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
-	/**
-	 * Get name
-	 *
-	 * @return string
-	 */
-	public function getName()
-	{
-		return $this->name;
-	}
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Tags
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
 
-	/**
-	 * Set description
-	 *
-	 * @param string $description
-	 *
-	 * @return Tags
-	 */
-	public function setDescription($description)
-	{
-		$this->description = $description;
+        return $this;
+    }
 
-		return $this;
-	}
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
-	/**
-	 * Get description
-	 *
-	 * @return string
-	 */
-	public function getDescription()
-	{
-		return $this->description;
-	}
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Tags
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
 
-	public static function loadValidatorMetadata(\Symfony\Component\Validator\Mapping\ClassMetadata $metadatos)
-	{
-		$metadatos->addPropertyConstraint("name", new \Symfony\Component\Validator\Constraints\NotBlank());
-		$metadatos->addPropertyConstraint("name", new \Symfony\Component\Validator\Constraints\Length(
-				["min" => 2,
-			"minMessage" => "Una Tag no puede tener menos de {{ limit }}  Caracteres"
-		]));
+        return $this;
+    }
 
-		$metadatos->addPropertyConstraint("description", new \Symfony\Component\Validator\Constraints\Length(
-				["min" => 5,
-			"minMessage" => "La descripción debería de ser de al menos {{ limit }}  Caracteres"
-		]));
-
-//ESTO FUNCIONA , pero no como yo creía , el mensaje de error de la validación sale como error de la consola de la barra de debug...
-//	  https://symfony.com/doc/current/validation.html
-		$metadatos->addGetterConstraint('PreviamenteCreada', new \Symfony\Component\Validator\Constraints\IsFalse(['message' => 'Esta Tag ya existe!!']));
-	}
-
-	public function isPreviamenteCreada()
-	{
-		return ($this->_entityManager->getRepository("BlogBundle:Tags")->findBy(["name" => $this->name])) ? true : false;
-	}
-
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
 }
+

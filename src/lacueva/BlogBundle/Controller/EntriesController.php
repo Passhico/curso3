@@ -24,18 +24,15 @@ class EntriesController extends Controller
 	public function indexAction(\Symfony\Component\HttpFoundation\Request $request)
 	{
 		
-		/* @var $miRepo  \lacueva\BlogBundle\Repository\EntriesRepository */
+		/* @var $miRepo \lacueva\BlogBundle\Entity\EntriesRepo */
 		$miRepo = $this->_miRepo();
-		$this->_log($miRepo->nombreDeClase());
-		
-		
-		
-		
-		
+		$miRepo->findAllOrdenadosPorIdUser();
+
+
 
 		//_render
 		return $this->render('BlogBundle:Entries:index.html.twig', [
-					'entradas' => $this->getDoctrine()->getManager()->getRepository(\lacueva\BlogBundle\Entity\Entries::class)->findAll(),
+					'entradas' => $this->_miRepo()->findAllOrdenadosPorIdUser(), 
 					'categorias' => $this->getDoctrine()->getManager()->getRepository(\lacueva\BlogBundle\Entity\Categories::class)->findAll(),
 		]);
 	}
@@ -201,7 +198,7 @@ class EntriesController extends Controller
 	 * ---------------------------------------------------------------------------------------------
 	 * Devuelve el Repo asociado a la entidad principal del controlador . 
 	 * 
-	 * @return \Doctrine\ORM\Repository
+	 * @return  \lacueva\BlogBundle\Entity\EntriesRepo
 	 * 
 	 */
 	private function _miRepo()

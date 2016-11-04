@@ -1,5 +1,6 @@
 lacueva\BlogBundle\Entity\Entries:
     type: entity
+    repositoryClass: EntriesRepo
     table: entries
     indexes:
         fk_entries_id_user:

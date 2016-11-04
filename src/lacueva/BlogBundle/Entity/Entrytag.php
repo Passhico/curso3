@@ -81,3 +81,4 @@ class Entrytag
         return $this->idEntry;
     }
 }
+

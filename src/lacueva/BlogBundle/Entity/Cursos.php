@@ -110,3 +110,4 @@ class Cursos
         return $this->precio;
     }
 }
+
