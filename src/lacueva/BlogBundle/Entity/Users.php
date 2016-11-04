@@ -1,7 +1,7 @@
 <?php
 
 namespace lacueva\BlogBundle\Entity;
-use \Symfony\Component\Security\Core\User\UserInterface;
+use \Symfony\Component\Security\Core\User\UserInterface; //Esto es para que funcione la autenticacion. 
 
 
 /**
