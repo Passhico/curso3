@@ -99,7 +99,7 @@ class CategoryController extends Controller
         $this->_miRepo();
 
      
-	    return $this->render('BlogBundle:Category:index.html.twig', [
+	    return $this->render('BlogBundle:Category:categories.html.twig', [
                     'categorias' => $this->_miRepo()->findAll()
         ]);				
 				

@@ -64,12 +64,14 @@ blog_categorias:
     defaults: {_controller: BlogBundle:Category:category}
     
 #RUTAS PARA LAS ENTRADAS
-blog_entrada_index:
-    path: /entrada/{pagina}
-    defaults: {_controller: BlogBundle:Entries:index}
+
 blog_entrada_add:
     path: /entrada/add
     defaults: {_controller: BlogBundle:Entries:add}
+blog_entrada_index:
+    path: /entrada/{pagina}
+    defaults: {_controller: BlogBundle:Entries:index}
+
 blog_entrada_delete:
     path: /entrada/borrar/{idEntrietoDelete}
     defaults: {_controller: BlogBundle:Entries:delete}
