@@ -36,7 +36,7 @@ class EntriesController extends Controller
      
 
     //Entradas paginadas
-    $entradas = $this->_miRepo()->getPaginateEntries($pagesize = 5, $pagina);
+    $entradas = $this->_miRepo()->getPaginateEntries($pagesize = 10, $pagina);
 
         $totalEntradas = count($entradas);
         $pageCount = ceil($totalEntradas / $pagesize);
@@ -150,13 +150,13 @@ class EntriesController extends Controller
             } catch (ForeignKeyConstraintViolationException $e) {
                 $this->_log($e->getCode().' Esta entrada estaría eliminada si no existiera una constraint que lo impide ');
 
-                return $this->redirectToRoute('blog_entrada_index');
+                return $this->redirectToRoute('blog_entrada_index', ['pagina' =>1]);
             }
         } else {
             $this->_log('La entrada '.$idEntrietoDelete.' ya no existe');
         }
 
-        return $this->redirectToRoute('blog_entrada_index');
+    return $this->redirectToRoute('blog_entrada_index', ['pagina' =>1]);
     }
 
     /**
