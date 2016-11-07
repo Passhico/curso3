@@ -21,6 +21,13 @@ class Categories
      * @var string
      */
     private $description;
+	
+   private $entries ; 
+   
+   public function __construct()
+   {
+	   $this->entries = new \Doctrine\Common\Collections\ArrayCollection();
+   }
 
 
     /**
@@ -80,5 +87,11 @@ class Categories
     {
         return $this->description;
     }
+	
+	public function getEntries()
+	{
+		return $this->entries;
+		
+	}
 }
 

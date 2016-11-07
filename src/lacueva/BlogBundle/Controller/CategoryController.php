@@ -3,12 +3,7 @@
 namespace lacueva\BlogBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use \Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session;
-//Clases principales 
-use lacueva\BlogBundle\Entity\Categories;
-use lacueva\BlogBundle\Form\CategoriesType;
-
+//Clases principales
 
 class CategoryController extends Controller
 {
@@ -96,23 +91,19 @@ class CategoryController extends Controller
             }
         }
 
-        return $this->render('BlogBundle:Category:edit.html.twig', [
-                    'formularioCategoria' => $formularioCategoria->createView(),
-                    'categorias' => $this->_miRepo()->findAll(),
-        ]);
+    
     }
-	
-	public function categoryAction($id, $page)
-	{
-		;
 
+    public function categoryAction($id, $page)
+    {
+        $this->_miRepo();
 
-		return new \Symfony\Component\HttpFoundation\Response(dump($this) .
-
-				"Esto es una Stub de categoryAction, posiblemente quieras usar en esta linea :
-		  return \$this->render(\$view)");
-
-	}
+     
+	    return $this->render('BlogBundle:Category:index.html.twig', [
+                    'categorias' => $this->_miRepo()->findAll()
+        ]);				
+				
+    }
 
     private function _log($string)
     {
