@@ -1,8 +1,8 @@
 <?php
 
 namespace lacueva\BlogBundle\Controller;
-//para el form que use files.
 
+//para el form que use files.
 
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use lacueva\BlogBundle\Entity\Categories;
@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
-use function dump;
 
 class EntriesController extends Controller
 {
@@ -34,30 +33,34 @@ class EntriesController extends Controller
 
         /* @var $miRepo EntriesRepo */
         $miRepo = $this->_miRepo();
-        $miRepo->findAllOrdenadosPorIdUser();
+     
+
+    //Entradas paginadas
+    $entradas = $this->_miRepo()->getPaginateEntries($pagesize = 5, $pagina);
+
+        $totalEntradas = count($entradas);
+        $pageCount = ceil($totalEntradas / $pagesize);
 
         //_render
         return $this->render('BlogBundle:Entries:index.html.twig', [
-                    'entradas' => $this->_miRepo()->getPaginateEntries($pagesize=5, $pagina),
+                    'entradas' => $entradas,
+		   'totalEntradas' => $totalEntradas,
+			 'pageCount' => $pageCount,
+			'paginaActual' => $pagina, 
                     'categorias' => $this->getDoctrine()->getManager()->getRepository(Categories::class)->findAll(),
         ]);
     }
-	/*
-	 * TODO: HACER UNA VISTA PARA UNA SOLA ENTRADA. 	
+    /*
+     * TODO: HACER UNA VISTA PARA UNA SOLA ENTRADA.
  */
-	public function viewOneAction(\Symfony\Component\HttpFoundation\Request $request , \lacueva\BlogBundle\Entity\Entries $idEntrie)
-	{
-		;
+    public function viewOneAction(\Symfony\Component\HttpFoundation\Request $request, \lacueva\BlogBundle\Entity\Entries $idEntrie)
+    {
+        return new \Symfony\Component\HttpFoundation\Response(dump($this).
 
+                'Esto es una Stub de Action, posiblemente quieras usar en esta linea :
+		  return $this->render($view)');
+    }
 
-		return new \Symfony\Component\HttpFoundation\Response(dump($this) .
-
-				"Esto es una Stub de Action, posiblemente quieras usar en esta linea :
-		  return \$this->render(\$view)");
-
-	}
-	
-	
     public function addAction(Request $request)
     {
         $entradaToAdd = new Entries();

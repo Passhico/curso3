@@ -49,11 +49,11 @@
 </table>>
 
 <<ul class="pagination">
-		<li><a href="#">&larr;</a></li>
+		<li><a href="{{ path("blog_entrada_index", {'pagina':paginaActual -1}) }}">&larr;</a></li>
 				{% for i  in 1..pageCount %}
 					<li><a href="{{ path("blog_entrada_index", {'pagina':i}) }}" </a>{{i}}</li>
 				{% endfor %}
-		<li><a href="#">&rarr;</a></li>
+		<li><a href="{{ path("blog_entrada_index", {'pagina':paginaActual +1}) }}">&rarr;</a></li>
 
 
 </ul>
