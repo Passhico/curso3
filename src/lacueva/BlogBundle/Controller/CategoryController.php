@@ -101,6 +101,18 @@ class CategoryController extends Controller
                     'categorias' => $this->_miRepo()->findAll(),
         ]);
     }
+	
+	public function categoryAction($id, $page)
+	{
+		;
+
+
+		return new \Symfony\Component\HttpFoundation\Response(dump($this) .
+
+				"Esto es una Stub de categoryAction, posiblemente quieras usar en esta linea :
+		  return \$this->render(\$view)");
+
+	}
 
     private function _log($string)
     {
@@ -110,6 +122,6 @@ class CategoryController extends Controller
     //PRIVS
     private function _miRepo()
     {
-        return $this->getDoctrine()->getRepository('BlogBundle:Categories');
+        return $this->getDoctrine()->getRepository(\lacueva\BlogBundle\Entity\Categories::class);
     }
 }
