@@ -48,6 +48,17 @@
 	</tbody>
 </table>>
 
+<<ul class="pagination">
+		<li><a href="#">&larr;</a></li>
+				{% for i  in 1..pageCount %}
+					<li><a href="{{ path("blog_entrada_index", {'pagina':i}) }}" </a>{{i}}</li>
+				{% endfor %}
+		<li><a href="#">&rarr;</a></li>
+
+
+</ul>
+
+	
 <table class="container table" name="categorias">		  
 		<h2>categorias</h2><!--Titulo-->
 		<thead>
