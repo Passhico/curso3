@@ -1,13 +1,23 @@
 <?php
 
 namespace lacueva\BlogBundle\Controller;
-
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session;
 //para el form que use files.
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+
+
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
+use lacueva\BlogBundle\Entity\Categories;
+use lacueva\BlogBundle\Entity\Entries;
+use lacueva\BlogBundle\Entity\EntriesRepo;
+use lacueva\BlogBundle\Entity\Entrytag;
+use lacueva\BlogBundle\Form\EntriesType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
+use function dump;
 
 class EntriesController extends Controller
 {
@@ -15,29 +25,44 @@ class EntriesController extends Controller
 
     public function __construct()
     {
-        $this->_session = new \Symfony\Component\HttpFoundation\Session\Session();
+        $this->_session = new Session();
     }
 
     //_action
-    public function indexAction(\Symfony\Component\HttpFoundation\Request $request)
+    public function indexAction(Request $request)
     {
 
-        /* @var $miRepo \lacueva\BlogBundle\Entity\EntriesRepo */
+        /* @var $miRepo EntriesRepo */
         $miRepo = $this->_miRepo();
         $miRepo->findAllOrdenadosPorIdUser();
 
         //_render
         return $this->render('BlogBundle:Entries:index.html.twig', [
                     'entradas' => $this->_miRepo()->findAllOrdenadosPorIdUser(),
-                    'categorias' => $this->getDoctrine()->getManager()->getRepository(\lacueva\BlogBundle\Entity\Categories::class)->findAll(),
+                    'categorias' => $this->getDoctrine()->getManager()->getRepository(Categories::class)->findAll(),
         ]);
     }
+	/*
+	 * TODO: HACER UNA VISTA PARA UNA SOLA ENTRADA. 	
+ */
+	public function viewOneAction(\Symfony\Component\HttpFoundation\Request $request , \lacueva\BlogBundle\Entity\Entries $idEntrie)
+	{
+		;
 
-    public function addAction(\Symfony\Component\HttpFoundation\Request $request)
+
+		return new \Symfony\Component\HttpFoundation\Response(dump($this) .
+
+				"Esto es una Stub de Action, posiblemente quieras usar en esta linea :
+		  return \$this->render(\$view)");
+
+	}
+	
+	
+    public function addAction(Request $request)
     {
-        $entradaToAdd = new \lacueva\BlogBundle\Entity\Entries();
+        $entradaToAdd = new Entries();
 
-        $formularioEntrada = $this->createForm(\lacueva\BlogBundle\Form\EntriesType::class, $entradaToAdd);
+        $formularioEntrada = $this->createForm(EntriesType::class, $entradaToAdd);
 
         $formularioEntrada->handleRequest($request);
 
@@ -65,7 +90,7 @@ class EntriesController extends Controller
                  *
                  */
 
-                /* @var $uploadedFile  \Symfony\Component\HttpFoundation\File\UploadedFile  */
+                /* @var $uploadedFile  UploadedFile  */
                 $uploadedFile = $formularioEntrada['image']->getData();
 
                 //Guardamos el nombre y extensión orignales.
@@ -98,14 +123,14 @@ class EntriesController extends Controller
         ]);
     }
 
-    public function deleteAction(\Symfony\Component\HttpFoundation\Request $request, int $idEntrietoDelete)
+    public function deleteAction(Request $request, int $idEntrietoDelete)
     {
 
-        /* @var $entryToDelete  \lacueva\BlogBundle\Entity\Entries */
+        /* @var $entryToDelete  Entries */
         $entryToDelete = $this->_miRepo()->find($idEntrietoDelete);
 
         /* @var $entryTagRepo \Doctrine\ORM\Repository */
-        $entryTagRepo = $this->getDoctrine()->getManager()->getRepository(\lacueva\BlogBundle\Entity\Entrytag::class);
+        $entryTagRepo = $this->getDoctrine()->getManager()->getRepository(Entrytag::class);
 
         $entryTagsAsociadasAEntradatoDelete = $entryTagRepo->findBy(['idEntry' => $idEntrietoDelete]);
         if ($entryToDelete) {
@@ -119,7 +144,7 @@ class EntriesController extends Controller
                 if ($this->getDoctrine()->getManager()->flush()) {
                     $this->_log('no se ha podido eliminar '.$entryToDelete);
                 }
-            } catch (\Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException $e) {
+            } catch (ForeignKeyConstraintViolationException $e) {
                 $this->_log($e->getCode().' Esta entrada estaría eliminada si no existiera una constraint que lo impide ');
 
                 return $this->redirectToRoute('blog_entrada_index');
@@ -138,16 +163,16 @@ class EntriesController extends Controller
      *
      * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      * @ParamConverter("idEntrieToEdit", class="BlogBundle:Entries")
      */
-    public function editAction(\Symfony\Component\HttpFoundation\Request $r, $idEntrieToEdit)
+    public function editAction(Request $r, $idEntrieToEdit)
     {
-        /* @var $idEntrieToEdit \lacueva\BlogBundle\Entity\Entries  */
+        /* @var $idEntrieToEdit Entries  */
         //con el paramconverter transformamos la id en el objeto directamente.
 
         //Bindeamos la entidad al formulario.
-        $formEditarEntrada = $this->createForm(\lacueva\BlogBundle\Form\EntriesType::class, $idEntrieToEdit);
+        $formEditarEntrada = $this->createForm(EntriesType::class, $idEntrieToEdit);
         $formEditarEntrada->handleRequest($r);
 
         //Esto se ejecuta en orden y la siguiente únicamente lo hace si la anterior es true (ordenes de precedencia 4moreInfo.
@@ -183,7 +208,7 @@ class EntriesController extends Controller
      */
     public function _dumpAndDie($param)
     {
-        \dump($param) && die();
+        dump($param) && die();
     }
 
     /**
@@ -191,10 +216,10 @@ class EntriesController extends Controller
      * ---------------------------------------------------------------------------------------------
      * Devuelve el Repo asociado a la entidad principal del controlador .
      *
-     * @return \lacueva\BlogBundle\Entity\EntriesRepo
+     * @return EntriesRepo
      */
     private function _miRepo()
     {
-        return $this->getDoctrine()->getRepository(\lacueva\BlogBundle\Entity\Entries::class);
+        return $this->getDoctrine()->getRepository(Entries::class);
     }
 }
