@@ -61,7 +61,7 @@ blog_edit_category_index:
     
 #RUTAS PARA LAS ENTRADAS
 blog_entrada_index:
-    path: /entrada
+    path: /entrada/{pagina}
     defaults: {_controller: BlogBundle:Entries:index}
 blog_entrada_add:
     path: /entrada/add
@@ -74,5 +74,5 @@ blog_entrada_edit:
     path: /entrada/editar/{idEntrieToEdit}
     defaults: {_controller: BlogBundle:Entries:edit}
 blog_entrada_ver:
-    path: /entrada/ver/{idEntrieToEdit}
+    path: /entrada/ver/{idEntrieToView}
     defaults: {_controller: BlogBundle:Entries:view}

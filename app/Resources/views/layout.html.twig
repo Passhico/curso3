@@ -52,7 +52,7 @@
 						<ul class="nav navbar-nav">
 {#TODO LOS MENUS#}
 								{% block menu %}
-									<li class="active"><a href={{path('blog_entrada_index')}}>Entradas <span class="sr-only">(current)</span></a></li>
+									<li class="active"><a href={{path('blog_entrada_index', {pagina:1})}}>Entradas <span class="sr-only">(current)</span></a></li>
 								
 								{% endblock %}
 						</ul>

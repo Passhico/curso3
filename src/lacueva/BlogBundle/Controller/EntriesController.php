@@ -29,7 +29,7 @@ class EntriesController extends Controller
     }
 
     //_action
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, int $pagina)
     {
 
         /* @var $miRepo EntriesRepo */
@@ -38,7 +38,7 @@ class EntriesController extends Controller
 
         //_render
         return $this->render('BlogBundle:Entries:index.html.twig', [
-                    'entradas' => $this->_miRepo()->findAllOrdenadosPorIdUser(),
+                    'entradas' => $this->_miRepo()->getPaginateEntries($pagesize=5, $pagina),
                     'categorias' => $this->getDoctrine()->getManager()->getRepository(Categories::class)->findAll(),
         ]);
     }
