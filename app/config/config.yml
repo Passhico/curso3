@@ -31,6 +31,10 @@ framework:
     fragments:       ~
     http_method_override: true
     assets: ~
+    
+    #PARA FOSBUNDLE API_REST, http://symfony.com/doc/current/bundles/FOSRestBundle/1-setting_up_the_bundle.html
+    serializer:
+        enabled: true
 
 # Twig Configuration
 twig:

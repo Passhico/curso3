@@ -70,7 +70,9 @@ class EntriesController extends Controller
 
     public function addAction(Request $request)
     {
-        $entradaToAdd = new Entries();
+        
+		
+		$entradaToAdd = new Entries();
 
         $formularioEntrada = $this->createForm(EntriesType::class, $entradaToAdd);
 
@@ -126,9 +128,16 @@ class EntriesController extends Controller
             }
         }
 
+		
+	
+
+
+		
         return $this->render('BlogBundle:Entries:add.html.twig', [
                     'formAddEntries' => $formularioEntrada->createView(),
-                    'entradas' => $this->_miRepo()->findAll(),
+                    'entradas' => $this->_miRepo()->findAll()
+					
+			
         ]);
     }
 	
