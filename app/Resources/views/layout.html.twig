@@ -2,7 +2,7 @@
 <html lang="es">
 		<head>
 				<meta charset="utf-8" />
-				<title class="title">
+				<title class="title" id='title'>
 						{% block title %} Blog con Symfony3 {% endblock %}
 				</title>
 				<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.js"></script>
@@ -21,53 +21,65 @@
 
 
 				<script>
-					function swap(a, b)
-					{
-						var x = a;
-						a = b;
-						b = x;
-					}
-
-
 
 					/**
+					 * @description Cambia el título 
+					 * @argument {string} s El nuevo Título
+					 */
+					function CambiaTitulo(s) {
+						this.document.title = s;
+					}
+
+					/** Printa s en id
+					 * 
+					 * @author Pascual Muñoz <pascual.munoz@pccomponentes.com>
 					 * @description Añade la cadena 's' a el HTML del nodo con el id 'id'"
-					 * @author Pascual Muñoz.
 					 * @argument {string} s Cadena a pintar.
 					 * @argument {string} id El Id del DOM.
 					 * @returns {void} 
 					 */
 					function PrintaEn(id, s) {
-						this.document.getElementById("demo").innerHTML = this.document.getElementById("demo").innerHTML.concat(s);
+						this.document.getElementById(id).innerHTML += s;
 					}
+					
 					/**
-					 * shortcut de PrintaEn
+					 * @description  shortcut de 	PrintaEn("demo", s);
+					 * @return {void} 
 					 */
 					function p(s) {
 						PrintaEn("demo", s);
 					}
+
 					/**
-					 * clear
+					 * Hace un clear en el nodo (id)
+					 * @param {string} id El id del nodo 
+					 * @return {void} 
 					 */
 					function clear(id) {
-						this.document.getElementById(id).innerHTML ="";
+						this.document.getElementById(id).innerHTML = "";
 					}
 
 				</script>
-
-
-
 
 		</head>
 		<body >
 				<p id="demo">SE ME SIENTE?</p>
 
 				<script>
-					PrintaEn("demo", "algo");
-					p("y ahora window.locationque me da la gana la ostia como completa esto men");
-					clear("demo");
-					p("el texto anterior ya no existe , solo estoy yo "); 
-					
+					clear('demo');
+					var a = 10;
+					var b = 20;
+
+					p(a);
+					p(b);
+
+					swap(a, b);
+
+					p(a);
+					p(b);
+
+
+
 
 				</script>
 				<header>
@@ -125,6 +137,12 @@
 				<section id="content">
 						{% block content %} SOLO SOY UNA PLANTILLA SUSTITULLEME{% endblock %}
 				</section>
+
+				<section id='EjemplosJavascript'>
+						<button class="btn-danger btn" id="btnCambiaTitulo" onclick="CambiaTitulo('NUEVO TITULO')">Cambia el título</button>
+
+				</section>
+
 
 				<footer>
 						<li class="col-lg-6">
