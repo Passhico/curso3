@@ -59,6 +59,7 @@ class EntriesType extends AbstractType
 				"class" => "form-control"
 			]
 		]);
+		
 		$builder->add('status', \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class, [
 			"label" => "status",
 			"choices" => ["Público" => "public", "Privado" => "private"],
@@ -77,6 +78,8 @@ class EntriesType extends AbstractType
 				"class" => "img  form-control"
 			]
 		]);
+		
+		
 
 
 		/*
@@ -119,6 +122,7 @@ class EntriesType extends AbstractType
 	public function getBlockPrefix()
 	{
 		return 'lacueva_blogbundle_entries';
+		
 	}
-
+	
 }

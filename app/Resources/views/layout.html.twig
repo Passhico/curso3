@@ -1,95 +1,142 @@
 <!DOCTYPE HTML>
 <html lang="es">
-	<head>
-		<meta charset="utf-8" />
-		<title class="title">
-			{% block title %} Blog con Symfony3 {% endblock %}
-		</title>
+		<head>
+				<meta charset="utf-8" />
+				<title class="title">
+						{% block title %} Blog con Symfony3 {% endblock %}
+				</title>
+				<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.js"></script>
+				<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.js"></script>
+				<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet" />
 
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.js"></script>
-		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet" />
-		
-		
-{#		<script type="text/javascript" src="../../../src/lacueva/BlogBundle/Resources/public/js/angular.js"></script>#}
-	{#	<script type="text/javascript" src=""></script>
-		<script type="text/javascript" src="./jquery.js"></script>
-		<link rel="stylesheet" href="./bootstrap.css"/>#}
-		
-
-		<script src="{{asset('bootstrap.js')}}"></script>
-		  <script src="{{asset('jquery.js')}}"></script>
-		      <link href="{{asset('bootstrap.css')}}" rel="stylesheet" />
-		      
+				{#		<script type="text/javascript" src="../../../src/lacueva/BlogBundle/Resources/public/js/angular.js"></script>#}
+				{#	<script type="text/javascript" src=""></script>
+					<script type="text/javascript" src="./jquery.js"></script>
+					<link rel="stylesheet" href="./bootstrap.css"/>#}
 
 
+				{#			<script src="{{asset('bootstrap.js')}}"></script>
+							<script src="{{asset('jquery.js')}}"></script>
+							<link href="{{asset('bootstrap.css')}}" rel="stylesheet" />#}
 
-	</head>
-	<body >
-		<header>
-			<nav class="navbar navbar-default">
+
+				<script>
+					function swap(a, b)
+					{
+						var x = a;
+						a = b;
+						b = x;
+					}
+
+
+
+					/**
+					 * @description Añade la cadena 's' a el HTML del nodo con el id 'id'"
+					 * @author Pascual Muñoz.
+					 * @argument {string} s Cadena a pintar.
+					 * @argument {string} id El Id del DOM.
+					 * @returns {void} 
+					 */
+					function PrintaEn(id, s) {
+						this.document.getElementById("demo").innerHTML = this.document.getElementById("demo").innerHTML.concat(s);
+					}
+					/**
+					 * shortcut de PrintaEn
+					 */
+					function p(s) {
+						PrintaEn("demo", s);
+					}
+					/**
+					 * clear
+					 */
+					function clear(id) {
+						this.document.getElementById(id).innerHTML ="";
+					}
+
+				</script>
+
+
+
+
+		</head>
+		<body >
+				<p id="demo">SE ME SIENTE?</p>
+
+				<script>
+					PrintaEn("demo", "algo");
+					p("y ahora window.locationque me da la gana la ostia como completa esto men");
+					clear("demo");
+					p("el texto anterior ya no existe , solo estoy yo "); 
 					
-				<div class="container-fluid">
-					<!-- Brand and toggle get grouped for better mobile display -->
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-						<a class="navbar-brand" href="{{path("blog_homepage")}}">El blog de Passh en Symfony3</a>
-					</div>
 
-					<!-- Collect the nav links, forms, and other content for toggling -->
-					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-						<ul class="nav navbar-nav">
-{#TODO LOS MENUS#}
-								{% block menu %}
-									<li class="active"><a href={{path('blog_entrada_index', {pagina:1})}}>Entradas <span class="sr-only">(current)</span></a></li>
-								
-								{% endblock %}
-						</ul>
+				</script>
+				<header>
+						<nav class="navbar navbar-default">
 
-						<ul class="nav navbar-nav navbar-right">
-							<li><a href="#">
-									{% if app.user != null%}
-										Bienvenido, {{app.user.name}} {{app.user.surname}}
-									{% endif%}
-								</a>
-							</li>
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="glyphicon glyphicon-cog"></span> <span class="caret"></span></a>
-								<ul class="dropdown-menu">
-									{% if app.user == null%}
-										<li><a href="{{path("login")}}">Entrar</a></li>
-										{%else%}
-										<li><a href="{{path("blog_entrada_add")}}">Añadir entrada</a></li>
-										 <li><a href="{{path("blog_index_tag")}}">Etiquetas</a></li>
-										 <li><a href="{{path("blog_index_category")}}">Categorías</a></li>
-										<li role="separator" class="divider"></li>
-										<li><a href="{{path("logout")}}">Salir</a></li>
-										{% endif%}
-									<li><a href="#">Ayuda</a></li>
-								</ul>
-							</li>
-						</ul>
-					</div><!-- /.navbar-collapse -->
-				</div><!-- /.container-fluid -->
-			</nav>
-		</header>
-		<section id="content">
-			{% block content %} SOLO SOY UNA PLANTILLA SUSTITULLEME{% endblock %}
-		</section>
-		
-		<footer>
-			<li class="col-lg-6">
-				Blog en Symfony3 por <strong>  Pascual Muñoz </strong> basado en: 
-				<a href="https://www.udemy.com/curso-de-symfony3-domina-el-framework-php-mas-completo/learn/v4/t/lecture/4245510"  /><h16>Este curso de Symfony</h16></a> 
-			<br>
-			<a class="btn-success" href="https://github.com/Passhico/curso3/tree/master/src/lacueva/BlogBundle" />Pincha Aquí para obtener o ver el CODIGO FUENTE <a>
-			</li>
+								<div class="container-fluid">
+										<!-- Brand and toggle get grouped for better mobile display -->
+										<div class="navbar-header">
+												<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+														<span class="sr-only">Toggle navigation</span>
+														<span class="icon-bar"></span>
+														<span class="icon-bar"></span>
+														<span class="icon-bar"></span>
+												</button>
+												<a class="navbar-brand" href="{{path("blog_homepage")}}">El blog de Passh en Symfony3</a>
+										</div>
+
+										<!-- Collect the nav links, forms, and other content for toggling -->
+										<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+												<ul class="nav navbar-nav">
+														{#TODO LOS MENUS#}
+														{% block menu %}
+															<li class="active"><a href={{path('blog_entrada_index', {pagina:1})}}>Entradas <span class="sr-only">(current)</span></a></li>
+
+														{% endblock %}
+												</ul>
+
+												<ul class="nav navbar-nav navbar-right">
+														<li><a href="#">
+																		{% if app.user != null%}
+																			Bienvenido, {{app.user.name}} {{app.user.surname}}
+																		{% endif%}
+																</a>
+														</li>
+														<li class="dropdown">
+																<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="glyphicon glyphicon-cog"></span> <span class="caret"></span></a>
+																<ul class="dropdown-menu">
+																		{% if app.user == null%}
+																			<li><a href="{{path("login")}}">Entrar</a></li>
+																			{%else%}
+																			<li><a href="{{path("blog_entrada_add")}}">Añadir entrada</a></li>
+																			<li><a href="{{path("blog_index_tag")}}">Etiquetas</a></li>
+																			<li><a href="{{path("blog_index_category")}}">Categorías</a></li>
+																			<li role="separator" class="divider"></li>
+																			<li><a href="{{path("logout")}}">Salir</a></li>
+																			{% endif%}
+																		<li><a href="#">Ayuda</a></li>
+																</ul>
+														</li>
+												</ul>
+										</div><!-- /.navbar-collapse -->
+								</div><!-- /.container-fluid -->
+						</nav>
+				</header>
+				<section id="content">
+						{% block content %} SOLO SOY UNA PLANTILLA SUSTITULLEME{% endblock %}
+				</section>
+
+				<footer>
+						<li class="col-lg-6">
+								Blog en Symfony3 por <strong>  Pascual Muñoz </strong> basado en: 
+								<a href="https://www.udemy.com/curso-de-symfony3-domina-el-framework-php-mas-completo/learn/v4/t/lecture/4245510"  /><h16>Este curso de Symfony</h16></a> 
+				<br>
+				<a class="btn-success" href="https://github.com/Passhico/curso3/tree/master/src/lacueva/BlogBundle" />Pincha Aquí para obtener o ver el CODIGO FUENTE <a>
+						</li>
 		</footer>
+
+
+
 </body>
 </html>
 

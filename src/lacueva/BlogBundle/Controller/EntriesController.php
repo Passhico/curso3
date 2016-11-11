@@ -27,16 +27,22 @@ class EntriesController extends Controller
         $this->_session = new Session();
     }
 
-    //_action
+    /**
+     * Muestra la página que se le pasa como parámetro en la Vista.
+     *
+     * @param Request $request
+     * @param int     $pagina
+     *
+     * @return Response
+     */
     public function indexAction(Request $request, int $pagina)
     {
 
         /* @var $miRepo EntriesRepo */
         $miRepo = $this->_miRepo();
-     
 
-    //Entradas paginadas
-    $entradas = $this->_miRepo()->getPaginateEntries($pagesize = 10, $pagina);
+//Entradas paginadas
+        $entradas = $this->_miRepo()->getPaginateEntries($pagesize = 10, $pagina);
 
         $totalEntradas = count($entradas);
         $pageCount = ceil($totalEntradas / $pagesize);
@@ -44,21 +50,22 @@ class EntriesController extends Controller
         //_render
         return $this->render('BlogBundle:Entries:index.html.twig', [
                     'entradas' => $entradas,
-		   'totalEntradas' => $totalEntradas,
-			 'pageCount' => $pageCount,
-			'paginaActual' => $pagina, 
+                    'totalEntradas' => $totalEntradas,
+                    'pageCount' => $pageCount,
+                    'paginaActual' => $pagina,
                     'categorias' => $this->getDoctrine()->getManager()->getRepository(Categories::class)->findAll(),
         ]);
     }
+
     /*
      * TODO: HACER UNA VISTA PARA UNA SOLA ENTRADA.
- */
-    public function viewOneAction(\Symfony\Component\HttpFoundation\Request $request, \lacueva\BlogBundle\Entity\Entries $idEntrie)
-    {
-        return new \Symfony\Component\HttpFoundation\Response(dump($this).
+     */
 
+    public function viewOneAction(Request $request, Entries $idEntrie)
+    {
+        return new Response(dump($this).
                 'Esto es una Stub de Action, posiblemente quieras usar en esta linea :
-		  return $this->render($view)');
+	  return $this->render($view)');
     }
 
     public function addAction(Request $request)
@@ -85,7 +92,6 @@ class EntriesController extends Controller
                  * ha de hacerse de forma automática.
                  *
                  */
-
                 /*
                  * TODO: LA IMAGEN... esto hay que seguir echandole pienso...
                  * falta sabr por que no funcionan las getClientOriginal* :S
@@ -125,6 +131,7 @@ class EntriesController extends Controller
                     'entradas' => $this->_miRepo()->findAll(),
         ]);
     }
+	
 
     public function deleteAction(Request $request, int $idEntrietoDelete)
     {
@@ -150,13 +157,13 @@ class EntriesController extends Controller
             } catch (ForeignKeyConstraintViolationException $e) {
                 $this->_log($e->getCode().' Esta entrada estaría eliminada si no existiera una constraint que lo impide ');
 
-                return $this->redirectToRoute('blog_entrada_index', ['pagina' =>1]);
+                return $this->redirectToRoute('blog_entrada_index', ['pagina' => 1]);
             }
         } else {
             $this->_log('La entrada '.$idEntrietoDelete.' ya no existe');
         }
 
-    return $this->redirectToRoute('blog_entrada_index', ['pagina' =>1]);
+        return $this->redirectToRoute('blog_entrada_index', ['pagina' => 1]);
     }
 
     /**
@@ -173,16 +180,13 @@ class EntriesController extends Controller
     {
         /* @var $idEntrieToEdit Entries  */
         //con el paramconverter transformamos la id en el objeto directamente.
-
         //Bindeamos la entidad al formulario.
         $formEditarEntrada = $this->createForm(EntriesType::class, $idEntrieToEdit);
         $formEditarEntrada->handleRequest($r);
 
         //Esto se ejecuta en orden y la siguiente únicamente lo hace si la anterior es true (ordenes de precedencia 4moreInfo.
-        if ($formEditarEntrada->isSubmitted()
-             && $formEditarEntrada->isValid()
-        && $this->getDoctrine()->getManager()->flush()
-           ) {
+        if ($formEditarEntrada->isSubmitted() && $formEditarEntrada->isValid() && $this->getDoctrine()->getManager()->flush()
+        ) {
             $this->_log('no se ha podido modificar la entrada '.$idEntrieToEdit);
         }
 
@@ -195,7 +199,6 @@ class EntriesController extends Controller
 
     /**
      * Logea al flasbag y ademas hace un dump en la vista.
-     *
      * @param type $dumpeame string object o lo que quieras
      */
     private function _log($dumpeame)
@@ -223,6 +226,7 @@ class EntriesController extends Controller
      */
     private function _miRepo()
     {
+        /* @var $this EntriesController */
         return $this->getDoctrine()->getRepository(Entries::class);
     }
 }
