@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new AppBundle\AppBundle(),
             new lacueva\BlogBundle\BlogBundle(),
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
+			new FOS\RestBundle\FOSRestBundle(), 
 	    
         ];
 
