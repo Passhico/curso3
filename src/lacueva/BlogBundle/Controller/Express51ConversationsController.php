@@ -1,4 +1,6 @@
-<?php //path: /Express51Conversations/index
+<?php
+
+//path: /Express51Conversations/index
 
 namespace lacueva\BlogBundle\Controller;
 
@@ -11,31 +13,38 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Express51ConversationsController extends Controller
-{
-    public function indexAction(Request $request)
-    {
+class Express51ConversationsController extends Controller {
 
-        /* @var $funcionDumpComoArray Closure */
-        $funcionDumpComoArray = function ($json) {
-            $arr = json_decode($json, true);
+	public function indexAction(Request $request) {
 
-            return new Response(dump($arr));
-        };
+		/* @var $funcionDumpComoArray Closure */
+		$funcionDumpComoArray = function ($json) {
+			//transformamos el json en un Array.
+			$arr = json_decode($json, true);
+			//si tenemos response que el array apunte a ella.
+			$arr = $arr['response'] ? $arr['response'] : $arr;
 
-        //status
-        $ApiGatorExpress51_STATUS = new \ApiGator\ApiGator(SECTION_STATUS);
-        $ApiGatorExpress51_STATUS->procesaResponseCon($funcionDumpComoArray);
+			return new Response(dump($arr));
+		};
 
-        //conversations
-        $ApiGatorExpress51_CONVERSATIONS = new ApiGator(SECTION_CONVERSACIONES);
-        $ApiGatorExpress51_CONVERSATIONS->procesaResponseCon($funcionDumpComoArray);
+	
+		
+		
+		//status
+			$ApiGatorExpress51_STATUS = new \ApiGator\ApiGator(SECTION_STATUS);
+		$ApiGatorExpress51_STATUS->procesaResponseCon($funcionDumpComoArray);
 
-        //customers
-        $ApiGatorExpress51_CUSTOMERS = new ApiGator('customers');
-        $ApiGatorExpress51_CUSTOMERS->procesaResponseCon($funcionDumpComoArray);
+		//conversations
+		$ApiGatorExpress51_CONVERSATIONS = new ApiGator(SECTION_CONVERSACIONES);
+		$ApiGatorExpress51_CONVERSATIONS->procesaResponseCon($funcionDumpComoArray);
 
-        return new Response('Datos de la API de Express51');
-    }
+		//customers
+		$ApiGatorExpress51_CUSTOMERS = new ApiGator('customers');
+		$ApiGatorExpress51_CUSTOMERS->procesaResponseCon($funcionDumpComoArray);
+
+		return new Response('Datos de la API de Express51');
+	}
+
+
+
 }
-
