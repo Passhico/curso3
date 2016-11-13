@@ -82,3 +82,6 @@ blog_entrada_edit:
 blog_entrada_ver:
     path: /entrada/ver/{idEntrieToView}
     defaults: {_controller: BlogBundle:Entries:view}
+Express51Conversations_index:
+     path: /Express51Conversations/index
+     defaults: {_controller: BlogBundle:Express51Conversations:index}
