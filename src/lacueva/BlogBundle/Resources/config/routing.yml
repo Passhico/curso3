@@ -85,3 +85,7 @@ blog_entrada_ver:
 Express51Conversations_index:
      path: /Express51Conversations/index
      defaults: {_controller: BlogBundle:Express51Conversations:index}
+     
+SnapEngageChat_index:
+     path: /SnapEngageChat/index
+     defaults: {_controller: BlogBundle:SnapEngageChat:index}

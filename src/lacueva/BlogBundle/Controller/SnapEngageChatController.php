@@ -19,7 +19,7 @@ define('COMPLETE_URL', URL . ORG_ID);
 
 
 // https://support.ladesk.com/840770-Complete-API-reference
-class Express51ConversationsController extends Controller {
+class SnapEngageChatController extends Controller {
 
 	//path: /Express51Conversations/index
 	public function indexAction(Request $request) {
