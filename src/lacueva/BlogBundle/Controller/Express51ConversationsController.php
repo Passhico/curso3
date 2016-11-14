@@ -3,7 +3,7 @@
 namespace lacueva\BlogBundle\Controller;
 
 // vg->lacueva\BlogBundle\Controller (el completion works);
-include 'ApiGator.php';
+include_once 'ApiGator/ApiGator.php';
 
 use ApiGator\ApiGator;
 use Closure;
