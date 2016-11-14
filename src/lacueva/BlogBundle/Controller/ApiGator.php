@@ -1,18 +1,16 @@
 <?php
 
-
 /**
  * Crea una Conexión con curl.php a una API rest, tras ello pone a 
  * disposición del usuario , tanto la response como un método específico
  * para procesarla según se prefiera.
  */
-namespace ApiGator;
 
+namespace ApiGator;
 
 define('SECTION_CONVERSACIONES', "conversations");
 define('SECTION_STATUS', "application/status");
 define('SECTION_COMPANIAS	', "companies");
-
 
 /**
  * 
@@ -28,32 +26,34 @@ class ApiGator {
 	 * @see http://php.net/manual/es/resource.php
 	 */
 	public $ch;
-	
 	public $curl_response;
-	
 
-	/* Con estas 3 tenemos que formar la URI
+
+	/* Con estas 4 tenemos que formar la URI
 	 * FORMATO de ejemplo:
 	 * http://exp.com/api/conversations?&apikey=value
 	 * se encarga generateUri()
 	 * */
-	private $apikey;
 	private $url;
 	private $section;
+	private $apikey;
+	private $request_parameters;
 	private $uri;
+
 	/**
 	 * 
 	 * @param SeccionDeLaApi $section 
 	 * @param URL $url
 	 * @param string $apikey
 	 */
-	public function __construct( $section = "application/status", $url = 'https://express51.ladesk.com/api/', $apikey = '10c54076befac3d7ba249637b9ee6a31') {
+	public function __construct($section = "application/status", $url = 'https://express51.ladesk.com/api/', $apikey = '&apikey=10c54076befac3d7ba249637b9ee6a31', $request_parameters = []) {
 
 		$this->url = $url;
 		$this->apikey = $apikey;
-		
-		$this->section =$section;
-		
+		$this->section = $section;
+		$this->request_parameters = $request_parameters;
+
+
 		//Generamos la URI e iniciamos curl. cargamos ch 
 		echo "Obteniendo: " . ($this->ch = curl_init($this->generateUri()) ) . PHP_EOL;
 
@@ -69,7 +69,14 @@ class ApiGator {
 	}
 
 	private function generateUri() {
-		echo "generteUri(): " . ($this->uri = $this->url . $this->section . '?&apikey=' . $this->apikey) . PHP_EOL;
+
+		$this->uri = $this->url . $this->section . '?' . $this->apikey;
+
+		foreach ($this->request_parameters as $parametro) {
+			$this->uri .= '&' . $parametro;
+		}
+
+		echo "<BR>URI: " . $this->uri;
 		return $this->uri;
 	}
 
@@ -85,17 +92,14 @@ class ApiGator {
 	public function procesaResponseCon($f = 'print_r') {
 		$f($this->curl_response);
 	}
-	
+
 	/**
 	 * Es solo un alias de procesaResponseCon()
 	 * para tener una salida directa a terminal 
 	 * por defecto.
 	 */
-	public function procesaResponse()
-	{
+	public function procesaResponse() {
 		$this->procesaResponseCon();
 	}
 
 }
-
-
