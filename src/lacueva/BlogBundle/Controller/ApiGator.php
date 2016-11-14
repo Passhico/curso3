@@ -8,10 +8,6 @@
 
 namespace ApiGator;
 
-define('SECTION_CONVERSACIONES', "conversations");
-define('SECTION_STATUS', "application/status");
-define('SECTION_COMPANIAS	', "companies");
-
 /**
  * 
  * 
