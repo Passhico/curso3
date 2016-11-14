@@ -3,7 +3,7 @@
 namespace lacueva\BlogBundle\Controller;
 
 // vg->lacueva\BlogBundle\Controller (el completion works);
-include 'ApiGator.php';
+include_once 'ApiGator/ApiGator.php';
 
 use ApiGator\ApiGator;
 use Closure;
@@ -22,6 +22,12 @@ define('COMPLETE_URL', URL . ORG_ID);
 class SnapEngageChatController extends Controller {
 
 	//path: /Express51Conversations/index
+	/**
+	 * 
+	 * @param Request $request
+	 * @return Response
+	 * 
+	 */
 	public function indexAction(Request $request) {
 
 		/* @var $funcionDumpDeSymfony Closure */
@@ -37,13 +43,13 @@ class SnapEngageChatController extends Controller {
 
 		//Hay una sección de reportes , voy a hacer un volcado de varios para ver cual interesa.
 		//la a_ sería ApiGatorExpress51_REPORTS . 
-		$a_AGENTS = new ApiGator('reports/agents', 'https://express51.ladesk.com/api/', '&apikey=10c54076befac3d7ba249637b9ee6a31', ["date_to=2017-01-01", "date_from=2015-01-01"]);
-		$a_AGENTS->procesaResponseCon($funcionDumpDeSymfony);
+		$ApigatorSpnapChat = new ApiGator('reports/agents', 'https://express51.ladesk.com/api/', '&apikey=10c54076befac3d7ba249637b9ee6a31', ["date_to=2017-01-01", "date_from=2015-01-01"]);
+		$ApigatorSpnapChat->procesaResponseCon($funcionDumpDeSymfony);
 
 
 
-		//NO ME BORRRES .
-		return new Response('Extracción de datos de Api Rest Express51');
+		//NO ME BORRRES o renderiza , o mejor manda a alguien a renderizar...xd .
+		return new Response('Extracción de datos de Api Rest de SnapEngageChatController');
 
 	}
 
