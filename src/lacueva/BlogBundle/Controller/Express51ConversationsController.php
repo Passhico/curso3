@@ -1,7 +1,5 @@
 <?php
 
-//path: /Express51Conversations/index
-
 namespace lacueva\BlogBundle\Controller;
 
 // vg->lacueva\BlogBundle\Controller (el completion works);
@@ -13,8 +11,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+// https://support.ladesk.com/840770-Complete-API-reference
 class Express51ConversationsController extends Controller {
 
+	//path: /Express51Conversations/index
 	public function indexAction(Request $request) {
 
 		/* @var $funcionDumpComoArray Closure */
@@ -27,11 +27,10 @@ class Express51ConversationsController extends Controller {
 			return new Response(dump($arr));
 		};
 
-	
-		
-		
+
+
 		//status
-			$ApiGatorExpress51_STATUS = new \ApiGator\ApiGator(SECTION_STATUS);
+		$ApiGatorExpress51_STATUS = new \ApiGator\ApiGator(SECTION_STATUS);
 		$ApiGatorExpress51_STATUS->procesaResponseCon($funcionDumpComoArray);
 
 		//conversations
@@ -42,9 +41,19 @@ class Express51ConversationsController extends Controller {
 		$ApiGatorExpress51_CUSTOMERS = new ApiGator('customers');
 		$ApiGatorExpress51_CUSTOMERS->procesaResponseCon($funcionDumpComoArray);
 
+
+		//agents 
+		// curl_setopt($ch,CURLOPT_URL,
+		// "http://example.com/api/reports/agents?date_from=
+		// [value]&date_to=[value]?&date_from=value&date_to=value&apikey=value");
+
+
+
+		$ApiGatorExpress51_AGENTSREPORT = new ApiGator('reports/agents',
+				                    'https://express51.ladesk.com/api/',
+				                    '&apikey=10c54076befac3d7ba249637b9ee6a31',
+				                    ["date_to=2017-01-01", "date_from=2015-01-01"]);
+		$ApiGatorExpress51_AGENTSREPORT->procesaResponseCon($funcionDumpComoArray);
 		return new Response('Datos de la API de Express51');
 	}
-
-
-
 }
