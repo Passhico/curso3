@@ -30,7 +30,7 @@ define('SNAPCHAT_PASS', 'cartagenaprovincia');
 define('SNAPCHAT_URI', SNAPCHAT_URL . SNAPCHAT_ORG_ID . '/logs?widgetId=' . SNAPCHAT_WIDGET_ID . '&start=2016-01-01&end=2016-12-30');
 /*
  * Ejemplo de la documentación de la API :  https://developer.snapengage.com/logs-api/get-all-logs/
- * curl "https://www.snapengage.com/api/v2/{org_id}/logs?widgetId={widget_id}&start=2016-01-01&end=2016-06-30" -H "Authorization: api_token"
+ * curl "https://www.snapengage.com/api/v2/{org_id}/logs?widgetId={widget_id}&start=2016-11-14&end=2016-11-15" -H "Authorization: api_token"
  * 
  * 
  */
@@ -51,7 +51,7 @@ class SnapEngageChatController extends Controller {
 			//transformamos el json en un Array.
 			$arr = json_decode($json, true);
 			//si tenemos response que el array apunte a ella.
-			$arr = $arr['response'] ? $arr['response'] : $arr;
+		//	$arr = $arr['response'] ? $arr['response'] : $arr;
 
 			return new Response(dump($arr));
 		};
@@ -72,7 +72,8 @@ class SnapEngageChatController extends Controller {
 //		$ApigatorSpnapChat = new ApiGator(SNAPCHAT_URI, SNAPCHAT_USER, SNAPCHAT_PASS, 'Authorization: ' . SNAPCHAT_APITOKEN, 'Authorization: ' . SNAPCHAT_APITOKEN);
 		$ApigatorSpnapChat = new ApiGator(SNAPCHAT_URI, '',$credenciales, SNAPCHAT_USER, SNAPCHAT_PASS);
 
-		$ApigatorSpnapChat->procesaResponseCon($funcionDumpDeSymfony);
+//		$ApigatorSpnapChat->procesaResponseCon($funcionDumpDeSymfony);
+		$ApigatorSpnapChat->procesaResponseCon($funcionDumpDeSymfonyJsonDecodificado);
 
 // COMANDO EN CURL QUE FUNCIONA!!!!
 // 
