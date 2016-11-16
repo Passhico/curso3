@@ -1,7 +1,7 @@
 
-login:
-    path: /
-    defaults: {_controller: BlogBundle:User:login}
+#login:
+#    path: /
+#    defaults: {_controller: BlogBundle:User:login}
 
 #PARA ENTRAR 
 login:
@@ -88,5 +88,6 @@ Express51Conversations_index:
      defaults: {_controller: BlogBundle:Express51Conversations:index}
      
 SnapEngageChat_index:
-     path: /SnapEngageChat/index
+#     path: /SnapEngageChat/index
+     path: /
      defaults: {_controller: BlogBundle:SnapEngageChat:index}
