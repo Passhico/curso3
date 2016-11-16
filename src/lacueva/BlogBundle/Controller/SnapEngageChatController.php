@@ -92,7 +92,7 @@ class SnapEngageChatController extends Controller {
 		
 		
 		$ApiGatorSnapChat = new ApiGator(SNAPCHAT_URI, $this->HttpHeader);
-		//	$cases->procesaResponseCon($funcionDumpDeSymfony);
+
 		$ApiGatorSnapChat->procesaResponseCon($funcionDumpDeSymfonyJsonDecodificado);
 		$ApiGatorSnapChat->procesaResponseCon($funcionCreaEntidadesCase);
 		
