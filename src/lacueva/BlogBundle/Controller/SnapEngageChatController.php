@@ -10,6 +10,10 @@ use lacueva\BlogBundle\Entity\cases;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Encoder\JsonDecode;
+use Symfony\Component\Serializer\Encoder\JsonEncode;
+use Symfony\Component\Serializer\Normalizer\JsonSerializableNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use const SNAPCHAT_ORG_ID;
 use const SNAPCHAT_URI;
 use const SNAPCHAT_URL;
@@ -38,6 +42,7 @@ define('SNAPCHAT_URI', SNAPCHAT_URL . SNAPCHAT_ORG_ID . '/logs?widgetId=' . SNAP
  * // https://support.ladesk.com/840770-Complete-API-reference
  * 
  */
+
 class SnapEngageChatController extends Controller {
 
 	private $httpHeaderSnapchat;
@@ -45,13 +50,12 @@ class SnapEngageChatController extends Controller {
 
 	public function __construct() {
 
-		
+
 		//la autentificacion de la API de chat se hace aqui.
 		$this->httpHeaderSnapchat[] = "Accept: application/json";
 		$this->httpHeaderSnapchat[] = 'Content-Type: application/json';
 		$this->httpHeaderSnapchat[] = 'Content-length: 0';
 		$this->httpHeaderSnapchat[] = 'Authorization: ebec63f521baf484da13a550a111e5d6';
-		
 	}
 
 	/**
@@ -76,10 +80,38 @@ class SnapEngageChatController extends Controller {
 		$funcionDumpDeSymfony = function ($json) {
 			return new Response(dump($json));
 		};
-		
+
 		/* @var $funcionDumpDeSymfony Closure */
 		$funcionCreaEntidadesCase = function ($json) {
-			return new Response(dump($json));
+			$caseToAdd = new cases();
+
+			$arr = json_decode($json, true); //toarray
+
+			foreach ($arr['cases'] as $case) {
+				
+				
+				$caseToAdd->setUrl($case['url']);
+				$caseToAdd->setType($case['type']);
+				$caseToAdd->setUrl($case['url']);
+				$caseToAdd->setUrl($case['url']);
+				$caseToAdd->setUrl($case['url']);
+				$caseToAdd->setUrl($case['url']);
+				$caseToAdd->setUrl($case['url']);
+				$caseToAdd->setUrl($case['url']);
+				$caseToAdd->setUrl($case['url']);
+				$caseToAdd->setUrl($case['url']);
+				$caseToAdd->setUrl($case['url']);
+				$caseToAdd->setUrl($case['url']);
+				$caseToAdd->setUrl($case['url']);
+				$caseToAdd->setUrl($case['url']);
+				$caseToAdd->setUrl($case['url']);
+				$caseToAdd->setUrl($case['url']);
+					//dump($caseToAdd);
+				var_dump(array_keys($case));
+			}
+
+			die();
+			return new Response(dump($arr));
 		};
 
 		//para depuracion. 
@@ -87,22 +119,30 @@ class SnapEngageChatController extends Controller {
 		echo '$uri: ' . var_dump($this->httpHeaderSnapchat) . '<br>';
 
 
+
+
+
+		//https://symfony.com/doc/current/components/serializer.html
+
+		$encoders = [new JsonDecode(true), new JsonEncode()];
+		$normalizers = [new JsonSerializableNormalizer()];
+
+		$serializer = new Serializer($normalizers, $encoders);
+
 		$case = new cases();
-		
-		
-		
-		
-		
+
+
+
+
 		$ApiGatorSnapChat = new ApiGator(SNAPCHAT_URI, $this->httpHeaderSnapchat);
 
-		$ApiGatorSnapChat->procesaResponseCon($funcionDumpDeSymfonyJsonDecodificado);
+		//	$ApiGatorSnapChat->procesaResponseCon($funcionDumpDeSymfonyJsonDecodificado);
 		$ApiGatorSnapChat->procesaResponseCon($funcionCreaEntidadesCase);
-		
+
 
 
 		//NO ME BORRRES o renderiza , o mejor manda a alguien a renderizar...xd .
 		return new Response('Extracción de datos de Api Rest de SnapEngageChatController');
 	}
-	
 
 }
