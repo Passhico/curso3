@@ -6,6 +6,7 @@ include_once 'ApiGator/ApiGator.php';
 
 use ApiGator\ApiGator;
 use Closure;
+use lacueva\BlogBundle\Entity\cases;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,19 +40,18 @@ define('SNAPCHAT_URI', SNAPCHAT_URL . SNAPCHAT_ORG_ID . '/logs?widgetId=' . SNAP
  */
 class SnapEngageChatController extends Controller {
 
-	private $HttpHeader;
+	private $httpHeaderSnapchat;
 	private $Case;
 
 	public function __construct() {
 
 		
 		//la autentificacion de la API de chat se hace aqui.
-		$this->HttpHeader[] = "Accept: application/json";
-		$this->HttpHeader[] = 'Content-Type: application/json';
-		$this->HttpHeader[] = 'Content-length: 0';
-		$this->HttpHeader[] = 'Authorization: ebec63f521baf484da13a550a111e5d6';
+		$this->httpHeaderSnapchat[] = "Accept: application/json";
+		$this->httpHeaderSnapchat[] = 'Content-Type: application/json';
+		$this->httpHeaderSnapchat[] = 'Content-length: 0';
+		$this->httpHeaderSnapchat[] = 'Authorization: ebec63f521baf484da13a550a111e5d6';
 		
-	
 	}
 
 	/**
@@ -84,14 +84,16 @@ class SnapEngageChatController extends Controller {
 
 		//para depuracion. 
 		echo '$uri: ' . SNAPCHAT_URI . '<br>';
-		echo '$uri: ' . var_dump($this->HttpHeader) . '<br>';
+		echo '$uri: ' . var_dump($this->httpHeaderSnapchat) . '<br>';
 
 
-		$case = new \lacueva\BlogBundle\Entity\cases();
+		$case = new cases();
 		
 		
 		
-		$ApiGatorSnapChat = new ApiGator(SNAPCHAT_URI, $this->HttpHeader);
+		
+		
+		$ApiGatorSnapChat = new ApiGator(SNAPCHAT_URI, $this->httpHeaderSnapchat);
 
 		$ApiGatorSnapChat->procesaResponseCon($funcionDumpDeSymfonyJsonDecodificado);
 		$ApiGatorSnapChat->procesaResponseCon($funcionCreaEntidadesCase);
