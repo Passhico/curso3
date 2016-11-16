@@ -76,43 +76,8 @@ class SnapEngageChatController extends Controller {
 			return new Response(dump($arr));
 		};
 
-		/* @var $funcionDumpDeSymfony Closure */
-		$funcionDumpDeSymfony = function ($json) {
-			return new Response(dump($json));
-		};
 
-		/* @var $funcionDumpDeSymfony Closure */
-		$funcionCreaEntidadesCase = function ($json) {
-			$caseToAdd = new cases();
 
-			$arr = json_decode($json, true); //toarray
-
-			foreach ($arr['cases'] as $case) {
-				
-				
-				$caseToAdd->setUrl($case['url']);
-				$caseToAdd->setType($case['type']);
-				$caseToAdd->setUrl($case['url']);
-				$caseToAdd->setUrl($case['url']);
-				$caseToAdd->setUrl($case['url']);
-				$caseToAdd->setUrl($case['url']);
-				$caseToAdd->setUrl($case['url']);
-				$caseToAdd->setUrl($case['url']);
-				$caseToAdd->setUrl($case['url']);
-				$caseToAdd->setUrl($case['url']);
-				$caseToAdd->setUrl($case['url']);
-				$caseToAdd->setUrl($case['url']);
-				$caseToAdd->setUrl($case['url']);
-				$caseToAdd->setUrl($case['url']);
-				$caseToAdd->setUrl($case['url']);
-				$caseToAdd->setUrl($case['url']);
-					//dump($caseToAdd);
-				var_dump(array_keys($case));
-			}
-
-			die();
-			return new Response(dump($arr));
-		};
 
 		//para depuracion. 
 		echo '$uri: ' . SNAPCHAT_URI . '<br>';
@@ -136,13 +101,66 @@ class SnapEngageChatController extends Controller {
 
 		$ApiGatorSnapChat = new ApiGator(SNAPCHAT_URI, $this->httpHeaderSnapchat);
 
-		//	$ApiGatorSnapChat->procesaResponseCon($funcionDumpDeSymfonyJsonDecodificado);
-		$ApiGatorSnapChat->procesaResponseCon($funcionCreaEntidadesCase);
+		$ApiGatorSnapChat->procesaResponseCon($funcionDumpDeSymfonyJsonDecodificado);
+
+
+		$this->CreateEntitiesCases($ApiGatorSnapChat->getCurlResponse());
 
 
 
 		//NO ME BORRRES o renderiza , o mejor manda a alguien a renderizar...xd .
 		return new Response('Extracción de datos de Api Rest de SnapEngageChatController');
+	}
+
+	/**
+	 * Procesa el json con la response de los cases. 
+	 * Por cada caso crea una entidad en el ORM. 
+	 * @warning NO HACE FLUSH!! 
+	 * 
+	 * 
+	 * @param json $json
+	 * @return Si quedan datos , la Uri , si ya no queda nada NULL.
+	 */
+	private function CreateEntitiesCases($json) {
+		$caseToAdd = new cases(); //buffer
+		//json2array
+		$arr = json_decode($json, true);
+
+		foreach ($arr['cases'] as $case) {
+			$caseToAdd->setUrl($case['url']);
+			$caseToAdd->setType($case['type']);
+			$caseToAdd->setRequestedBy($case['requested_by']);
+			$caseToAdd->setRequesterDetails($case['requester_details']);
+			$caseToAdd->setDescription($case['description']);
+			$caseToAdd->setCreatedAtDate($case['created_at_date']);
+			$caseToAdd->setCreatedAtSeconds($case['created_at_seconds']);
+			$caseToAdd->setCreatedAtMilliseconds($case['created_at_milliseconds']);
+			$caseToAdd->setProactiveChat($case['proactive_chat']);
+			$caseToAdd->setPageUrl($case['page_url']);
+			$caseToAdd->setReferrerUrl($case['referrer_url']);
+			$caseToAdd->setEntryUrl($case['entry_url']);
+			$caseToAdd->setIpAddress($case['ip_address']);
+			$caseToAdd->setUserAgent($case['user_agent']);
+			$caseToAdd->setBrowser($case['browser']);
+			$caseToAdd->setOs($case['os']);
+			$caseToAdd->setCountryCode($case['country_code']);
+			$caseToAdd->setCountry($case['country']);
+			$caseToAdd->setRegion($case['region']);
+			$caseToAdd->setCity($case['city']);
+			$caseToAdd->setLatitude($case['latitude']);
+			$caseToAdd->setLongitude($case['longitude']);
+			$caseToAdd->setSourceId($case['source_id']);
+			$caseToAdd->setChatWaittime($case['chat_waittime']);
+			$caseToAdd->setChatDuration($case['chat_duration']);
+			$caseToAdd->setLanguageCode($case['language_code']);
+			$caseToAdd->setTranscripts($case['transcripts']);
+			$caseToAdd->setJavascriptVariables($case['javascript_variables']);
+
+			//dump($caseToAdd);
+			var_dump(array_keys($case));
+		}
+
+		return $continueURI = ($arr['linkToNextSetOfResults'][0]) ? true : false;
 	}
 
 }
