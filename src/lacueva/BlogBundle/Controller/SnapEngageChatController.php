@@ -179,7 +179,7 @@ class SnapEngageChatController extends Controller {
 
 
 
-			return $arr['linkToNextSetOfResults'];
+			return isset($arr['linkToNextSetOfResults'])?$arr['linkToNextSetOfResults']:false;
 		}
 	}
 
