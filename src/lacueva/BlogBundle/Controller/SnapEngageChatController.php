@@ -93,7 +93,7 @@ class SnapEngageChatController extends Controller {
 		$serializer = new Serializer($normalizers, $encoders);
 
 
-		$case = new cases();
+		$case = new \lacueva\BlogBundle\Entity\Cases();
 
 		$ApiGatorSnapChat = new ApiGator(SNAPCHAT_URI, $this->httpHeaderSnapchat);
 		$ApiGatorSnapChat->procesaResponseCon($funcionDumpDeSymfonyJsonDecodificado);
@@ -121,12 +121,14 @@ class SnapEngageChatController extends Controller {
 	 */
 	private function CreateEntitiesCases($json) {
 
-		$caseToAdd = new cases(); //buffer
+		$caseToAdd = new \lacueva\BlogBundle\Entity\Cases(); //buffer
 		//json2array
 		$arr = json_decode($json, true);
 
 		try {
 			foreach ($arr['cases'] as $case) {
+				
+				$caseToAdd->setIdCase($case['id']);
 				$caseToAdd->setUrl($case['url']);
 				$caseToAdd->setType($case['type']);
 				$caseToAdd->setRequestedBy($case['requested_by']);
@@ -159,11 +161,10 @@ class SnapEngageChatController extends Controller {
 				$caseToAdd->setLanguageCode($case['language_code']);
 				$caseToAdd->setTranscripts($case['transcripts']);
 				$caseToAdd->setJavascriptVariables($case['javascript_variables']);
-				
-				//	var_dump(array_keys($case));
-			dump($caseToAdd);
-			$this->counterCasesToAdd = $this->counterCasesToAdd + 1;
 
+				//	var_dump(array_keys($case));
+				dump($caseToAdd);
+				$this->counterCasesToAdd = $this->counterCasesToAdd + 1;
 			}
 		} catch (Exception $exc) {
 			/* @var $exc ContextErrorException */
@@ -172,7 +173,7 @@ class SnapEngageChatController extends Controller {
 		} finally {
 
 
-			
+
 			// _persist
 
 
@@ -181,7 +182,7 @@ class SnapEngageChatController extends Controller {
 
 
 
-			return isset($arr['linkToNextSetOfResults'])?$arr['linkToNextSetOfResults']:false;
+			return isset($arr['linkToNextSetOfResults']) ? $arr['linkToNextSetOfResults'] : false;
 		}
 	}
 

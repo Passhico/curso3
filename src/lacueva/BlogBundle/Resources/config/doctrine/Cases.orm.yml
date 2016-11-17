@@ -17,6 +17,9 @@ lacueva\BlogBundle\Entity\Cases:
         url:
             type: string
             length: 255
+        description:
+            type: string
+            length: 255
         type:
             type: string
             length: 255
