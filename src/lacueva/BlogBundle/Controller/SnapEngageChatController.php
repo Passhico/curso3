@@ -52,11 +52,14 @@ class SnapEngageChatController extends Controller {
 	private $repo;
 	private $counterBloquesDeDatos;
 	private $counterCasesToAdd;
+	private $counterTranscripts; //lineas de chat. 
 
 	public function __construct() {
 
 		$this->counterBloquesDeDatos = 0;
 		$this->counterCasesToAdd = 0;
+		$this->counterTranscripts = 0;
+
 		//	$this->miRepo = $this->getDoctrine()->getManager()->getRepository(cases::class);
 		//la autentificacion de la API de chat se hace aqui.
 		$this->httpHeaderSnapchat[] = "Accept: application/json";
@@ -107,7 +110,8 @@ class SnapEngageChatController extends Controller {
 		//NO ME BORRRES o renderiza , o mejor manda a alguien a renderizar...xd .
 		return new Response(nl2br('Extracción de datos de Api Rest de SnapEngageChatController.
 									Numero de Registros :' . $this->counterCasesToAdd . '
-				                    Numero de Uris Procesadas: ' . $this->counterBloquesDeDatos));
+				                    Numero de Uris Procesadas: ' . $this->counterBloquesDeDatos . '
+									Numero de Transcripts(lineas de Chat): ' . $this->counterTranscripts));
 	}
 
 	/**
@@ -122,12 +126,13 @@ class SnapEngageChatController extends Controller {
 	private function CreateEntitiesCases($json) {
 
 		$caseToAdd = new \lacueva\BlogBundle\Entity\Cases(); //buffer
+		$transcriptToAdd = new \lacueva\BlogBundle\Entity\Transcript; //buffer
 		//json2array
 		$arr = json_decode($json, true);
 
 		try {
 			foreach ($arr['cases'] as $case) {
-				
+
 				$caseToAdd->setIdCase($case['id']);
 				$caseToAdd->setUrl($case['url']);
 				$caseToAdd->setType($case['type']);
@@ -159,11 +164,25 @@ class SnapEngageChatController extends Controller {
 				$caseToAdd->setChatWaittime($case['chat_waittime']);
 				$caseToAdd->setChatDuration($case['chat_duration']);
 				$caseToAdd->setLanguageCode($case['language_code']);
+				
 				$caseToAdd->setTranscripts($case['transcripts']);
+//				if (isset($case[transcripts])) {
+//					$caseToAdd->setTranscripts($case['transcripts']);
+//					//Por cada linea de conversación creamos un objeto con una 
+//					//foreing_key a su padre "case"
+//					foreach ($caseToAdd->getTranscripts() as $Transcript) {
+//						$this->debug_to_console($Transcript);
+//						$this->counterTranscripts = $this->counterTranscripts + 1;
+//					}
+//				}
 				$caseToAdd->setJavascriptVariables($case['javascript_variables']);
 
 				//	var_dump(array_keys($case));
 				dump($caseToAdd);
+
+				// _persist
+				$this->getDoctrine()->getManager()->persist($caseToAdd);
+
 				$this->counterCasesToAdd = $this->counterCasesToAdd + 1;
 			}
 		} catch (Exception $exc) {
@@ -172,9 +191,8 @@ class SnapEngageChatController extends Controller {
 			echo "errores en algunos indices de los arrays en json";
 		} finally {
 
+									$this->getDoctrine()->getManager()->flush();
 
-
-			// _persist
 
 
 			$this->counterBloquesDeDatos = $this->counterBloquesDeDatos + 1;
@@ -214,6 +232,16 @@ class SnapEngageChatController extends Controller {
 		return new Response(nl2br('Extracción de datos de Api Rest de SnapEngageChatController.
 									Numero de Registros :' . $this->counterCasesToAdd . '
 				                    Numero de Uris Procesadas: ' . $this->counterBloquesDeDatos));
+	}
+
+	function debug_to_console($data) {
+
+		if (is_array($data))
+			$output = "<script>console.log( 'Debug Objects: " . implode(',', $data) . "' );</script>";
+		else
+			$output = "<script>console.log( 'Debug Objects: " . $data . "' );</script>";
+
+		echo $output;
 	}
 
 }
