@@ -81,6 +81,7 @@ lacueva\BlogBundle\Entity\Cases:
             type: integer
         surveyScore:
             type: integer
+            nullable: true
         languageCode:
             type: string
             length: 255

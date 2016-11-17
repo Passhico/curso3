@@ -103,8 +103,11 @@ class SnapEngageChatController extends Controller {
 
 
 		//mientras la insercion tenga una URI siguiente... 
+		$continueUri = $this->CreateEntitiesCases($ApiGatorSnapChat->getCurlResponse());
+		
 		while ($continueUri = $this->CreateEntitiesCases($ApiGatorSnapChat->getCurlResponse())) {
-			$ApiGatorSnapChat->setUri($continueUri);
+						$ApiGatorSnapChat->setUri($continueUri);
+						$continueUri = $this->CreateEntitiesCases($ApiGatorSnapChat->getCurlResponse());
 		}
 
 		//NO ME BORRRES o renderiza , o mejor manda a alguien a renderizar...xd .
@@ -125,14 +128,17 @@ class SnapEngageChatController extends Controller {
 	 */
 	private function CreateEntitiesCases($json) {
 
-		$caseToAdd = new \lacueva\BlogBundle\Entity\Cases(); //buffer
+		
 		$transcriptToAdd = new \lacueva\BlogBundle\Entity\Transcript; //buffer
 		//json2array
 		$arr = json_decode($json, true);
 
-		try {
+//	try{ 
+		if (isset($arr['cases'])) {
 			foreach ($arr['cases'] as $case) {
 
+				$caseToAdd = new \lacueva\BlogBundle\Entity\Cases(); //buffer
+				
 				$caseToAdd->setIdCase($case['id']);
 				$caseToAdd->setUrl($case['url']);
 				$caseToAdd->setType($case['type']);
@@ -164,7 +170,7 @@ class SnapEngageChatController extends Controller {
 				$caseToAdd->setChatWaittime($case['chat_waittime']);
 				$caseToAdd->setChatDuration($case['chat_duration']);
 				$caseToAdd->setLanguageCode($case['language_code']);
-				
+
 				$caseToAdd->setTranscripts($case['transcripts']);
 //				if (isset($case[transcripts])) {
 //					$caseToAdd->setTranscripts($case['transcripts']);
@@ -182,26 +188,27 @@ class SnapEngageChatController extends Controller {
 
 				// _persist
 				$this->getDoctrine()->getManager()->persist($caseToAdd);
-
+				$this->getDoctrine()->getManager()->flush();
 				$this->counterCasesToAdd = $this->counterCasesToAdd + 1;
+				unset($caseToAdd);
 			}
-		} catch (Exception $exc) {
-			/* @var $exc ContextErrorException */
-			echo $exc->getTraceAsString();
-			echo "errores en algunos indices de los arrays en json";
-		} finally {
+		}
+//		} catch (Exception $exc) {
+//			/* @var $exc ContextErrorException */
+//			echo $exc->getTraceAsString();
+//			echo "errores en algunos indices de los arrays en json";
+//			die();
+//		}
 
-									$this->getDoctrine()->getManager()->flush();
 
 
 
-			$this->counterBloquesDeDatos = $this->counterBloquesDeDatos + 1;
+		$this->counterBloquesDeDatos = $this->counterBloquesDeDatos + 1;
 //	todo:		$this->getDoctrine()->getManager()->persist($caseToAdd);
 
 
 
-			return isset($arr['linkToNextSetOfResults']) ? $arr['linkToNextSetOfResults'] : false;
-		}
+		return isset($arr['linkToNextSetOfResults']) ? $arr['linkToNextSetOfResults'] : false;
 	}
 
 	/**
