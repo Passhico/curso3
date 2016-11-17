@@ -21,7 +21,8 @@ lacueva\BlogBundle\Entity\Cases:
             type: string
             length: 255
         requestedBy:
-            type: json_array
+            type: string
+            length: 255
         requesterDetails:
             type: json_array
         createdAtDate:
