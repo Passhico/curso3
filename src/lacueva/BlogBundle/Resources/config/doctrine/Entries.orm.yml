@@ -1,6 +1,5 @@
 lacueva\BlogBundle\Entity\Entries:
     type: entity
-    repositoryClass: EntriesRepo
     table: entries
     indexes:
         fk_entries_id_user:
@@ -8,7 +7,7 @@ lacueva\BlogBundle\Entity\Entries:
                 - id_user
         fk_entries_id_category:
             columns:
-                - id_category		
+                - id_category
     id:
         id:
             type: integer
@@ -44,16 +43,6 @@ lacueva\BlogBundle\Entity\Entries:
             options:
                 fixed: false
     manyToOne:
-        idUser:
-            targetEntity: Users
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                id_user:
-                    referencedColumnName: id
-            orphanRemoval: false
         idCategory:
             targetEntity: Categories
             cascade: {  }
@@ -64,9 +53,14 @@ lacueva\BlogBundle\Entity\Entries:
                 id_category:
                     referencedColumnName: id
             orphanRemoval: false
-    oneToMany:
-        entryTag:
-            targetEntity: Entrytag
-            mappedBy: idEntry
-            cascade: ["persist"]
+        idUser:
+            targetEntity: Users
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_user:
+                    referencedColumnName: id
+            orphanRemoval: false
     lifecycleCallbacks: {  }

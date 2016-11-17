@@ -87,7 +87,12 @@ Express51Conversations_index:
      path: /Express51Conversations/index
      defaults: {_controller: BlogBundle:Express51Conversations:index}
      
+     
+     
+# LAS RUTAS PARA EL CHAT DE PCCOM    
 SnapEngageChat_index:
-#     path: /SnapEngageChat/index
-     path: /
+     path: /chat/index
      defaults: {_controller: BlogBundle:SnapEngageChat:index}
+
+     path: /chat/load/{fechaDesde}/{fechaHasta}
+     defaults: {_controller: BlogBundle:SnapEngageChat:load}

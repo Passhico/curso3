@@ -18,6 +18,16 @@ lacueva\BlogBundle\Entity\Entrytag:
             generator:
                 strategy: IDENTITY
     manyToOne:
+        idEntry:
+            targetEntity: Entries
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_entry:
+                    referencedColumnName: id
+            orphanRemoval: false
         idTag:
             targetEntity: Tags
             cascade: {  }
@@ -26,16 +36,6 @@ lacueva\BlogBundle\Entity\Entrytag:
             inversedBy: null
             joinColumns:
                 id_tag:
-                    referencedColumnName: id
-            orphanRemoval: false
-        idEntry:
-            targetEntity: Entries
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: entryTag
-            joinColumns:
-                id_entry:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }

@@ -46,10 +46,18 @@ define('SNAPCHAT_URI', SNAPCHAT_URL . SNAPCHAT_ORG_ID . '/logs?widgetId=' . SNAP
 class SnapEngageChatController extends Controller {
 
 	private $httpHeaderSnapchat;
-	private $Case;
+	
+	/* @var $repo  lacueva\BlogBundle\Repository\casesRepository */
+	private $repo;
 
+	private $counterBloquesDeDatos;
+	private $counterCasesToAdd;
+	
 	public function __construct() {
 
+		$this->counterBloquesDeDatos = 0;
+		$this->counterCasesToAdd = 0;
+	//	$this->miRepo = $this->getDoctrine()->getManager()->getRepository(cases::class);
 
 		//la autentificacion de la API de chat se hace aqui.
 		$this->httpHeaderSnapchat[] = "Accept: application/json";
@@ -76,40 +84,31 @@ class SnapEngageChatController extends Controller {
 			return new Response(dump($arr));
 		};
 
-
-
-
-		//para depuracion. 
+		//TODO generateUri() con parametros al controlador.
 		echo '$uri: ' . SNAPCHAT_URI . '<br>';
 		echo '$uri: ' . var_dump($this->httpHeaderSnapchat) . '<br>';
 
-
-
-
-
 		//https://symfony.com/doc/current/components/serializer.html
-
 		$encoders = [new JsonDecode(true), new JsonEncode()];
 		$normalizers = [new JsonSerializableNormalizer()];
-
 		$serializer = new Serializer($normalizers, $encoders);
+
 
 		$case = new cases();
 
-
-
-
 		$ApiGatorSnapChat = new ApiGator(SNAPCHAT_URI, $this->httpHeaderSnapchat);
-
 		$ApiGatorSnapChat->procesaResponseCon($funcionDumpDeSymfonyJsonDecodificado);
 
 
-		$this->CreateEntitiesCases($ApiGatorSnapChat->getCurlResponse());
-
-
+		//mientras la insercion tenga una URI siguiente... 
+		while ($continueUri = $this->CreateEntitiesCases($ApiGatorSnapChat->getCurlResponse())) {
+			$ApiGatorSnapChat->setUri($continueUri);
+		}
 
 		//NO ME BORRRES o renderiza , o mejor manda a alguien a renderizar...xd .
-		return new Response('Extracción de datos de Api Rest de SnapEngageChatController');
+		return new Response( nl2br('Extracción de datos de Api Rest de SnapEngageChatController.
+									Numero de Registros :' . $this->counterCasesToAdd . '
+				                    Numero de Uris Procesadas: '. $this->counterBloquesDeDatos));                                 
 	}
 
 	/**
@@ -130,7 +129,9 @@ class SnapEngageChatController extends Controller {
 			$caseToAdd->setUrl($case['url']);
 			$caseToAdd->setType($case['type']);
 			$caseToAdd->setRequestedBy($case['requested_by']);
-			$caseToAdd->setRequesterDetails($case['requester_details']);
+			if (isset($case['requester_details'])) {
+				$caseToAdd->setRequesterDetails($case['requester_details']);
+			}
 			$caseToAdd->setDescription($case['description']);
 			$caseToAdd->setCreatedAtDate($case['created_at_date']);
 			$caseToAdd->setCreatedAtSeconds($case['created_at_seconds']);
@@ -156,11 +157,52 @@ class SnapEngageChatController extends Controller {
 			$caseToAdd->setTranscripts($case['transcripts']);
 			$caseToAdd->setJavascriptVariables($case['javascript_variables']);
 
-			//dump($caseToAdd);
-			var_dump(array_keys($case));
+		
+			//	var_dump(array_keys($case));
+			dump($caseToAdd);
+			$this->counterCasesToAdd = $this->counterCasesToAdd +1;
 		}
+		// _persist
+			
+		
+		$this->counterBloquesDeDatos= $this->counterBloquesDeDatos +1;
+//	todo:		$this->getDoctrine()->getManager()->persist($caseToAdd);
+	
+			
+			
+		return $arr['linkToNextSetOfResults'];
+	}
 
-		return $continueURI = ($arr['linkToNextSetOfResults'][0]) ? true : false;
+	/**
+	 * TODO: ExistCase.
+	 * 
+	 * @param type $Case
+	 * @return boolean
+	 */
+	private function existsCase($Case) {
+		return FALSE;
+	}
+
+
+	public function loadAction(\Symfony\Component\HttpFoundation\Request $request , $fechaDesde , $fechaHasta ) {
+		
+		$uriInicial = SNAPCHAT_URL . SNAPCHAT_ORG_ID . '/logs?widgetId=' . SNAPCHAT_WIDGET_ID . '&start='.$fechaDesde.'&end='.$fechaHasta;
+
+		$case = new cases();
+
+		$ApiGatorSnapChat = new ApiGator($uriInicial, $this->httpHeaderSnapchat);
+
+		//mientras la insercion tenga una URI siguiente... 
+		while ($continueUri = $this->CreateEntitiesCases($ApiGatorSnapChat->getCurlResponse())) {
+			$ApiGatorSnapChat->setUri($continueUri);
+		}
+	
+		
+		//NO ME BORRRES o renderiza , o mejor manda a alguien a renderizar...xd .
+		return new Response( nl2br('Extracción de datos de Api Rest de SnapEngageChatController.
+									Numero de Registros :' . $this->counterCasesToAdd . '
+				                    Numero de Uris Procesadas: '. $this->counterBloquesDeDatos));       
+		
 	}
 
 }

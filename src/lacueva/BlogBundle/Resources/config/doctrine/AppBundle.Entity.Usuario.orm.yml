@@ -1,50 +1,50 @@
-lacueva\BlogBundle\Entity\Users:
+AppBundle\Entity\Usuario:
     type: entity
-    table: users
+    table: usuarios
     id:
         id:
+            id: true
             type: integer
-            nullable: false
             options:
                 unsigned: false
-            id: true
             generator:
                 strategy: IDENTITY
     fields:
-        role:
-            type: string
-            nullable: true
-            length: 255
-            options:
-                fixed: false
         name:
             type: string
-            nullable: true
-            length: 255
+            length: 250
             options:
                 fixed: false
+            nullable: false
         surname:
             type: string
-            nullable: true
-            length: 255
+            length: 250
             options:
                 fixed: false
+            nullable: true
+        description:
+            type: string
+            length: 250
+            options:
+                fixed: false
+            nullable: true
         email:
             type: string
-            nullable: true
-            length: 255
+            length: 250
             options:
                 fixed: false
+                default: email@cliente.es
+            nullable: false
         password:
             type: string
-            nullable: true
-            length: 255
+            length: 250
             options:
                 fixed: false
+            nullable: true
         image:
             type: string
-            nullable: true
-            length: 255
+            length: 250
             options:
                 fixed: false
+            nullable: true
     lifecycleCallbacks: {  }
