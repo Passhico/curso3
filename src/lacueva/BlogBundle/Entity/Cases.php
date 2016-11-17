@@ -2,225 +2,158 @@
 
 namespace lacueva\BlogBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
- * cases
- *
- * @ORM\Table(name="cases")
- * @ORM\Entity(repositoryClass="lacueva\BlogBundle\Repository\casesRepository")
+ * Cases
  */
-class cases
+class Cases
 {
     /**
      * @var int
-	 * 
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="url", type="string", length=1000, unique=true)
+     */
+    private $idCase;
+
+    /**
+     * @var string
      */
     private $url;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="type", type="string", length=255)
      */
     private $type;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="requested_by", type="string", length=255)
+     * @var array
      */
     private $requestedBy;
 
     /**
      * @var array
-     *
-     * @ORM\Column(name="requester_details", type="json_array")
      */
     private $requesterDetails;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=255)
-     */
-    private $description;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created_at_date", type="datetime")
+     * @var float
      */
     private $createdAtDate;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created_at_seconds", type="datetime")
+     * @var int
      */
     private $createdAtSeconds;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created_at_milliseconds", type="datetime")
+     * @var int
      */
     private $createdAtMilliseconds;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="proactive_chat", type="boolean")
      */
     private $proactiveChat;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="page_url", type="string", length=1000)
      */
     private $pageUrl;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="referrer_url", type="string", length=1000)
      */
     private $referrerUrl;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="entry_url", type="string", length=1000)
      */
     private $entryUrl;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="ip_address", type="string", length=255)
      */
     private $ipAddress;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="user_agent", type="string", length=1000)
      */
     private $userAgent;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="browser", type="string", length=255)
      */
     private $browser;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="os", type="string", length=255)
      */
     private $os;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="country_code", type="string", length=255)
      */
     private $countryCode;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="country", type="string", length=255)
      */
     private $country;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="region", type="string", length=255)
      */
     private $region;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="city", type="string", length=255)
      */
     private $city;
 
     /**
      * @var float
-     *
-     * @ORM\Column(name="latitude", type="float")
      */
     private $latitude;
 
     /**
      * @var float
-     *
-     * @ORM\Column(name="longitude", type="float")
      */
     private $longitude;
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="source_id", type="integer")
      */
     private $sourceId;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="chat_waittime", type="string", length=255)
+     * @var int
      */
     private $chatWaittime;
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="chat_duration", type="integer")
      */
     private $chatDuration;
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="survey_score", type="integer")
      */
     private $surveyScore;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="language_code", type="string", length=255)
      */
     private $languageCode;
 
     /**
      * @var array
-     *
-     * @ORM\Column(name="transcripts", type="json_array")
      */
     private $transcripts;
 
     /**
      * @var array
-     *
-     * @ORM\Column(name="javascript_variables", type="json_array")
      */
     private $javascriptVariables;
 
@@ -236,11 +169,35 @@ class cases
     }
 
     /**
+     * Set idCase
+     *
+     * @param string $idCase
+     *
+     * @return Cases
+     */
+    public function setIdCase($idCase)
+    {
+        $this->idCase = $idCase;
+
+        return $this;
+    }
+
+    /**
+     * Get idCase
+     *
+     * @return string
+     */
+    public function getIdCase()
+    {
+        return $this->idCase;
+    }
+
+    /**
      * Set url
      *
      * @param string $url
      *
-     * @return cases
+     * @return Cases
      */
     public function setUrl($url)
     {
@@ -264,7 +221,7 @@ class cases
      *
      * @param string $type
      *
-     * @return cases
+     * @return Cases
      */
     public function setType($type)
     {
@@ -286,9 +243,9 @@ class cases
     /**
      * Set requestedBy
      *
-     * @param string $requestedBy
+     * @param array $requestedBy
      *
-     * @return cases
+     * @return Cases
      */
     public function setRequestedBy($requestedBy)
     {
@@ -300,7 +257,7 @@ class cases
     /**
      * Get requestedBy
      *
-     * @return string
+     * @return array
      */
     public function getRequestedBy()
     {
@@ -312,7 +269,7 @@ class cases
      *
      * @param array $requesterDetails
      *
-     * @return cases
+     * @return Cases
      */
     public function setRequesterDetails($requesterDetails)
     {
@@ -332,35 +289,11 @@ class cases
     }
 
     /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return cases
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
      * Set createdAtDate
      *
-     * @param \DateTime $createdAtDate
+     * @param float $createdAtDate
      *
-     * @return cases
+     * @return Cases
      */
     public function setCreatedAtDate($createdAtDate)
     {
@@ -372,7 +305,7 @@ class cases
     /**
      * Get createdAtDate
      *
-     * @return \DateTime
+     * @return float
      */
     public function getCreatedAtDate()
     {
@@ -382,9 +315,9 @@ class cases
     /**
      * Set createdAtSeconds
      *
-     * @param \DateTime $createdAtSeconds
+     * @param integer $createdAtSeconds
      *
-     * @return cases
+     * @return Cases
      */
     public function setCreatedAtSeconds($createdAtSeconds)
     {
@@ -396,7 +329,7 @@ class cases
     /**
      * Get createdAtSeconds
      *
-     * @return \DateTime
+     * @return int
      */
     public function getCreatedAtSeconds()
     {
@@ -406,9 +339,9 @@ class cases
     /**
      * Set createdAtMilliseconds
      *
-     * @param \DateTime $createdAtMilliseconds
+     * @param integer $createdAtMilliseconds
      *
-     * @return cases
+     * @return Cases
      */
     public function setCreatedAtMilliseconds($createdAtMilliseconds)
     {
@@ -420,7 +353,7 @@ class cases
     /**
      * Get createdAtMilliseconds
      *
-     * @return \DateTime
+     * @return int
      */
     public function getCreatedAtMilliseconds()
     {
@@ -432,7 +365,7 @@ class cases
      *
      * @param boolean $proactiveChat
      *
-     * @return cases
+     * @return Cases
      */
     public function setProactiveChat($proactiveChat)
     {
@@ -456,7 +389,7 @@ class cases
      *
      * @param string $pageUrl
      *
-     * @return cases
+     * @return Cases
      */
     public function setPageUrl($pageUrl)
     {
@@ -480,7 +413,7 @@ class cases
      *
      * @param string $referrerUrl
      *
-     * @return cases
+     * @return Cases
      */
     public function setReferrerUrl($referrerUrl)
     {
@@ -504,7 +437,7 @@ class cases
      *
      * @param string $entryUrl
      *
-     * @return cases
+     * @return Cases
      */
     public function setEntryUrl($entryUrl)
     {
@@ -528,7 +461,7 @@ class cases
      *
      * @param string $ipAddress
      *
-     * @return cases
+     * @return Cases
      */
     public function setIpAddress($ipAddress)
     {
@@ -552,7 +485,7 @@ class cases
      *
      * @param string $userAgent
      *
-     * @return cases
+     * @return Cases
      */
     public function setUserAgent($userAgent)
     {
@@ -576,7 +509,7 @@ class cases
      *
      * @param string $browser
      *
-     * @return cases
+     * @return Cases
      */
     public function setBrowser($browser)
     {
@@ -600,7 +533,7 @@ class cases
      *
      * @param string $os
      *
-     * @return cases
+     * @return Cases
      */
     public function setOs($os)
     {
@@ -624,7 +557,7 @@ class cases
      *
      * @param string $countryCode
      *
-     * @return cases
+     * @return Cases
      */
     public function setCountryCode($countryCode)
     {
@@ -648,7 +581,7 @@ class cases
      *
      * @param string $country
      *
-     * @return cases
+     * @return Cases
      */
     public function setCountry($country)
     {
@@ -672,7 +605,7 @@ class cases
      *
      * @param string $region
      *
-     * @return cases
+     * @return Cases
      */
     public function setRegion($region)
     {
@@ -696,7 +629,7 @@ class cases
      *
      * @param string $city
      *
-     * @return cases
+     * @return Cases
      */
     public function setCity($city)
     {
@@ -720,7 +653,7 @@ class cases
      *
      * @param float $latitude
      *
-     * @return cases
+     * @return Cases
      */
     public function setLatitude($latitude)
     {
@@ -744,7 +677,7 @@ class cases
      *
      * @param float $longitude
      *
-     * @return cases
+     * @return Cases
      */
     public function setLongitude($longitude)
     {
@@ -768,7 +701,7 @@ class cases
      *
      * @param integer $sourceId
      *
-     * @return cases
+     * @return Cases
      */
     public function setSourceId($sourceId)
     {
@@ -790,9 +723,9 @@ class cases
     /**
      * Set chatWaittime
      *
-     * @param string $chatWaittime
+     * @param integer $chatWaittime
      *
-     * @return cases
+     * @return Cases
      */
     public function setChatWaittime($chatWaittime)
     {
@@ -804,7 +737,7 @@ class cases
     /**
      * Get chatWaittime
      *
-     * @return string
+     * @return int
      */
     public function getChatWaittime()
     {
@@ -816,7 +749,7 @@ class cases
      *
      * @param integer $chatDuration
      *
-     * @return cases
+     * @return Cases
      */
     public function setChatDuration($chatDuration)
     {
@@ -840,7 +773,7 @@ class cases
      *
      * @param integer $surveyScore
      *
-     * @return cases
+     * @return Cases
      */
     public function setSurveyScore($surveyScore)
     {
@@ -864,7 +797,7 @@ class cases
      *
      * @param string $languageCode
      *
-     * @return cases
+     * @return Cases
      */
     public function setLanguageCode($languageCode)
     {
@@ -888,7 +821,7 @@ class cases
      *
      * @param array $transcripts
      *
-     * @return cases
+     * @return Cases
      */
     public function setTranscripts($transcripts)
     {
@@ -912,7 +845,7 @@ class cases
      *
      * @param array $javascriptVariables
      *
-     * @return cases
+     * @return Cases
      */
     public function setJavascriptVariables($javascriptVariables)
     {

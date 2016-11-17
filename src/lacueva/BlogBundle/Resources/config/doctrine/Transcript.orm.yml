@@ -1,0 +1,30 @@
+lacueva\BlogBundle\Entity\Transcript:
+    type: entity
+    table: null
+    repositoryClass: lacueva\BlogBundle\Repository\TranscriptRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        idTranscript:
+            type: string
+            length: 255
+            column: id_transcript
+        date:
+            type: datetime
+        dateSeconds:
+            type: time
+            column: date_seconds
+        dateMiliseconds:
+            type: integer
+            column: date_miliseconds
+        alias:
+            type: string
+            length: 255
+        message:
+            type: string
+            length: '1000'
+    lifecycleCallbacks: {  }

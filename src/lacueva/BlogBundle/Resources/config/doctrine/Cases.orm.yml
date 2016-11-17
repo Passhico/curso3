@@ -1,0 +1,87 @@
+lacueva\BlogBundle\Entity\Cases:
+    type: entity
+    table: null
+    repositoryClass: lacueva\BlogBundle\Repository\CasesRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        idCase:
+            type: string
+            length: 255
+            unique: true
+            column: id_case
+        url:
+            type: string
+            length: 255
+        type:
+            type: string
+            length: 255
+        requestedBy:
+            type: json_array
+        requesterDetails:
+            type: json_array
+        createdAtDate:
+            type: float
+        createdAtSeconds:
+            type: integer
+        createdAtMilliseconds:
+            type: integer
+        proactiveChat:
+            type: boolean
+        pageUrl:
+            type: string
+            length: 255
+        referrerUrl:
+            type: string
+            length: 255
+        entryUrl:
+            type: string
+            length: 255
+        ipAddress:
+            type: string
+            length: 255
+        userAgent:
+            type: string
+            length: '512'
+        browser:
+            type: string
+            length: 255
+        os:
+            type: string
+            length: 255
+        countryCode:
+            type: string
+            length: '10'
+        country:
+            type: string
+            length: 255
+        region:
+            type: string
+            length: 255
+        city:
+            type: string
+            length: 255
+        latitude:
+            type: float
+        longitude:
+            type: float
+        sourceId:
+            type: integer
+        chatWaittime:
+            type: integer
+        chatDuration:
+            type: integer
+        surveyScore:
+            type: integer
+        languageCode:
+            type: string
+            length: 255
+        transcripts:
+            type: json_array
+        javascriptVariables:
+            type: json_array
+    lifecycleCallbacks: {  }
