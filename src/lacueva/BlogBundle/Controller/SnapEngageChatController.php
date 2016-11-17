@@ -19,6 +19,7 @@ use const SNAPCHAT_URI;
 use const SNAPCHAT_URL;
 use const SNAPCHAT_WIDGET_ID;
 use function dump;
+use Symfony\Component\Debug\Exception\ContextErrorException; //para cuando en el json falta algun indice (campo)
 
 define('SNAPCHAT_URL', 'https://www.snapengage.com/api/v2/');
 define('SNAPCHAT_ORG_ID', '6418107096367104');
@@ -119,58 +120,67 @@ class SnapEngageChatController extends Controller {
 	 * @return Si quedan datos , la Uri , si ya no queda nada NULL.
 	 */
 	private function CreateEntitiesCases($json) {
+
 		$caseToAdd = new cases(); //buffer
 		//json2array
 		$arr = json_decode($json, true);
 
-		foreach ($arr['cases'] as $case) {
-			$caseToAdd->setUrl($case['url']);
-			$caseToAdd->setType($case['type']);
-			$caseToAdd->setRequestedBy($case['requested_by']);
-			if (isset($case['requester_details'])) {
-				$caseToAdd->setRequesterDetails($case['requester_details']);
+		try {
+			foreach ($arr['cases'] as $case) {
+				$caseToAdd->setUrl($case['url']);
+				$caseToAdd->setType($case['type']);
+				$caseToAdd->setRequestedBy($case['requested_by']);
+				if (isset($case['requester_details'])) {
+					$caseToAdd->setRequesterDetails($case['requester_details']);
+				}
+				$caseToAdd->setDescription($case['description']);
+				$caseToAdd->setCreatedAtDate($case['created_at_date']);
+				$caseToAdd->setCreatedAtSeconds($case['created_at_seconds']);
+				$caseToAdd->setCreatedAtMilliseconds($case['created_at_milliseconds']);
+				$caseToAdd->setProactiveChat($case['proactive_chat']);
+				$caseToAdd->setPageUrl($case['page_url']);
+				if (isset($case['referrer_url'])) {
+					$caseToAdd->setReferrerUrl($case['referrer_url']);
+				}
+				$caseToAdd->setEntryUrl($case['entry_url']);
+				$caseToAdd->setIpAddress($case['ip_address']);
+				$caseToAdd->setUserAgent($case['user_agent']);
+				$caseToAdd->setBrowser($case['browser']);
+				$caseToAdd->setOs($case['os']);
+				$caseToAdd->setCountryCode($case['country_code']);
+				$caseToAdd->setCountry($case['country']);
+				$caseToAdd->setRegion($case['region']);
+				$caseToAdd->setCity($case['city']);
+				$caseToAdd->setLatitude($case['latitude']);
+				$caseToAdd->setLongitude($case['longitude']);
+				$caseToAdd->setSourceId($case['source_id']);
+				$caseToAdd->setChatWaittime($case['chat_waittime']);
+				$caseToAdd->setChatDuration($case['chat_duration']);
+				$caseToAdd->setLanguageCode($case['language_code']);
+				$caseToAdd->setTranscripts($case['transcripts']);
+				$caseToAdd->setJavascriptVariables($case['javascript_variables']);
 			}
-			$caseToAdd->setDescription($case['description']);
-			$caseToAdd->setCreatedAtDate($case['created_at_date']);
-			$caseToAdd->setCreatedAtSeconds($case['created_at_seconds']);
-			$caseToAdd->setCreatedAtMilliseconds($case['created_at_milliseconds']);
-			$caseToAdd->setProactiveChat($case['proactive_chat']);
-			$caseToAdd->setPageUrl($case['page_url']);
-			if (isset($case['referrer_url'])) {
-				$caseToAdd->setReferrerUrl($case['referrer_url']);
-			}
-			$caseToAdd->setEntryUrl($case['entry_url']);
-			$caseToAdd->setIpAddress($case['ip_address']);
-			$caseToAdd->setUserAgent($case['user_agent']);
-			$caseToAdd->setBrowser($case['browser']);
-			$caseToAdd->setOs($case['os']);
-			$caseToAdd->setCountryCode($case['country_code']);
-			$caseToAdd->setCountry($case['country']);
-			$caseToAdd->setRegion($case['region']);
-			$caseToAdd->setCity($case['city']);
-			$caseToAdd->setLatitude($case['latitude']);
-			$caseToAdd->setLongitude($case['longitude']);
-			$caseToAdd->setSourceId($case['source_id']);
-			$caseToAdd->setChatWaittime($case['chat_waittime']);
-			$caseToAdd->setChatDuration($case['chat_duration']);
-			$caseToAdd->setLanguageCode($case['language_code']);
-			$caseToAdd->setTranscripts($case['transcripts']);
-			$caseToAdd->setJavascriptVariables($case['javascript_variables']);
+		} catch (Exception $exc) {
+			/* @var $exc ContextErrorException */
+			echo $exc->getTraceAsString();
+			echo "errores en algunos indices de los arrays en json";
+		} finally {
 
 
 			//	var_dump(array_keys($case));
 			dump($caseToAdd);
 			$this->counterCasesToAdd = $this->counterCasesToAdd + 1;
-		}
-		// _persist
+
+			// _persist
 
 
-		$this->counterBloquesDeDatos = $this->counterBloquesDeDatos + 1;
+			$this->counterBloquesDeDatos = $this->counterBloquesDeDatos + 1;
 //	todo:		$this->getDoctrine()->getManager()->persist($caseToAdd);
 
 
 
-		return $arr['linkToNextSetOfResults'];
+			return $arr['linkToNextSetOfResults'];
+		}
 	}
 
 	/**
