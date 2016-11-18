@@ -93,7 +93,7 @@ Express51Conversations_index:
 SnapEngageChat_index:
      path: /chat/index
      defaults: {_controller: BlogBundle:SnapEngageChat:index}
-SnapEngageChat_index:
+SnapEngageChat_index_directo:
      path: /
      defaults: {_controller: BlogBundle:SnapEngageChat:index}
 
