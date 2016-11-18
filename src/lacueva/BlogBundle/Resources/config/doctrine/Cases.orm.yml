@@ -88,6 +88,8 @@ lacueva\BlogBundle\Entity\Cases:
             length: 255
         transcripts:
             type: json_array
+            nullable: true
+             
         javascriptVariables:
             type: json_array
     lifecycleCallbacks: {  }
