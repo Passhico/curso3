@@ -27,6 +27,7 @@ lacueva\BlogBundle\Entity\Cases:
             type: string
             length: 255
         requesterDetails:
+            nullable: true
             type: json_array
         createdAtDate:
             type: float
