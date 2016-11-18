@@ -41,9 +41,11 @@ lacueva\BlogBundle\Entity\Cases:
             type: string
             length: 255
         referrerUrl:
+            nullable: true
             type: string
             length: 255
         entryUrl:
+            nullable: true
             type: string
             length: 255
         ipAddress:

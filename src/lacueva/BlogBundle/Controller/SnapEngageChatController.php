@@ -5,12 +5,19 @@ namespace lacueva\BlogBundle\Controller;
 include_once 'ApiGator/ApiGator.php'; //para cuando en el json falta algun indice (campo)
 
 use ApiGator\ApiGator;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use lacueva\BlogBundle\Entity\Cases;
 use lacueva\BlogBundle\Entity\Transcript;
 use lacueva\BlogBundle\Repository\casesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Debug\Exception\ContextErrorException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use const SNAPCHAT_ORG_ID;
+use const SNAPCHAT_URI;
+use const SNAPCHAT_URL;
+use const SNAPCHAT_WIDGET_ID;
+use function dump;
 
 define('SNAPCHAT_URL', 'https://www.snapengage.com/api/v2/');
 define('SNAPCHAT_ORG_ID', '6418107096367104');
@@ -37,6 +44,11 @@ define('SNAPCHAT_URI', SNAPCHAT_URL . SNAPCHAT_ORG_ID . '/logs?widgetId=' . SNAP
 
 class SnapEngageChatController extends Controller {
 
+	/**
+	 * En esta API se autentica en la cabecera HTTP . 
+	 * así que preparamos una personalizada. 
+	 * @var array 
+	 */
 	private $HttpHeaderSnapchat;
 
 	/* @var $repo casesRepository */
@@ -44,16 +56,16 @@ class SnapEngageChatController extends Controller {
 
 	/* @var $repo casesRepository */
 	private $RepoTranscripts;
-	
 	//counters
 	private $CounterBloqueDatos100Registros;
-	
+
+	/*	 * ****************************COUNTERS***************************** */
+
 	/**
 	 * Las líneas de cada chat.
 	 * @var string
 	 */
 	private $CounterTranscrips; //lineas de chat.
-
 
 	/**
 	 * El Número de Cases Leeidos en el Json . 
@@ -63,11 +75,22 @@ class SnapEngageChatController extends Controller {
 	private $counterTrysToPersist;
 	private $CounterCasePersistedSucessfully;
 
-	
+	/**
+	 * Promedio de registros insertados satisfactoriamente.
+	 * @var float 
+	 */
+	private $pctSucessfully; //TODO: getter = $CounterCasePersistedSucessfully / $counterTrysToPersist
+	private $CounterIndexException;
+
+	/*	 * ***************************************************************** */
+
 	public function __construct() {
 		$this->CounterBloqueDatos100Registros = 0;
 		$this->CounterCasePersistedSucessfully = 0;
 		$this->CounterTranscrips = 0;
+
+		$this->pctSucessfully = 0;
+
 
 		//$this->repoCases = $this->getDoctrine()->getManager()->getRepository(Cases::class);
 		//$this->repoTranscripts = $this->getDoctrine()->getManager()->getRepository(Transcript::class);
@@ -78,31 +101,7 @@ class SnapEngageChatController extends Controller {
 		$this->HttpHeaderSnapchat[] = 'Authorization: ebec63f521baf484da13a550a111e5d6';
 	}
 
-	/**
-	 * @param Request $request
-	 *
-	 * @return Response
-	 *                  path : /SnapEngageChat/index
-	 */
-	public function indexAction(Request $request) {
-		echo '$uri: ' . SNAPCHAT_URI . '<br>';
-		echo '$uri: ' . var_dump($this->HttpHeaderSnapchat) . '<br>';
-
-		//$ApiGatorSnapChat = new ApiGator(SNAPCHAT_URI, $this->httpHeaderSnapchat);
-		$ApiGatorSnapChat = new ApiGator(SNAPCHAT_URI, $this->HttpHeaderSnapchat);
-
-		//forsinnext.
-		while (false != $NextUri = $this->Persist100AndGetNextUri($ApiGatorSnapChat->getCurlResponse())) {
-			$ApiGatorSnapChat->setUri($NextUri);
-		}
-
-		//NO ME BORRRES o renderiza , o mejor manda a alguien a renderizar...xd .
-		return new Response(nl2br('Extracción de datos de Api Rest de SnapEngageChatController.
-									Numero de Registros :' . $this->CounterCasePersistedSucessfully . '
-				                    Numero de Uris Procesadas: ' . $this->CounterBloqueDatos100Registros . '
-									Numero de Transcripts(lineas de Chat): ' . $this->CounterTranscrips));
-	}
-
+	
 	/**
 	 * Procesa el json con la response de los cases.
 	 * Por cada caso crea una entidad en el ORM.
@@ -119,8 +118,8 @@ class SnapEngageChatController extends Controller {
 		$arr = json_decode($json, true);
 
 		if (isset($arr['cases'])) {
-			try {
 			foreach ($arr['cases'] as $case) {
+
 				$caseToAdd = new Cases(); //buffer
 				$transcriptToAdd = new Transcript(); //buffer
 
@@ -140,7 +139,10 @@ class SnapEngageChatController extends Controller {
 				if (isset($case['referrer_url'])) {
 					$caseToAdd->setReferrerUrl($case['referrer_url']);
 				}
-				$caseToAdd->setEntryUrl($case['entry_url']);
+				if (isset($case['entry_url'])) {
+					$caseToAdd->setEntryUrl($case['entry_url']);
+				}
+
 				$caseToAdd->setIpAddress($case['ip_address']);
 				$caseToAdd->setUserAgent($case['user_agent']);
 				$caseToAdd->setBrowser($case['browser']);
@@ -155,8 +157,15 @@ class SnapEngageChatController extends Controller {
 				$caseToAdd->setChatWaittime($case['chat_waittime']);
 				$caseToAdd->setChatDuration($case['chat_duration']);
 				$caseToAdd->setLanguageCode($case['language_code']);
-
-				$caseToAdd->setTranscripts($case['transcripts']);
+				$caseToAdd->setJavascriptVariables($case['javascript_variables']);
+				//valoración.
+				if (isset($case['survey_score'])) {
+					$caseToAdd->setSurveyScore($case['survey_score']);
+				}
+				//todo: setsafe()
+				if (isset($case['transcripts'])) {
+					$caseToAdd->setTranscripts($case['transcripts']);
+				}
 //TODO : ENTIDAD LINEA O EXPLODE
 //				if (isset($case[transcripts])) {
 //					$caseToAdd->setTranscripts($case['transcripts']);
@@ -167,34 +176,58 @@ class SnapEngageChatController extends Controller {
 //						$this->counterTranscripts = $this->counterTranscripts + 1;
 //					}
 //				}
-				$caseToAdd->setJavascriptVariables($case['javascript_variables']);
-
+				/*				 * ********************************************************************************** */
 				//var_dump(array_keys($case));
-				dump($caseToAdd);
+				var_dump('Insertando IdCase: ' . $caseToAdd->getIdCase);
 
 				// _persist
-				$this->getDoctrine()->getManager()->persist($caseToAdd);
-				if ($this->getDoctrine()->getManager()->flush()) {
-					$this->log('No se pudo añadir el Case');
+				if (!$this->existsCase($caseToAdd->getIdCase())) {
+					$this->getDoctrine()->getManager()->persist($caseToAdd);
+					if ($this->getDoctrine()->getManager()->flush()) {
+						dump('No se ha podido insertar el Case : ' . $caseToAdd);
+					} else {
+						$this->CounterCasePersistedSucessfully = $this->CounterCasePersistedSucessfully + 1;
+					}
 				}
-
 				//COUNTER
-				$this->CounterCasePersistedSucessfully = $this->CounterCasePersistedSucessfully + 1;
 				unset($caseToAdd);
-			}
-			
-			} catch (ContextErrorException $eFaltaIndice) {
-				$this->log( $eFaltaIndice->getTraceAsString() ) ;
-			} finally {
-				$this->counterTrysToPersist;
 			}
 		}
 
-
+		//COUNTER
 		$this->CounterBloqueDatos100Registros = $this->CounterBloqueDatos100Registros + 1;
 
 		return isset($arr['linkToNextSetOfResults']) ? $arr['linkToNextSetOfResults'] : false;
 	}
+	
+	/**
+	 * @param Request $request
+	 *
+	 * @return Response
+	 *                  path : /SnapEngageChat/index
+	 */
+	public function indexAction(Request $request) {
+		echo '$uri: ' . SNAPCHAT_URI . '<br>';
+		echo '$uri: ' . var_dump($this->HttpHeaderSnapchat) . '<br>';
+
+		//$ApiGatorSnapChat = new ApiGator(SNAPCHAT_URI, $this->httpHeaderSnapchat);
+		$ApiGatorSnapChat = new ApiGator(SNAPCHAT_URI, $this->HttpHeaderSnapchat);
+		
+		//forsinnext.
+		$NextUri = SNAPCHAT_URI;
+		while (false != $NextUri) {
+			$ApiGatorSnapChat->setUri($NextUri);
+			$NextUri = $this->Persist100AndGetNextUri($ApiGatorSnapChat->getCurlResponse());
+		}
+
+		//NO ME BORRRES o renderiza , o mejor manda a alguien a renderizar...xd .
+		return new Response(nl2br('Extracción de datos de Api Rest de SnapEngageChatController.
+									Numero de Registros :' . $this->CounterCasePersistedSucessfully . '
+				                    Numero de Uris Procesadas: ' . $this->CounterBloqueDatos100Registros . '
+				                    Numero de Excepciones de Falta de indices: ' . $this->CounterIndexException . '
+									Numero de Transcripts(lineas de Chat): ' . $this->CounterTranscrips));
+	}
+
 
 	/**
 	 * TODO: ExistCase.
@@ -203,12 +236,16 @@ class SnapEngageChatController extends Controller {
 	 *
 	 * @return bool
 	 */
-	private function existsCase($Case) {
+	private function existsCase($IdCase) {
+		//Evita  \Doctrine\DBAL\Exception\UniqueConstraintViolationException
+		$where = ['idCase' => $IdCase];
+		return null != $this->getDoctrine()->getManager()->getRepository(Cases::class)->findBy($where) ? true : false;
 		return false;
 	}
 
 	public function loadAction(Request $request, $fechaDesde, $fechaHasta) {
 
+		//TODO : COPIA DE LA INDEX PERO PARAMETRIZADA.
 		//NO ME BORRRES o renderiza , o mejor manda a alguien a renderizar...xd .
 		return new Response(nl2br('Extracción de datos de Api Rest de SnapEngageChatController.
 									fecha desde:' . $fechaDesde . '

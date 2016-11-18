@@ -10,4 +10,5 @@ namespace lacueva\BlogBundle\Repository;
  */
 class CasesRepository extends \Doctrine\ORM\EntityRepository
 {
+	//TODO: IMPLEMENTAR AQUI LOS FINDBY 
 }
