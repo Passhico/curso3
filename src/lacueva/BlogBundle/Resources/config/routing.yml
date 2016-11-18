@@ -93,6 +93,9 @@ Express51Conversations_index:
 SnapEngageChat_index:
      path: /chat/index
      defaults: {_controller: BlogBundle:SnapEngageChat:index}
+SnapEngageChat_index:
+     path: /
+     defaults: {_controller: BlogBundle:SnapEngageChat:index}
 
      path: /chat/load/{fechaDesde}/{fechaHasta}
      defaults: {_controller: BlogBundle:SnapEngageChat:load}
