@@ -61,11 +61,6 @@ class SnapEngageChatController extends Controller {
 
 	/*	 * ****************************COUNTERS***************************** */
 
-	/**
-	 * Las líneas de cada chat.
-	 * @var string
-	 */
-	private $CounterTranscrips; //lineas de chat.
 
 	/**
 	 * El Número de Cases Leeidos en el Json . 
@@ -73,7 +68,7 @@ class SnapEngageChatController extends Controller {
 	 * @var int
 	 */
 	private $counterTrysToPersist;
-	private $CounterCasePersistedSucessfully;
+	private $CounterCasosPersistidos;
 
 	/**
 	 * Promedio de registros insertados satisfactoriamente.
@@ -89,8 +84,8 @@ class SnapEngageChatController extends Controller {
 
 	public function __construct() {
 		$this->CounterBloqueDatos100Registros = 0;
-		$this->CounterCasePersistedSucessfully = 0;
-		$this->CounterTranscrips = 0;
+		$this->CounterCasosPersistidos = 0;
+
 		$this->CounterLineas = 0;
 		$this->CounterChats = 0; 
 
@@ -172,11 +167,20 @@ class SnapEngageChatController extends Controller {
 					$caseToAdd->setTranscripts($case['transcripts']);
 
 					//por cada linea...
-					foreach ($caseToAdd->getTranscripts() as $trasncript2add) {
+					foreach ($caseToAdd->getTranscripts() as $trasncript) {
 						$trasncript2add = new Transcript();
 						$this->CounterLineas++;
 						
+						$trasncript2add->setIdTranscript($trasncript['id']);
+						var_dump($trasncript2add->getIdTranscript() . 'Tenemos el id de la linea .. a seguir');
 						
+//						$trasncript2add->set
+//						$trasncript2add->set
+//						$trasncript2add->set
+//						$trasncript2add->set
+//						$trasncript2add->set
+//						$trasncript2add->set
+//						
 //cargamos
 //persistimos
 
@@ -191,7 +195,7 @@ class SnapEngageChatController extends Controller {
 					if ($this->getDoctrine()->getManager()->flush()) {
 						dump('No se ha podido insertar el Case : ' . $caseToAdd);
 					} else {
-						$this->CounterCasePersistedSucessfully++;
+						$this->CounterCasosPersistidos++;
 						var_dump('Insertando IdCase: ' . $caseToAdd->getIdCase());
 					}
 				} else
@@ -230,11 +234,12 @@ class SnapEngageChatController extends Controller {
 
 		//NO ME BORRRES o renderiza , o mejor manda a alguien a renderizar...xd .
 		return new Response(nl2br('Extracción de datos de Api Rest de SnapEngageChatController.
-									Numero de Registros :' . $this->CounterCasePersistedSucessfully . '
-				                    Numero de Uris Procesadas: ' . $this->CounterBloqueDatos100Registros . '
+								
+				                    Numero de Uris Procesadas (100 regs): ' . $this->CounterBloqueDatos100Registros . '
 				                    Numero de Excepciones de Falta de indices: ' . $this->CounterIndexException . '
-				                    Lineas Leidas :  ' . $this->CounterLineas . '
 				                    Chats Leidos :  ' . $this->CounterChats . '
+									Chats Persistidos :' . $this->CounterCasosPersistidos . '
+									Lineas Leidas :  ' . $this->CounterLineas . '
 									'));
 	}
 
