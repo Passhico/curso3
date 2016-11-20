@@ -24,7 +24,7 @@ define('SNAPCHAT_ORG_ID', '6418107096367104');
 define('SNAPCHAT_APITOKEN', 'ebec63f521baf484da13a550a111e5d6');
 define('SNAPCHAT_WIDGET_ID', '4e09afaa-f6c5-4d73-9fae-5b85b0e4aee6');
 
-define('SNAPCHAT_URI', SNAPCHAT_URL . SNAPCHAT_ORG_ID . '/logs?widgetId=' . SNAPCHAT_WIDGET_ID . '&start=2016-11-01&end=2016-11-17');
+define('SNAPCHAT_URI', SNAPCHAT_URL . SNAPCHAT_ORG_ID . '/logs?widgetId=' . SNAPCHAT_WIDGET_ID . '&start=2016-11-16&end=2016-11-17');
 /*
  * Crea conexiones a la api de datos de SnapChat para PcComponentes.com
  *
@@ -101,7 +101,6 @@ class SnapEngageChatController extends Controller {
 		$this->HttpHeaderSnapchat[] = 'Authorization: ebec63f521baf484da13a550a111e5d6';
 	}
 
-	
 	/**
 	 * Procesa el json con la response de los cases.
 	 * Por cada caso crea una entidad en el ORM.
@@ -178,17 +177,18 @@ class SnapEngageChatController extends Controller {
 //				}
 				/*				 * ********************************************************************************** */
 				//var_dump(array_keys($case));
-				var_dump('Insertando IdCase: ' . $caseToAdd->getIdCase);
-
 				// _persist
 				if (!$this->existsCase($caseToAdd->getIdCase())) {
 					$this->getDoctrine()->getManager()->persist($caseToAdd);
 					if ($this->getDoctrine()->getManager()->flush()) {
 						dump('No se ha podido insertar el Case : ' . $caseToAdd);
 					} else {
-						$this->CounterCasePersistedSucessfully = $this->CounterCasePersistedSucessfully + 1;
+						$this->CounterCasePersistedSucessfully++;
+						var_dump('Insertando IdCase: ' . $caseToAdd->getIdCase());
 					}
-				}
+				}else
+					var_dump('El Caso: ' . $caseToAdd->getIdCase() . ' Ya existe.. se omite');
+
 				//COUNTER
 				unset($caseToAdd);
 			}
@@ -199,7 +199,7 @@ class SnapEngageChatController extends Controller {
 
 		return isset($arr['linkToNextSetOfResults']) ? $arr['linkToNextSetOfResults'] : false;
 	}
-	
+
 	/**
 	 * @param Request $request
 	 *
@@ -212,7 +212,7 @@ class SnapEngageChatController extends Controller {
 
 		//$ApiGatorSnapChat = new ApiGator(SNAPCHAT_URI, $this->httpHeaderSnapchat);
 		$ApiGatorSnapChat = new ApiGator(SNAPCHAT_URI, $this->HttpHeaderSnapchat);
-		
+
 		//forsinnext.
 		$NextUri = SNAPCHAT_URI;
 		while (false != $NextUri) {
@@ -227,7 +227,6 @@ class SnapEngageChatController extends Controller {
 				                    Numero de Excepciones de Falta de indices: ' . $this->CounterIndexException . '
 									Numero de Transcripts(lineas de Chat): ' . $this->CounterTranscrips));
 	}
-
 
 	/**
 	 * TODO: ExistCase.
