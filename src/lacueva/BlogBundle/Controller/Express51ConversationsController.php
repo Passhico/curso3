@@ -5,7 +5,7 @@ namespace lacueva\BlogBundle\Controller;
 // vg->lacueva\BlogBundle\Controller (el completion works);
 include_once 'ApiGator/ApiGator.php';
 
-use ApiGator\ApiGator;
+use ApiGator\ApiGatorExpress51;
 use Closure;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
