@@ -83,6 +83,7 @@ class SnapEngageChatController extends Controller {
 	private $CounterIndexException;
 	
 	private $CounterLineas ; 
+	private $CounterChats;
 
 	/*	 * ***************************************************************** */
 
@@ -91,6 +92,7 @@ class SnapEngageChatController extends Controller {
 		$this->CounterCasePersistedSucessfully = 0;
 		$this->CounterTranscrips = 0;
 		$this->CounterLineas = 0;
+		$this->CounterChats = 0; 
 
 		$this->pctSucessfully = 0;
 
@@ -121,7 +123,8 @@ class SnapEngageChatController extends Controller {
 
 		if (isset($arr['cases'])) {
 			foreach ($arr['cases'] as $case) {
-
+				$this->CounterChats++;
+				
 				$caseToAdd = new Cases(); //buffer
 
 
@@ -172,6 +175,8 @@ class SnapEngageChatController extends Controller {
 					foreach ($caseToAdd->getTranscripts() as $trasncript2add) {
 						$trasncript2add = new Transcript();
 						$this->CounterLineas++;
+						
+						
 //cargamos
 //persistimos
 
@@ -228,8 +233,9 @@ class SnapEngageChatController extends Controller {
 									Numero de Registros :' . $this->CounterCasePersistedSucessfully . '
 				                    Numero de Uris Procesadas: ' . $this->CounterBloqueDatos100Registros . '
 				                    Numero de Excepciones de Falta de indices: ' . $this->CounterIndexException . '
-				                    Lineas :  ' . $this->CounterLineas . '
-									Numero de Transcripts(lineas de Chat): ' . $this->CounterTranscrips));
+				                    Lineas Leidas :  ' . $this->CounterLineas . '
+				                    Chats Leidos :  ' . $this->CounterChats . '
+									'));
 	}
 
 	/**
