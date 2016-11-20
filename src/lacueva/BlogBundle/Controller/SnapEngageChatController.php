@@ -81,6 +81,8 @@ class SnapEngageChatController extends Controller {
 	 */
 	private $pctSucessfully; //TODO: getter = $CounterCasePersistedSucessfully / $counterTrysToPersist
 	private $CounterIndexException;
+	
+	private $CounterLineas ; 
 
 	/*	 * ***************************************************************** */
 
@@ -88,6 +90,7 @@ class SnapEngageChatController extends Controller {
 		$this->CounterBloqueDatos100Registros = 0;
 		$this->CounterCasePersistedSucessfully = 0;
 		$this->CounterTranscrips = 0;
+		$this->CounterLineas = 0;
 
 		$this->pctSucessfully = 0;
 
@@ -120,7 +123,7 @@ class SnapEngageChatController extends Controller {
 			foreach ($arr['cases'] as $case) {
 
 				$caseToAdd = new Cases(); //buffer
-				$transcriptToAdd = new Transcript(); //buffer
+
 
 				$caseToAdd->setIdCase($case['id']);
 				$caseToAdd->setUrl($case['url']);
@@ -164,19 +167,19 @@ class SnapEngageChatController extends Controller {
 				//todo: setsafe()
 				if (isset($case['transcripts'])) {
 					$caseToAdd->setTranscripts($case['transcripts']);
+
+					//por cada linea...
+					foreach ($caseToAdd->getTranscripts() as $trasncript2add) {
+						$trasncript2add = new Transcript();
+						$this->CounterLineas++;
+//cargamos
+//persistimos
+
+						unset($trasncript2add);
+					}
 				}
-//TODO : ENTIDAD LINEA O EXPLODE
-//				if (isset($case[transcripts])) {
-//					$caseToAdd->setTranscripts($case['transcripts']);
-//					//Por cada linea de conversación creamos un objeto con una
-//					//foreing_key a su padre "case"
-//					foreach ($caseToAdd->getTranscripts() as $Transcript) {
-//						$this->debug_to_console($Transcript);
-//						$this->counterTranscripts = $this->counterTranscripts + 1;
-//					}
-//				}
-				/*				 * ********************************************************************************** */
-				//var_dump(array_keys($case));
+
+
 				// _persist
 				if (!$this->existsCase($caseToAdd->getIdCase())) {
 					$this->getDoctrine()->getManager()->persist($caseToAdd);
@@ -186,7 +189,7 @@ class SnapEngageChatController extends Controller {
 						$this->CounterCasePersistedSucessfully++;
 						var_dump('Insertando IdCase: ' . $caseToAdd->getIdCase());
 					}
-				}else
+				} else
 					var_dump('El Caso: ' . $caseToAdd->getIdCase() . ' Ya existe.. se omite');
 
 				//COUNTER
@@ -225,6 +228,7 @@ class SnapEngageChatController extends Controller {
 									Numero de Registros :' . $this->CounterCasePersistedSucessfully . '
 				                    Numero de Uris Procesadas: ' . $this->CounterBloqueDatos100Registros . '
 				                    Numero de Excepciones de Falta de indices: ' . $this->CounterIndexException . '
+				                    Lineas :  ' . $this->CounterLineas . '
 									Numero de Transcripts(lineas de Chat): ' . $this->CounterTranscrips));
 	}
 
