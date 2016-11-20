@@ -61,7 +61,6 @@ class SnapEngageChatController extends Controller {
 
 	/*	 * ****************************COUNTERS***************************** */
 
-
 	/**
 	 * El Número de Cases Leeidos en el Json . 
 	 * Son los intentos que hace el try para persistirlos . 
@@ -76,8 +75,7 @@ class SnapEngageChatController extends Controller {
 	 */
 	private $pctSucessfully; //TODO: getter = $CounterCasePersistedSucessfully / $counterTrysToPersist
 	private $CounterIndexException;
-	
-	private $CounterLineas ; 
+	private $CounterLineas;
 	private $CounterChats;
 
 	/*	 * ***************************************************************** */
@@ -87,7 +85,7 @@ class SnapEngageChatController extends Controller {
 		$this->CounterCasosPersistidos = 0;
 
 		$this->CounterLineas = 0;
-		$this->CounterChats = 0; 
+		$this->CounterChats = 0;
 
 		$this->pctSucessfully = 0;
 
@@ -119,7 +117,7 @@ class SnapEngageChatController extends Controller {
 		if (isset($arr['cases'])) {
 			foreach ($arr['cases'] as $case) {
 				$this->CounterChats++;
-				
+
 				$caseToAdd = new Cases(); //buffer
 
 
@@ -170,20 +168,17 @@ class SnapEngageChatController extends Controller {
 					foreach ($caseToAdd->getTranscripts() as $trasncript) {
 						$trasncript2add = new Transcript();
 						$this->CounterLineas++;
-						
-						$trasncript2add->setIdTranscript($trasncript['id']);
-						var_dump($trasncript2add->getIdTranscript() . 'Tenemos el id de la linea .. a seguir');
-						
-//						$trasncript2add->set
-//						$trasncript2add->set
-//						$trasncript2add->set
-//						$trasncript2add->set
-//						$trasncript2add->set
-//						$trasncript2add->set
-//						
-//cargamos
-//persistimos
 
+						//cargamos
+						$trasncript2add->setIdTranscript($trasncript['id']);
+						$trasncript2add->setDate($trasncript['date']);
+						$trasncript2add->setDateSeconds($trasncript['date_seconds']);
+						$trasncript2add->setDateMiliseconds($trasncript['date_milliseconds']);
+						$trasncript2add->setAlias($trasncript['alias']);
+						$trasncript2add->setMessage($trasncript['message']);
+						//persistimos
+
+						var_dump($trasncript2add);
 						unset($trasncript2add);
 					}
 				}
