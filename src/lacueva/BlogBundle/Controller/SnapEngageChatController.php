@@ -77,6 +77,7 @@ class SnapEngageChatController extends Controller {
 	private $CounterIndexException;
 	private $CounterLineas;
 	private $CounterChats;
+	private $CounterLineasPersistidas;
 
 	/*	 * ***************************************************************** */
 
@@ -85,6 +86,7 @@ class SnapEngageChatController extends Controller {
 		$this->CounterCasosPersistidos = 0;
 
 		$this->CounterLineas = 0;
+		$this->CounterLineasPersistidas = 0; 
 		$this->CounterChats = 0;
 
 		$this->pctSucessfully = 0;
@@ -176,9 +178,21 @@ class SnapEngageChatController extends Controller {
 						$trasncript2add->setDateMiliseconds($trasncript['date_milliseconds']);
 						$trasncript2add->setAlias($trasncript['alias']);
 						$trasncript2add->setMessage($trasncript['message']);
+						//la fk
+						$trasncript2add->setIdCase($caseToAdd->getIdCase());
 						//persistimos
+						if (!$this->existsTranscript($trasncript2add->getId())) {
+							$this->getDoctrine()->getManager()->persist($trasncript2add);
+							if ($this->getDoctrine()->getManager()->flush()) {
+								var_dump('No se ha podido insertar la linea : ' . $trasncript2add);
+							} else {
+								$this->CounterLineasPersistidas++;
+								var_dump('Insertando Linea: ' . $trasncript2add->getIdTranscript());
+							}
+						} else
+							var_dump('La linea : ' . $trasncript2add->getId() . ' Ya existe.. se omite');
 
-						var_dump($trasncript2add);
+
 						unset($trasncript2add);
 					}
 				}
@@ -249,7 +263,6 @@ class SnapEngageChatController extends Controller {
 		//Evita  \Doctrine\DBAL\Exception\UniqueConstraintViolationException
 		$where = ['idCase' => $IdCase];
 		return null != $this->getDoctrine()->getManager()->getRepository(Cases::class)->findBy($where) ? true : false;
-		return false;
 	}
 
 	public function loadAction(Request $request, $fechaDesde, $fechaHasta) {
@@ -269,6 +282,13 @@ class SnapEngageChatController extends Controller {
 		}
 
 		echo $output;
+	}
+
+	public function existsTranscript($id) {
+		//Evita  \Doctrine\DBAL\Exception\UniqueConstraintViolationException
+		return null != $this->getDoctrine()->getManager()->getRepository(Transcript::class)->find($id) ? true : false;
+	
+		
 	}
 
 }

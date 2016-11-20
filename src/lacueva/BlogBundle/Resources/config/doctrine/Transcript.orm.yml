@@ -14,9 +14,9 @@ lacueva\BlogBundle\Entity\Transcript:
             length: 255
             column: id_transcript
         date:
-            type: datetime
+            type: integer
         dateSeconds:
-            type: time
+            type: integer
             column: date_seconds
         dateMiliseconds:
             type: integer
@@ -27,4 +27,21 @@ lacueva\BlogBundle\Entity\Transcript:
         message:
             type: string
             length: '1000'
+        idCase:
+            type: string
+            length: 255
+            column: id_case
+            
+#        manyToOne:
+#        idCategory:
+#            targetEntity: Categories
+#            cascade: {  }
+#            fetch: LAZY
+#            mappedBy: null
+#            inversedBy: null
+#            joinColumns:
+#                id_category:
+#                    referencedColumnName: id
+#            orphanRemoval: false
+            
     lifecycleCallbacks: {  }

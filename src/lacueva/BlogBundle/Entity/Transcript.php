@@ -11,8 +11,20 @@ class Transcript
      * @var int
      */
     private $id;
+	
+	 /**
+     * @var int
+     */
+	private $idCase; 
+	public function getIdCase() {
+		return $this->idCase;
+	}
 
-    /**
+	public function setIdCase($idCase) {
+		$this->idCase = $idCase;
+	}
+
+	    /**
      * @var string
      */
     private $idTranscript;
@@ -196,5 +208,8 @@ class Transcript
     {
         return $this->message;
     }
+
+
+
 }
 
