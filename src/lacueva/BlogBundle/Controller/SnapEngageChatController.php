@@ -82,6 +82,10 @@ class SnapEngageChatController extends Controller {
 	/*	 * ***************************************************************** */
 
 	public function __construct() {
+		
+		//http://us2.php.net/manual/en/function.set-time-limit.php
+		set_time_limit(3600); //elimina limintación de 60 segundos , mejor 1 hora.
+		
 		$this->CounterBloqueDatos100Registros = 0;
 		$this->CounterCasosPersistidos = 0;
 
