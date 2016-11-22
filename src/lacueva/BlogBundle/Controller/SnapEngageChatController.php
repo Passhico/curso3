@@ -24,7 +24,7 @@ define('SNAPCHAT_ORG_ID', '6418107096367104');
 define('SNAPCHAT_APITOKEN', 'ebec63f521baf484da13a550a111e5d6');
 define('SNAPCHAT_WIDGET_ID', '4e09afaa-f6c5-4d73-9fae-5b85b0e4aee6');
 
-define('SNAPCHAT_URI', SNAPCHAT_URL . SNAPCHAT_ORG_ID . '/logs?widgetId=' . SNAPCHAT_WIDGET_ID . '&start=2016-11-16&end=2016-11-17');
+define('SNAPCHAT_URI', SNAPCHAT_URL . SNAPCHAT_ORG_ID . '/logs?widgetId=' . SNAPCHAT_WIDGET_ID . '&start=2016-11-01&end=2016-11-21');
 /*
  * Crea conexiones a la api de datos de SnapChat para PcComponentes.com
  *
@@ -86,7 +86,7 @@ class SnapEngageChatController extends Controller {
 		$this->CounterCasosPersistidos = 0;
 
 		$this->CounterLineas = 0;
-		$this->CounterLineasPersistidas = 0; 
+		$this->CounterLineasPersistidas = 0;
 		$this->CounterChats = 0;
 
 		$this->pctSucessfully = 0;
@@ -172,7 +172,8 @@ class SnapEngageChatController extends Controller {
 						$this->CounterLineas++;
 
 						//cargamos
-						$trasncript2add->setIdTranscript($trasncript['id']);
+						$hash = hash('md5', $trasncript['id'] . $trasncript['date'] . $trasncript['date_seconds']);
+						$trasncript2add->setIdTranscript($caseToAdd->getIdCase() . '_' . $trasncript['date_seconds']);
 						$trasncript2add->setDate($trasncript['date']);
 						$trasncript2add->setDateSeconds($trasncript['date_seconds']);
 						$trasncript2add->setDateMiliseconds($trasncript['date_milliseconds']);
@@ -181,7 +182,7 @@ class SnapEngageChatController extends Controller {
 						//la fk
 						$trasncript2add->setIdCase($caseToAdd->getIdCase());
 						//persistimos
-						if (!$this->existsTranscript($trasncript2add->getId())) {
+								if (!$this->existsTranscript($trasncript2add->getIdTranscript())) {
 							$this->getDoctrine()->getManager()->persist($trasncript2add);
 							if ($this->getDoctrine()->getManager()->flush()) {
 								var_dump('No se ha podido insertar la linea : ' . $trasncript2add);
@@ -287,8 +288,6 @@ class SnapEngageChatController extends Controller {
 	public function existsTranscript($id) {
 		//Evita  \Doctrine\DBAL\Exception\UniqueConstraintViolationException
 		return null != $this->getDoctrine()->getManager()->getRepository(Transcript::class)->find($id) ? true : false;
-	
-		
 	}
 
 }
