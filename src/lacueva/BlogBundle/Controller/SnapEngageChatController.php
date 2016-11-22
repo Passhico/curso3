@@ -5,26 +5,19 @@ namespace lacueva\BlogBundle\Controller;
 include_once 'ApiGator/ApiGator.php'; //para cuando en el json falta algun indice (campo)
 
 use ApiGator\ApiGator;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use lacueva\BlogBundle\Entity\Cases;
 use lacueva\BlogBundle\Entity\Transcript;
 use lacueva\BlogBundle\Repository\casesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Debug\Exception\ContextErrorException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use const SNAPCHAT_ORG_ID;
-use const SNAPCHAT_URI;
-use const SNAPCHAT_URL;
-use const SNAPCHAT_WIDGET_ID;
-use function dump;
 
 define('SNAPCHAT_URL', 'https://www.snapengage.com/api/v2/');
 define('SNAPCHAT_ORG_ID', '6418107096367104');
 define('SNAPCHAT_APITOKEN', 'ebec63f521baf484da13a550a111e5d6');
 define('SNAPCHAT_WIDGET_ID', '4e09afaa-f6c5-4d73-9fae-5b85b0e4aee6');
 
-define('SNAPCHAT_URI', SNAPCHAT_URL . SNAPCHAT_ORG_ID . '/logs?widgetId=' . SNAPCHAT_WIDGET_ID . '&start=2016-11-01&end=2016-11-21');
+define('SNAPCHAT_URI', SNAPCHAT_URL . SNAPCHAT_ORG_ID . '/logs?widgetId=' . SNAPCHAT_WIDGET_ID . '&start=2016-11-20&end=2016-11-21');
 /*
  * Crea conexiones a la api de datos de SnapChat para PcComponentes.com
  *
@@ -45,9 +38,10 @@ define('SNAPCHAT_URI', SNAPCHAT_URL . SNAPCHAT_ORG_ID . '/logs?widgetId=' . SNAP
 class SnapEngageChatController extends Controller {
 
 	/**
-	 * En esta API se autentica en la cabecera HTTP . 
-	 * así que preparamos una personalizada. 
-	 * @var array 
+	 * En esta API se autentica en la cabecera HTTP .
+	 * así que preparamos una personalizada.
+	 *
+	 * @var array
 	 */
 	private $HttpHeaderSnapchat;
 
@@ -62,8 +56,9 @@ class SnapEngageChatController extends Controller {
 	/*	 * ****************************COUNTERS***************************** */
 
 	/**
-	 * El Número de Cases Leeidos en el Json . 
-	 * Son los intentos que hace el try para persistirlos . 
+	 * El Número de Cases Leeidos en el Json .
+	 * Son los intentos que hace el try para persistirlos .
+	 *
 	 * @var int
 	 */
 	private $counterTrysToPersist;
@@ -71,7 +66,8 @@ class SnapEngageChatController extends Controller {
 
 	/**
 	 * Promedio de registros insertados satisfactoriamente.
-	 * @var float 
+	 *
+	 * @var float
 	 */
 	private $pctSucessfully; //TODO: getter = $CounterCasePersistedSucessfully / $counterTrysToPersist
 	private $CounterIndexException;
@@ -82,10 +78,10 @@ class SnapEngageChatController extends Controller {
 	/*	 * ***************************************************************** */
 
 	public function __construct() {
-		
+
 		//http://us2.php.net/manual/en/function.set-time-limit.php
 		set_time_limit(3600); //elimina limintación de 60 segundos , mejor 1 hora.
-		
+
 		$this->CounterBloqueDatos100Registros = 0;
 		$this->CounterCasosPersistidos = 0;
 
@@ -94,7 +90,6 @@ class SnapEngageChatController extends Controller {
 		$this->CounterChats = 0;
 
 		$this->pctSucessfully = 0;
-
 
 		//$this->repoCases = $this->getDoctrine()->getManager()->getRepository(Cases::class);
 		//$this->repoTranscripts = $this->getDoctrine()->getManager()->getRepository(Transcript::class);
@@ -122,10 +117,9 @@ class SnapEngageChatController extends Controller {
 
 		if (isset($arr['cases'])) {
 			foreach ($arr['cases'] as $case) {
-				$this->CounterChats++;
+				++$this->CounterChats;
 
 				$caseToAdd = new Cases(); //buffer
-
 
 				$caseToAdd->setIdCase($case['id']);
 				$caseToAdd->setUrl($case['url']);
@@ -169,12 +163,10 @@ class SnapEngageChatController extends Controller {
 				//todo: setsafe()
 				if (isset($case['transcripts'])) {
 					$caseToAdd->setTranscripts($case['transcripts']);
-
-					//por cada linea...
+					//GUARDA LINEA COMPLETA.
 					foreach ($caseToAdd->getTranscripts() as $trasncript) {
 						$trasncript2add = new Transcript();
-						$this->CounterLineas++;
-
+						++$this->CounterLineas;
 						//cargamos
 						$hash = hash('md5', $trasncript['id'] . $trasncript['date'] . $trasncript['date_seconds']);
 						$trasncript2add->setIdTranscript($caseToAdd->getIdCase() . '_' . $trasncript['date_seconds']);
@@ -186,22 +178,21 @@ class SnapEngageChatController extends Controller {
 						//la fk
 						$trasncript2add->setIdCase($caseToAdd->getIdCase());
 						//persistimos
-								if (!$this->existsTranscript($trasncript2add->getIdTranscript())) {
+						if (!$this->existsTranscript($trasncript2add->getIdTranscript())) {
 							$this->getDoctrine()->getManager()->persist($trasncript2add);
 							if ($this->getDoctrine()->getManager()->flush()) {
 								var_dump('No se ha podido insertar la linea : ' . $trasncript2add);
 							} else {
-								$this->CounterLineasPersistidas++;
+								++$this->CounterLineasPersistidas;
 								var_dump('Insertando Linea: ' . $trasncript2add->getIdTranscript());
 							}
-						} else
-							var_dump('La linea : ' . $trasncript2add->getId() . ' Ya existe.. se omite');
-
+						} else {
+							var_dump('La linea : ' . $trasncript2add->getIdTranscript() . ' Ya existe.. se omite');
+						}
 
 						unset($trasncript2add);
 					}
 				}
-
 
 				// _persist
 				if (!$this->existsCase($caseToAdd->getIdCase())) {
@@ -209,11 +200,12 @@ class SnapEngageChatController extends Controller {
 					if ($this->getDoctrine()->getManager()->flush()) {
 						dump('No se ha podido insertar el Case : ' . $caseToAdd);
 					} else {
-						$this->CounterCasosPersistidos++;
+						++$this->CounterCasosPersistidos;
 						var_dump('Insertando IdCase: ' . $caseToAdd->getIdCase());
 					}
-				} else
+				} else {
 					var_dump('El Caso: ' . $caseToAdd->getIdCase() . ' Ya existe.. se omite');
+				}
 
 				//COUNTER
 				unset($caseToAdd);
@@ -267,6 +259,7 @@ class SnapEngageChatController extends Controller {
 	private function existsCase($IdCase) {
 		//Evita  \Doctrine\DBAL\Exception\UniqueConstraintViolationException
 		$where = ['idCase' => $IdCase];
+
 		return null != $this->getDoctrine()->getManager()->getRepository(Cases::class)->findBy($where) ? true : false;
 	}
 
