@@ -253,7 +253,8 @@ class SnapEngageChatController extends Controller {
 			$caseToAdd->setTranscripts($case['transcripts']);
 
 			//Extraemos de las lineas del chat el user, 
-			//realmente es lo que nos interesa, no la linea en sí.
+			//realmente es lo que nos interesa, no la linea en sí si no el ...
+			$user = "";
 			foreach ($caseToAdd->getTranscripts() as $trasncript) {
 				$this->CounterLineas++;
 				$user = ("" != $trasncript['alias']) ? $trasncript['alias'] : $user;
