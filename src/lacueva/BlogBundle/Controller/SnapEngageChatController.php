@@ -229,7 +229,8 @@ class SnapEngageChatController extends Controller {
 		}
 
 		$caseToAdd->setIpAddress($case['ip_address']);
-		$caseToAdd->setUserAgent($case['user_agent']);
+		//Se machaca abajo con el $user, aquí se setteaba.
+		//$caseToAdd->setUserAgent($case['user_agent']); 
 		$caseToAdd->setBrowser($case['browser']);
 		$caseToAdd->setOs($case['os']);
 		$caseToAdd->setCountryCode($case['country_code']);
@@ -256,15 +257,20 @@ class SnapEngageChatController extends Controller {
 			foreach ($caseToAdd->getTranscripts() as $trasncript) {
 				$this->CounterLineas++;
 				$user = ("" != $trasncript['alias']) ? $trasncript['alias'] : $user;
-				//ya no queremos esto, pero iría aquí si
+				
+				//ya no queremos persistirlas, pero iría aquí si
 				//hiciera falta descomentar y depurar esa funcion.
-				$this->PersistTranscript($trasncript);
+				//$this->PersistTranscript($trasncript);
 			}
 			/*
 			 * Aquí ya tenemos , el número de lineas de cada chat
 			 * como el $user. Por el momento solo guardaremos el user
-			 * 
+			 * No voy a implementar otro campo más en la entidad 
+			 * que ya va sobrada de mierda, voy a machacar directamente
+			 * el campo donde guarda el navegador desde el que se accede 
+			 * para guardar nuestro operador.
 			 */
+			$caseToAdd->setUserAgent($user);
 			
 		}
 
