@@ -17,7 +17,7 @@ define('SNAPCHAT_ORG_ID', '6418107096367104');
 define('SNAPCHAT_APITOKEN', 'ebec63f521baf484da13a550a111e5d6');
 define('SNAPCHAT_WIDGET_ID', '4e09afaa-f6c5-4d73-9fae-5b85b0e4aee6');
 
-define('SNAPCHAT_URI', SNAPCHAT_URL . SNAPCHAT_ORG_ID . '/logs?widgetId=' . SNAPCHAT_WIDGET_ID . '&start=2016-11-20&end=2016-11-21');
+define('SNAPCHAT_URI', SNAPCHAT_URL . SNAPCHAT_ORG_ID . '/logs?widgetId=' . SNAPCHAT_WIDGET_ID . '&start=2016-11-14&end=2016-11-15');
 /*
  * Crea conexiones a la api de datos de SnapChat para PcComponentes.com
  *
@@ -72,7 +72,7 @@ class SnapEngageChatController extends Controller {
 	private $pctSucessfully; //TODO: getter = $CounterCasePersistedSucessfully / $counterTrysToPersist
 	private $CounterIndexException;
 	private $CounterLineas;
-	private $CounterChats;
+	private $CounterChatsLeidos;
 	private $CounterLineasPersistidas;
 
 	/*	 * ***************************************************************** */
@@ -87,7 +87,7 @@ class SnapEngageChatController extends Controller {
 
 		$this->CounterLineas = 0;
 		$this->CounterLineasPersistidas = 0;
-		$this->CounterChats = 0;
+		$this->CounterChatsLeidos = 0;
 
 		$this->pctSucessfully = 0;
 
@@ -117,103 +117,13 @@ class SnapEngageChatController extends Controller {
 
 		if (isset($arr['cases'])) {
 			foreach ($arr['cases'] as $case) {
-				++$this->CounterChats;
-
-				$caseToAdd = new Cases(); //buffer
-
-				$caseToAdd->setIdCase($case['id']);
-				$caseToAdd->setUrl($case['url']);
-				$caseToAdd->setType($case['type']);
-				$caseToAdd->setRequestedBy($case['requested_by']);
-				if (isset($case['requester_details'])) {
-					$caseToAdd->setRequesterDetails($case['requester_details']);
-				}
-				$caseToAdd->setDescription($case['description']);
-				$caseToAdd->setCreatedAtDate($case['created_at_date']);
-				$caseToAdd->setCreatedAtSeconds($case['created_at_seconds']);
-				$caseToAdd->setCreatedAtMilliseconds($case['created_at_milliseconds']);
-				$caseToAdd->setProactiveChat($case['proactive_chat']);
-				$caseToAdd->setPageUrl($case['page_url']);
-				if (isset($case['referrer_url'])) {
-					$caseToAdd->setReferrerUrl($case['referrer_url']);
-				}
-				if (isset($case['entry_url'])) {
-					$caseToAdd->setEntryUrl($case['entry_url']);
-				}
-
-				$caseToAdd->setIpAddress($case['ip_address']);
-				$caseToAdd->setUserAgent($case['user_agent']);
-				$caseToAdd->setBrowser($case['browser']);
-				$caseToAdd->setOs($case['os']);
-				$caseToAdd->setCountryCode($case['country_code']);
-				$caseToAdd->setCountry($case['country']);
-				$caseToAdd->setRegion($case['region']);
-				$caseToAdd->setCity($case['city']);
-				$caseToAdd->setLatitude($case['latitude']);
-				$caseToAdd->setLongitude($case['longitude']);
-				$caseToAdd->setSourceId($case['source_id']);
-				$caseToAdd->setChatWaittime($case['chat_waittime']);
-				$caseToAdd->setChatDuration($case['chat_duration']);
-				$caseToAdd->setLanguageCode($case['language_code']);
-				$caseToAdd->setJavascriptVariables($case['javascript_variables']);
-				//valoración.
-				if (isset($case['survey_score'])) {
-					$caseToAdd->setSurveyScore($case['survey_score']);
-				}
-				//todo: setsafe()
-				if (isset($case['transcripts'])) {
-					$caseToAdd->setTranscripts($case['transcripts']);
-					//GUARDA LINEA COMPLETA.
-					foreach ($caseToAdd->getTranscripts() as $trasncript) {
-						$trasncript2add = new Transcript();
-						++$this->CounterLineas;
-						//cargamos
-						$hash = hash('md5', $trasncript['id'] . $trasncript['date'] . $trasncript['date_seconds']);
-						$trasncript2add->setIdTranscript($caseToAdd->getIdCase() . '_' . $trasncript['date_seconds']);
-						$trasncript2add->setDate($trasncript['date']);
-						$trasncript2add->setDateSeconds($trasncript['date_seconds']);
-						$trasncript2add->setDateMiliseconds($trasncript['date_milliseconds']);
-						$trasncript2add->setAlias($trasncript['alias']);
-						$trasncript2add->setMessage($trasncript['message']);
-						//la fk
-						$trasncript2add->setIdCase($caseToAdd->getIdCase());
-						//persistimos
-						if (!$this->existsTranscript($trasncript2add->getIdTranscript())) {
-							$this->getDoctrine()->getManager()->persist($trasncript2add);
-							if ($this->getDoctrine()->getManager()->flush()) {
-								var_dump('No se ha podido insertar la linea : ' . $trasncript2add);
-							} else {
-								++$this->CounterLineasPersistidas;
-								var_dump('Insertando Linea: ' . $trasncript2add->getIdTranscript());
-							}
-						} else {
-							var_dump('La linea : ' . $trasncript2add->getIdTranscript() . ' Ya existe.. se omite');
-						}
-
-						unset($trasncript2add);
-					}
-				}
-
-				// _persist
-				if (!$this->existsCase($caseToAdd->getIdCase())) {
-					$this->getDoctrine()->getManager()->persist($caseToAdd);
-					if ($this->getDoctrine()->getManager()->flush()) {
-						dump('No se ha podido insertar el Case : ' . $caseToAdd);
-					} else {
-						++$this->CounterCasosPersistidos;
-						var_dump('Insertando IdCase: ' . $caseToAdd->getIdCase());
-					}
-				} else {
-					var_dump('El Caso: ' . $caseToAdd->getIdCase() . ' Ya existe.. se omite');
-				}
-
-				//COUNTER
-				unset($caseToAdd);
+				++$this->CounterChatsLeidos;
+				$this->PersistCase($case);
 			}
 		}
 
 		//COUNTER
-		$this->CounterBloqueDatos100Registros = $this->CounterBloqueDatos100Registros + 1;
+		$this->CounterBloqueDatos100Registros++;
 
 		return isset($arr['linkToNextSetOfResults']) ? $arr['linkToNextSetOfResults'] : false;
 	}
@@ -243,7 +153,7 @@ class SnapEngageChatController extends Controller {
 								
 				                    Numero de Uris Procesadas (100 regs): ' . $this->CounterBloqueDatos100Registros . '
 				                    Numero de Excepciones de Falta de indices: ' . $this->CounterIndexException . '
-				                    Chats Leidos :  ' . $this->CounterChats . '
+				                    Chats Leidos :  ' . $this->CounterChatsLeidos . '
 									Chats Persistidos :' . $this->CounterCasosPersistidos . '
 									Lineas Leidas :  ' . $this->CounterLineas . '
 									'));
@@ -285,6 +195,128 @@ class SnapEngageChatController extends Controller {
 	public function existsTranscript($id) {
 		//Evita  \Doctrine\DBAL\Exception\UniqueConstraintViolationException
 		return null != $this->getDoctrine()->getManager()->getRepository(Transcript::class)->find($id) ? true : false;
+	}
+
+	/*
+	 * Precondición , el $case está verificado . 
+	 * Espera un array del tipo case. Lo carga en una nueva entidad y la 
+	 * persiste , además flushea. 
+	 * 
+	 * @param array $case
+	 * 
+	 */
+
+	public function PersistCase($case) {
+
+
+		$caseToAdd = new Cases(); //buffer
+
+		$caseToAdd->setIdCase($case['id']);
+		$caseToAdd->setUrl($case['url']);
+		$caseToAdd->setType($case['type']);
+		$caseToAdd->setRequestedBy($case['requested_by']);
+		if (isset($case['requester_details'])) {
+			$caseToAdd->setRequesterDetails($case['requester_details']);
+		}
+		$caseToAdd->setDescription($case['description']);
+		$caseToAdd->setCreatedAtDate($case['created_at_date']);
+		$caseToAdd->setCreatedAtSeconds($case['created_at_seconds']);
+		$caseToAdd->setCreatedAtMilliseconds($case['created_at_milliseconds']);
+		$caseToAdd->setProactiveChat($case['proactive_chat']);
+		$caseToAdd->setPageUrl($case['page_url']);
+		if (isset($case['referrer_url'])) {
+			$caseToAdd->setReferrerUrl($case['referrer_url']);
+		}
+		if (isset($case['entry_url'])) {
+			$caseToAdd->setEntryUrl($case['entry_url']);
+		}
+
+		$caseToAdd->setIpAddress($case['ip_address']);
+		$caseToAdd->setUserAgent($case['user_agent']);
+		$caseToAdd->setBrowser($case['browser']);
+		$caseToAdd->setOs($case['os']);
+		$caseToAdd->setCountryCode($case['country_code']);
+		$caseToAdd->setCountry($case['country']);
+		$caseToAdd->setRegion($case['region']);
+		$caseToAdd->setCity($case['city']);
+		$caseToAdd->setLatitude($case['latitude']);
+		$caseToAdd->setLongitude($case['longitude']);
+		$caseToAdd->setSourceId($case['source_id']);
+		$caseToAdd->setChatWaittime($case['chat_waittime']);
+		$caseToAdd->setChatDuration($case['chat_duration']);
+		$caseToAdd->setLanguageCode($case['language_code']);
+		$caseToAdd->setJavascriptVariables($case['javascript_variables']);
+		//valoración.
+		if (isset($case['survey_score'])) {
+			$caseToAdd->setSurveyScore($case['survey_score']);
+		}
+		//todo: setsafe()
+		if (isset($case['transcripts'])) {
+			$caseToAdd->setTranscripts($case['transcripts']);
+
+			//Extraemos de las lineas del chat el user, 
+			//realmente es lo que nos interesa, no la linea en sí.
+			foreach ($caseToAdd->getTranscripts() as $trasncript) {
+				$alias = ("" != $trasncript['alias']) ? $trasncript['alias'] : $alias;
+
+				//ya no queremos esto, pero iría aquí si
+				//hiciera falta descomentar.
+				$this->PersistTranscript($trasncript);
+			}
+		}
+
+		// _persist
+		if (!$this->existsCase($caseToAdd->getIdCase())) {
+			$this->getDoctrine()->getManager()->persist($caseToAdd);
+			if ($this->getDoctrine()->getManager()->flush()) {
+				dump('No se ha podido insertar el Case : ' . $caseToAdd);
+			} else {
+				++$this->CounterCasosPersistidos;
+				var_dump('Insertando IdCase: ' . $caseToAdd->getIdCase());
+			}
+		} else {
+			var_dump('El Caso: ' . $caseToAdd->getIdCase() . ' Ya existe.. se omite');
+		}
+
+		//COUNTER
+		unset($caseToAdd);
+	}
+
+	/**
+	 * Cuidado total , no usar sin revisar , este código funciona
+	 * pero como ya no queremos las lineas no se ha depurado mucho.
+	 * Esta función se queda historicamente para la versión beta.
+	 * 
+	 * @param array $trasncript 
+	 */
+	public function PersistTranscript($trasncript) {
+		//GUARDA LINEA COMPLETA.
+		$trasncript2add = new Transcript();
+		++$this->CounterLineas;
+		//cargamos
+		$hash = hash('md5', $trasncript['id'] . $trasncript['date'] . $trasncript['date_seconds']);
+		$trasncript2add->setIdTranscript($caseToAdd->getIdCase() . '_' . $trasncript['date_seconds']);
+		$trasncript2add->setDate($trasncript['date']);
+		$trasncript2add->setDateSeconds($trasncript['date_seconds']);
+		$trasncript2add->setDateMiliseconds($trasncript['date_milliseconds']);
+		$trasncript2add->setAlias($trasncript['alias']);
+		$trasncript2add->setMessage($trasncript['message']);
+		//la fk
+		$trasncript2add->setIdCase($caseToAdd->getIdCase());
+		//persistimos
+		if (!$this->existsTranscript($trasncript2add->getIdTranscript())) {
+			$this->getDoctrine()->getManager()->persist($trasncript2add);
+			if ($this->getDoctrine()->getManager()->flush()) {
+				var_dump('No se ha podido insertar la linea : ' . $trasncript2add);
+			} else {
+				++$this->CounterLineasPersistidas;
+				var_dump('Insertando Linea: ' . $trasncript2add->getIdTranscript());
+			}
+		} else {
+			var_dump('La linea : ' . $trasncript2add->getIdTranscript() . ' Ya existe.. se omite');
+		}
+
+		unset($trasncript2add);
 	}
 
 }
