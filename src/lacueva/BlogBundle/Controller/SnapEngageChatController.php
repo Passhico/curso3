@@ -101,34 +101,6 @@ class SnapEngageChatController extends Controller {
 	}
 
 	/**
-	 * Procesa el json con la response de los cases.
-	 * Por cada caso crea una entidad en el ORM.
-	 *
-	 * @warning NO HACE FLUSH!!
-	 *
-	 * @param json $json
-	 *
-	 * @return bool si quedan datos , la Uri , si ya no queda nada NULL
-	 */
-	private function Persist100AndGetNextUri($json) {
-		//todo: sacar la load fuera y dejar solo la persist.
-		//json2array
-		$arr = json_decode($json, true);
-
-		if (isset($arr['cases'])) {
-			foreach ($arr['cases'] as $case) {
-				++$this->CounterChatsLeidos;
-				$this->PersistCase($case);
-			}
-		}
-
-		//COUNTER
-		$this->CounterBloqueDatos100Registros++;
-
-		return isset($arr['linkToNextSetOfResults']) ? $arr['linkToNextSetOfResults'] : false;
-	}
-
-	/**
 	 * @param Request $request
 	 *
 	 * @return Response
@@ -158,10 +130,36 @@ class SnapEngageChatController extends Controller {
 									Lineas Leidas :  ' . $this->CounterLineas . '
 									'));
 	}
+	
+	/**
+	 * Procesa el json con la response de los cases.
+	 * Por cada caso crea una entidad en el ORM.
+	 *
+	 * @warning NO HACE FLUSH!!
+	 *
+	 * @param json $json
+	 *
+	 * @return bool si quedan datos , la Uri , si ya no queda nada NULL
+	 */
+	private function Persist100AndGetNextUri($json) {
+		//todo: sacar la load fuera y dejar solo la persist.
+		//json2array
+		$arr = json_decode($json, true);
+
+		if (isset($arr['cases'])) {
+			foreach ($arr['cases'] as $case) {
+				++$this->CounterChatsLeidos;
+				$this->PersistCase($case);
+			}
+		}
+
+		//COUNTER
+		$this->CounterBloqueDatos100Registros++;
+
+		return isset($arr['linkToNextSetOfResults']) ? $arr['linkToNextSetOfResults'] : false;
+	}
 
 	/**
-	 * TODO: ExistCase.
-	 *
 	 * @param type $Case
 	 *
 	 * @return bool
@@ -197,7 +195,7 @@ class SnapEngageChatController extends Controller {
 		return null != $this->getDoctrine()->getManager()->getRepository(Transcript::class)->find($id) ? true : false;
 	}
 
-	/*
+	/***
 	 * Precondición , el $case está verificado . 
 	 * Espera un array del tipo case. Lo carga en una nueva entidad y la 
 	 * persiste , además flushea. 
@@ -205,7 +203,6 @@ class SnapEngageChatController extends Controller {
 	 * @param array $case
 	 * 
 	 */
-
 	public function PersistCase($case) {
 
 
@@ -257,12 +254,18 @@ class SnapEngageChatController extends Controller {
 			//Extraemos de las lineas del chat el user, 
 			//realmente es lo que nos interesa, no la linea en sí.
 			foreach ($caseToAdd->getTranscripts() as $trasncript) {
-				$alias = ("" != $trasncript['alias']) ? $trasncript['alias'] : $alias;
-
+				$this->CounterLineas++;
+				$user = ("" != $trasncript['alias']) ? $trasncript['alias'] : $user;
 				//ya no queremos esto, pero iría aquí si
-				//hiciera falta descomentar.
+				//hiciera falta descomentar y depurar esa funcion.
 				$this->PersistTranscript($trasncript);
 			}
+			/*
+			 * Aquí ya tenemos , el número de lineas de cada chat
+			 * como el $user. Por el momento solo guardaremos el user
+			 * 
+			 */
+			
 		}
 
 		// _persist
