@@ -24,6 +24,8 @@ from
 where 
 	c.proactive_chat = true
 group by fecha
+order by 
+	fecha
 ;
 
 /*Group by oper & fecha*/
@@ -41,4 +43,7 @@ where
 group by 
 	c.user_agent, 
 	fecha
+order by 
+	fecha,
+	c.user_agent
 ;
