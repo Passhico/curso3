@@ -17,7 +17,7 @@ define('SNAPCHAT_ORG_ID', '6418107096367104');
 define('SNAPCHAT_APITOKEN', 'ebec63f521baf484da13a550a111e5d6');
 define('SNAPCHAT_WIDGET_ID', '4e09afaa-f6c5-4d73-9fae-5b85b0e4aee6');
 
-define('SNAPCHAT_URI', SNAPCHAT_URL . SNAPCHAT_ORG_ID . '/logs?widgetId=' . SNAPCHAT_WIDGET_ID . '&start=2016-11-14&end=2016-11-15');
+define('SNAPCHAT_URI', SNAPCHAT_URL . SNAPCHAT_ORG_ID . '/logs?widgetId=' . SNAPCHAT_WIDGET_ID . '&start=2016-11-21&end=2016-11-25');
 /*
  * Crea conexiones a la api de datos de SnapChat para PcComponentes.com
  *
@@ -70,14 +70,20 @@ class SnapEngageChatController extends Controller {
 	 * @var float
 	 */
 	private $pctSucessfully; //TODO: getter = $CounterCasePersistedSucessfully / $counterTrysToPersist
-	private $CounterIndexException;
 	private $CounterLineas;
 	private $CounterChatsLeidos;
 	private $CounterLineasPersistidas;
+	/**
+	 * Counter para saber cuantos casos no podemos persistir por culpa 
+	 * de la falta de algunos indices. 
+	 * @var int
+	 */
+	private $counterExcepcionesPorFaltaDeIndices;
 
 	/*	 * ***************************************************************** */
 
-	public function __construct() {
+	public function __construct() 
+		{
 
 		//http://us2.php.net/manual/en/function.set-time-limit.php
 		set_time_limit(3600); //elimina limintación de 60 segundos , mejor 1 hora.
@@ -88,6 +94,9 @@ class SnapEngageChatController extends Controller {
 		$this->CounterLineas = 0;
 		$this->CounterLineasPersistidas = 0;
 		$this->CounterChatsLeidos = 0;
+		
+		//Cuando falla el persist de los cases.
+	        $this->counterExcepcionesPorFaltaDeIndices = 0;
 
 		$this->pctSucessfully = 0;
 
@@ -99,7 +108,7 @@ class SnapEngageChatController extends Controller {
 		$this->HttpHeaderSnapchat[] = 'Content-length: 0';
 		$this->HttpHeaderSnapchat[] = 'Authorization: ebec63f521baf484da13a550a111e5d6';
 	}
-
+	
 	/**
 	 * @param Request $request
 	 *
@@ -124,9 +133,9 @@ class SnapEngageChatController extends Controller {
 		return new Response(nl2br('Extracción de datos de Api Rest de SnapEngageChatController.
 								
 				                    Numero de Uris Procesadas (100 regs): ' . $this->CounterBloqueDatos100Registros . '
-				                    Numero de Excepciones de Falta de indices: ' . $this->CounterIndexException . '
 				                    Chats Leidos :  ' . $this->CounterChatsLeidos . '
 									Chats Persistidos :' . $this->CounterCasosPersistidos . '
+									Chats Perdidos por falta de algun indice :' . $this->counterExcepcionesPorFaltaDeIndices . '
 									Lineas Leidas :  ' . $this->CounterLineas . '
 									'));
 	}
@@ -149,7 +158,16 @@ class SnapEngageChatController extends Controller {
 		if (isset($arr['cases'])) {
 			foreach ($arr['cases'] as $case) {
 				++$this->CounterChatsLeidos;
-				$this->PersistCase($case);
+				
+				//siempre puede que en el json falte algún indice 
+				try {
+					$this->PersistCase($case);
+				} catch (\Symfony\Component\Debug\Exception\ContextErrorException $exc) {
+					var_dump('Faltó un índice por ahí, pero da igual, ignoramos esta excepción y continuamos persistiendo'. $exc);
+					$this->counterExcepcionesPorFaltaDeIndices++;
+					continue;
+				} 			
+				
 			}
 		}
 
