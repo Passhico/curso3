@@ -73,6 +73,7 @@ class SnapEngageChatController extends Controller {
 	private $CounterLineas;
 	private $CounterChatsLeidos;
 	private $CounterLineasPersistidas;
+
 	/**
 	 * Counter para saber cuantos casos no podemos persistir por culpa 
 	 * de la falta de algunos indices. 
@@ -82,8 +83,7 @@ class SnapEngageChatController extends Controller {
 
 	/*	 * ***************************************************************** */
 
-	public function __construct() 
-		{
+	public function __construct() {
 
 		//http://us2.php.net/manual/en/function.set-time-limit.php
 		set_time_limit(3600); //elimina limintación de 60 segundos , mejor 1 hora.
@@ -94,9 +94,9 @@ class SnapEngageChatController extends Controller {
 		$this->CounterLineas = 0;
 		$this->CounterLineasPersistidas = 0;
 		$this->CounterChatsLeidos = 0;
-		
+
 		//Cuando falla el persist de los cases.
-	        $this->counterExcepcionesPorFaltaDeIndices = 0;
+		$this->counterExcepcionesPorFaltaDeIndices = 0;
 
 		$this->pctSucessfully = 0;
 
@@ -108,7 +108,7 @@ class SnapEngageChatController extends Controller {
 		$this->HttpHeaderSnapchat[] = 'Content-length: 0';
 		$this->HttpHeaderSnapchat[] = 'Authorization: ebec63f521baf484da13a550a111e5d6';
 	}
-	
+
 	/**
 	 * @param Request $request
 	 *
@@ -139,7 +139,7 @@ class SnapEngageChatController extends Controller {
 									Lineas Leidas :  ' . $this->CounterLineas . '
 									'));
 	}
-	
+
 	/**
 	 * Procesa el json con la response de los cases.
 	 * Por cada caso crea una entidad en el ORM.
@@ -158,16 +158,15 @@ class SnapEngageChatController extends Controller {
 		if (isset($arr['cases'])) {
 			foreach ($arr['cases'] as $case) {
 				++$this->CounterChatsLeidos;
-				
+
 				//siempre puede que en el json falte algún indice 
 				try {
 					$this->PersistCase($case);
 				} catch (\Symfony\Component\Debug\Exception\ContextErrorException $exc) {
-					var_dump('Faltó un índice por ahí, pero da igual, ignoramos esta excepción y continuamos persistiendo'. $exc);
+					var_dump('Faltó un índice por ahí, pero da igual, ignoramos esta excepción y continuamos persistiendo' . $exc);
 					$this->counterExcepcionesPorFaltaDeIndices++;
 					continue;
-				} 			
-				
+				}
 			}
 		}
 
@@ -213,7 +212,7 @@ class SnapEngageChatController extends Controller {
 		return null != $this->getDoctrine()->getManager()->getRepository(Transcript::class)->find($id) ? true : false;
 	}
 
-	/***
+	/*	 * *
 	 * Precondición , el $case está verificado . 
 	 * Espera un array del tipo case. Lo carga en una nueva entidad y la 
 	 * persiste , además flushea. 
@@ -221,24 +220,45 @@ class SnapEngageChatController extends Controller {
 	 * @param array $case
 	 * 
 	 */
+
 	public function PersistCase($case) {
 
 
 		$caseToAdd = new Cases(); //buffer
-
-		$caseToAdd->setIdCase($case['id']);
-		$caseToAdd->setUrl($case['url']);
-		$caseToAdd->setType($case['type']);
-		$caseToAdd->setRequestedBy($case['requested_by']);
+		//trabajo de chinos, y mira que lo he intentado XD
+		if (isset($case['id'])) {
+			$caseToAdd->setIdCase($case['id']);
+		}
+		if (isset($case['url'])) {
+			$caseToAdd->setUrl($case['url']);
+		}
+		if (isset($case['type'])) {
+			$caseToAdd->setType($case['type']);
+		}
+		if (isset($case['requested_by'])) {
+			$caseToAdd->setRequestedBy($case['requested_by']);
+		}
 		if (isset($case['requester_details'])) {
 			$caseToAdd->setRequesterDetails($case['requester_details']);
 		}
-		$caseToAdd->setDescription($case['description']);
-		$caseToAdd->setCreatedAtDate($case['created_at_date']);
-		$caseToAdd->setCreatedAtSeconds($case['created_at_seconds']);
-		$caseToAdd->setCreatedAtMilliseconds($case['created_at_milliseconds']);
-		$caseToAdd->setProactiveChat($case['proactive_chat']);
-		$caseToAdd->setPageUrl($case['page_url']);
+		if (isset($case['description'])) {
+			$caseToAdd->setDescription($case['description']);
+		}
+		if (isset($case['created_at_date'])) {
+			$caseToAdd->setCreatedAtDate($case['created_at_date']);
+		}
+		if (isset($case['created_at_seconds'])) {
+			$caseToAdd->setCreatedAtSeconds($case['created_at_seconds']);
+		}
+		if (isset($case['created_at_milliseconds'])) {
+			$caseToAdd->setCreatedAtMilliseconds($case['created_at_milliseconds']);
+		}
+		if (isset($case['proactive_chat'])) {
+			$caseToAdd->setProactiveChat($case['proactive_chat']);
+		}
+		if (isset($case['page_url'])) {
+			$caseToAdd->setPageUrl($case['page_url']);
+		}
 		if (isset($case['referrer_url'])) {
 			$caseToAdd->setReferrerUrl($case['referrer_url']);
 		}
@@ -276,7 +296,7 @@ class SnapEngageChatController extends Controller {
 			foreach ($caseToAdd->getTranscripts() as $trasncript) {
 				$this->CounterLineas++;
 				$user = ("" != $trasncript['alias']) ? $trasncript['alias'] : $user;
-				
+
 				//ya no queremos persistirlas, pero iría aquí si
 				//hiciera falta descomentar y depurar esa funcion.
 				//$this->PersistTranscript($trasncript);
@@ -290,7 +310,6 @@ class SnapEngageChatController extends Controller {
 			 * para guardar nuestro operador.
 			 */
 			$caseToAdd->setUserAgent($user);
-			
 		}
 
 		// _persist
