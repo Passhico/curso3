@@ -265,20 +265,40 @@ class SnapEngageChatController extends Controller {
 		if (isset($case['entry_url'])) {
 			$caseToAdd->setEntryUrl($case['entry_url']);
 		}
+		if (isset($case['ip_address'])) {
+			$caseToAdd->setIpAddress($case['ip_address']);
+		}
+		if (isset($case['browser'])) {
+			$caseToAdd->setBrowser($case['browser']);
+		}
+		if (isset($case['os'])) {
+			$caseToAdd->setOs($case['os']);
+		}
+		if (isset($case['country_code'])) {
+			$caseToAdd->setCountryCode($case['country_code']);
+		}
+		if (isset($case['country'])) {
+			$caseToAdd->setCountry($case['country']);
+		}
+		if (isset($case['region'])) {
+			$caseToAdd->setRegion($case['region']);
+		}
+		if (isset($case['city'])) {
+			$caseToAdd->setCity($case['city']);
+		}
+		if (isset($case['latitude'])) {
+			$caseToAdd->setLatitude($case['latitude']);
+		}
+		if (isset($case['longitude'])) {
+			$caseToAd->setLongitude($case['longitude']);
+		}
+		if (isset($case['source_id'])) {
+			$caseToAdd->setSourceId($case['source_id']);
+		}
+		if (isset($case['chat_waittime'])) {
+			$caseToAdd->setChatWaittime($case['chat_waittime']);
+		}
 
-		$caseToAdd->setIpAddress($case['ip_address']);
-		//Se machaca abajo con el $user, aquí se setteaba.
-		//$caseToAdd->setUserAgent($case['user_agent']); 
-		$caseToAdd->setBrowser($case['browser']);
-		$caseToAdd->setOs($case['os']);
-		$caseToAdd->setCountryCode($case['country_code']);
-		$caseToAdd->setCountry($case['country']);
-		$caseToAdd->setRegion($case['region']);
-		$caseToAdd->setCity($case['city']);
-		$caseToAdd->setLatitude($case['latitude']);
-		$caseToAdd->setLongitude($case['longitude']);
-		$caseToAdd->setSourceId($case['source_id']);
-		$caseToAdd->setChatWaittime($case['chat_waittime']);
 		$caseToAdd->setChatDuration($case['chat_duration']);
 		$caseToAdd->setLanguageCode($case['language_code']);
 		$caseToAdd->setJavascriptVariables($case['javascript_variables']);
