@@ -224,96 +224,96 @@ class SnapEngageChatController extends Controller {
 	public function PersistCase($case) {
 
 
-		$caseToAdd = new Cases(); //buffer
+		$case2add = new Cases(); //buffer
 		//trabajo de chinos, y mira que lo he intentado XD
 		if (isset($case['id'])) {
-			$caseToAdd->setIdCase($case['id']);
+			$case2add->setIdCase($case['id']);
 		}
 		if (isset($case['url'])) {
-			$caseToAdd->setUrl($case['url']);
+			$case2add->setUrl($case['url']);
 		}
 		if (isset($case['type'])) {
-			$caseToAdd->setType($case['type']);
+			$case2add->setType($case['type']);
 		}
 		if (isset($case['requested_by'])) {
-			$caseToAdd->setRequestedBy($case['requested_by']);
+			$case2add->setRequestedBy($case['requested_by']);
 		}
 		if (isset($case['requester_details'])) {
-			$caseToAdd->setRequesterDetails($case['requester_details']);
+			$case2add->setRequesterDetails($case['requester_details']);
 		}
 		if (isset($case['description'])) {
-			$caseToAdd->setDescription($case['description']);
+			$case2add->setDescription($case['description']);
 		}
 		if (isset($case['created_at_date'])) {
-			$caseToAdd->setCreatedAtDate($case['created_at_date']);
+			$case2add->setCreatedAtDate($case['created_at_date']);
 		}
 		if (isset($case['created_at_seconds'])) {
-			$caseToAdd->setCreatedAtSeconds($case['created_at_seconds']);
+			$case2add->setCreatedAtSeconds($case['created_at_seconds']);
 		}
 		if (isset($case['created_at_milliseconds'])) {
-			$caseToAdd->setCreatedAtMilliseconds($case['created_at_milliseconds']);
+			$case2add->setCreatedAtMilliseconds($case['created_at_milliseconds']);
 		}
 		if (isset($case['proactive_chat'])) {
-			$caseToAdd->setProactiveChat($case['proactive_chat']);
+			$case2add->setProactiveChat($case['proactive_chat']);
 		}
 		if (isset($case['page_url'])) {
-			$caseToAdd->setPageUrl($case['page_url']);
+			$case2add->setPageUrl($case['page_url']);
 		}
 		if (isset($case['referrer_url'])) {
-			$caseToAdd->setReferrerUrl($case['referrer_url']);
+			$case2add->setReferrerUrl($case['referrer_url']);
 		}
 		if (isset($case['entry_url'])) {
-			$caseToAdd->setEntryUrl($case['entry_url']);
+			$case2add->setEntryUrl($case['entry_url']);
 		}
 		if (isset($case['ip_address'])) {
-			$caseToAdd->setIpAddress($case['ip_address']);
+			$case2add->setIpAddress($case['ip_address']);
 		}
 		if (isset($case['browser'])) {
-			$caseToAdd->setBrowser($case['browser']);
+			$case2add->setBrowser($case['browser']);
 		}
 		if (isset($case['os'])) {
-			$caseToAdd->setOs($case['os']);
+			$case2add->setOs($case['os']);
 		}
 		if (isset($case['country_code'])) {
-			$caseToAdd->setCountryCode($case['country_code']);
+			$case2add->setCountryCode($case['country_code']);
 		}
 		if (isset($case['country'])) {
-			$caseToAdd->setCountry($case['country']);
+			$case2add->setCountry($case['country']);
 		}
 		if (isset($case['region'])) {
-			$caseToAdd->setRegion($case['region']);
+			$case2add->setRegion($case['region']);
 		}
 		if (isset($case['city'])) {
-			$caseToAdd->setCity($case['city']);
+			$case2add->setCity($case['city']);
 		}
 		if (isset($case['latitude'])) {
-			$caseToAdd->setLatitude($case['latitude']);
+			$case2add->setLatitude($case['latitude']);
 		}
 		if (isset($case['longitude'])) {
-			$caseToAd->setLongitude($case['longitude']);
+			$case2add->setLongitude($case['longitude']);
 		}
 		if (isset($case['source_id'])) {
-			$caseToAdd->setSourceId($case['source_id']);
+			$case2add->setSourceId($case['source_id']);
 		}
 		if (isset($case['chat_waittime'])) {
-			$caseToAdd->setChatWaittime($case['chat_waittime']);
+			$case2add->setChatWaittime($case['chat_waittime']);
 		}
 
-		$caseToAdd->setChatDuration($case['chat_duration']);
-		$caseToAdd->setLanguageCode($case['language_code']);
-		$caseToAdd->setJavascriptVariables($case['javascript_variables']);
+		$case2add->setChatDuration($case['chat_duration']);
+		$case2add->setLanguageCode($case['language_code']);
+		$case2add->setJavascriptVariables($case['javascript_variables']);
 		//valoración.
 		if (isset($case['survey_score'])) {
-			$caseToAdd->setSurveyScore($case['survey_score']);
+			$case2add->setSurveyScore($case['survey_score']);
 		}
 		//todo: setsafe()
 		if (isset($case['transcripts'])) {
-			$caseToAdd->setTranscripts($case['transcripts']);
+			$case2add->setTranscripts($case['transcripts']);
 
 			//Extraemos de las lineas del chat el user, 
 			//realmente es lo que nos interesa, no la linea en sí si no el ...
 			$user = "";
-			foreach ($caseToAdd->getTranscripts() as $trasncript) {
+			foreach ($case2add->getTranscripts() as $trasncript) {
 				$this->CounterLineas++;
 				$user = ("" != $trasncript['alias']) ? $trasncript['alias'] : $user;
 
@@ -329,24 +329,24 @@ class SnapEngageChatController extends Controller {
 			 * el campo donde guarda el navegador desde el que se accede 
 			 * para guardar nuestro operador.
 			 */
-			$caseToAdd->setUserAgent($user);
+			$case2add->setUserAgent($user);
 		}
 
 		// _persist
-		if (!$this->existsCase($caseToAdd->getIdCase())) {
-			$this->getDoctrine()->getManager()->persist($caseToAdd);
+		if (!$this->existsCase($case2add->getIdCase())) {
+			$this->getDoctrine()->getManager()->persist($case2add);
 			if ($this->getDoctrine()->getManager()->flush()) {
-				dump('No se ha podido insertar el Case : ' . $caseToAdd);
+				dump('No se ha podido insertar el Case : ' . $case2add);
 			} else {
 				++$this->CounterCasosPersistidos;
-				var_dump('Insertando IdCase: ' . $caseToAdd->getIdCase());
+				var_dump('Insertando IdCase: ' . $case2add->getIdCase());
 			}
 		} else {
-			var_dump('El Caso: ' . $caseToAdd->getIdCase() . ' Ya existe.. se omite');
+			var_dump('El Caso: ' . $case2add->getIdCase() . ' Ya existe.. se omite');
 		}
 
 		//COUNTER
-		unset($caseToAdd);
+		unset($case2add);
 	}
 
 	/**
@@ -356,7 +356,7 @@ class SnapEngageChatController extends Controller {
 	 * 
 	 * @param array $trasncript 
 	 */
-	public function PersistTranscript($trasncript) {
+	public function PersistTranscript($trasncript, $acseToAdd) {
 		//GUARDA LINEA COMPLETA.
 		$trasncript2add = new Transcript();
 		++$this->CounterLineas;
