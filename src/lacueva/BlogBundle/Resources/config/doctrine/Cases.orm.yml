@@ -18,6 +18,7 @@ lacueva\BlogBundle\Entity\Cases:
             type: string
             length: 255
         description:
+            nullable: true
             type: string
             length: 255
         type:
@@ -61,22 +62,29 @@ lacueva\BlogBundle\Entity\Cases:
             type: string
             length: 255
         countryCode:
+            nullable: true
             type: string
             length: '10'
         country:
+            nullable: true
             type: string
             length: 255
         region:
+            nullable: true
             type: string
             length: 255
         city:
+            nullable: true
             type: string
             length: 255
         latitude:
             type: float
+            nullable: true
         longitude:
             type: float
+            nullable: true
         sourceId:
+            nullable: true
             type: integer
         chatWaittime:
             type: integer
@@ -86,6 +94,7 @@ lacueva\BlogBundle\Entity\Cases:
             type: integer
             nullable: true
         languageCode:
+            nullable: true
             type: string
             length: 255
         transcripts:
@@ -93,5 +102,6 @@ lacueva\BlogBundle\Entity\Cases:
             nullable: true
              
         javascriptVariables:
+            nullable: true
             type: json_array
     lifecycleCallbacks: {  }
