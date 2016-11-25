@@ -10,7 +10,10 @@
 
 
 -- delete from cases; 
-
+select c.user_agent
+from cases c 
+where c.user_agent <> ""
+group by c.user_agent; 
 
 /* Totales */
 select 
@@ -22,7 +25,9 @@ select
 from 
 	cases c 
 where 
-	c.proactive_chat = true
+-- 	c.proactive_chat = true and
+    c.user_agent <> ""
+
 group by fecha
 order by 
 	fecha
