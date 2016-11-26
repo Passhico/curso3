@@ -347,7 +347,8 @@ class SnapEngageChatController extends Controller {
 	/**
 	 * Cuidado total , no usar sin revisar , este código funciona
 	 * pero como ya no queremos las lineas no se ha depurado mucho.
-	 * Esta función se queda historicamente para la versión beta.
+	 * Esta función se queda historicamente por si un día hiciera falta
+	 * pero ya no se usa para nada. 
 	 * 
 	 * @param array $trasncript 
 	 */
