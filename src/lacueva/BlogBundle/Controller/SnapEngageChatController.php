@@ -120,7 +120,7 @@ class SnapEngageChatController extends Controller {
 			$ApiGatorSnapChat->setUri($NextUri);
 			$NextUri = $this->Persist100AndGetNextUri($ApiGatorSnapChat->getCurlResponse());
 		}
-
+		
 		//NO ME BORRRES o renderiza , o mejor manda a alguien a renderizar...xd .
 		return new Response(nl2br('Extracción de datos de Api Rest de SnapEngageChatController.
 								
@@ -180,7 +180,7 @@ class SnapEngageChatController extends Controller {
 		return null != $this->getDoctrine()->getManager()->getRepository(Cases::class)->findBy($where) ? true : false;
 	}
 
-	public function loadAction(Request $request, $fechaDesde, $fechaHasta) {
+	public function loadAction(Request $request, $fechaDesde, $fechaHasta) {	
 
 		//TODO : COPIA DE LA INDEX PERO PARAMETRIZADA.
 		//NO ME BORRRES o renderiza , o mejor manda a alguien a renderizar...xd .
