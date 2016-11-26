@@ -96,6 +96,6 @@ SnapEngageChat_index:
 SnapEngageChat_index_directo:
      path: /
      defaults: {_controller: BlogBundle:SnapEngageChat:index}
-
+SnapEngageChat_load:
      path: /chat/load/{fechaDesde}/{fechaHasta}
      defaults: {_controller: BlogBundle:SnapEngageChat:load}
