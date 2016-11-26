@@ -108,28 +108,12 @@ class SnapEngageChatController extends Controller {
 	 *                  path : /SnapEngageChat/index
 	 */
 	public function indexAction(Request $request) {
-		echo '$uri: ' . SNAPCHAT_URI . '<br>';
-		echo '$uri: ' . var_dump($this->HttpHeaderSnapchat) . '<br>';
 
-		//$ApiGatorSnapChat = new ApiGator(SNAPCHAT_URI, $this->httpHeaderSnapchat);
-		$ApiGatorSnapChat = new ApiGator(SNAPCHAT_URI, $this->HttpHeaderSnapchat);
-
-		//forsinnext.
-		$NextUri = SNAPCHAT_URI;
-		while (false != $NextUri) {
-			$ApiGatorSnapChat->setUri($NextUri);
-			$NextUri = $this->Persist100AndGetNextUri($ApiGatorSnapChat->getCurlResponse());
-		}
-
-		//NO ME BORRRES o renderiza , o mejor manda a alguien a renderizar...xd .
-		return new Response(nl2br('Extracción de datos de Api Rest de SnapEngageChatController.
-								
-				                    Numero de Uris Procesadas (100 regs): ' . $this->CounterBloqueDatos100Registros . '
-				                    Chats Leidos :  ' . $this->CounterChatsLeidos . '
-									Chats Persistidos :' . $this->CounterCasosPersistidos . '
-									Chats Perdidos por falta de algun indice :' . $this->counterExcepcionesPorFaltaDeIndices . '
-									Lineas Leidas :  ' . $this->CounterLineas . '
-									'));
+		//_render
+		return $this->render('BlogBundle:chat:index.html.twig', 						[
+			    'request' => $request, 
+		]);
+		
 	}
 
 	/**
@@ -182,14 +166,16 @@ class SnapEngageChatController extends Controller {
 
 	public function loadAction(Request $request, $fechaDesde, $fechaHasta) {
 
-		echo '$uri: ' . SNAPCHAT_URI . '<br>';
+		$uri = $this->generateUri($fechaDesde, $fechaHasta);
+		
+		echo '$uri: ' . $uri . '<br>';
 		echo '$uri: ' . var_dump($this->HttpHeaderSnapchat) . '<br>';
 
 		//$ApiGatorSnapChat = new ApiGator(SNAPCHAT_URI, $this->httpHeaderSnapchat);
-		$ApiGatorSnapChat = new ApiGator($this->generateUri($fechaDesde, $fechaHasta), $this->HttpHeaderSnapchat);
+		$ApiGatorSnapChat = new ApiGator($uri, $this->HttpHeaderSnapchat);
 
 		//forsinnext.
-		$NextUri = SNAPCHAT_URI;
+		$NextUri = $uri;
 		while (false != $NextUri) {
 			$ApiGatorSnapChat->setUri($NextUri);
 			$NextUri = $this->Persist100AndGetNextUri($ApiGatorSnapChat->getCurlResponse());
@@ -396,7 +382,7 @@ class SnapEngageChatController extends Controller {
 	}
 
 	public function generateUri($fechaDesde, $fechaHasta) {
-		return  SNAPCHAT_URL . SNAPCHAT_ORG_ID . '/logs?widgetId=' . SNAPCHAT_WIDGET_ID . '&start='.$fechaDesde.'&end=' . $fechaHasta;
+		return  SNAPCHAT_URL . SNAPCHAT_ORG_ID . '/logs?widgetId=' . SNAPCHAT_WIDGET_ID . '&start='. $fechaDesde . '&end=' . $fechaHasta;
 	}
 
 }
