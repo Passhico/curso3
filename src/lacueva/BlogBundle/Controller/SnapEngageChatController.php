@@ -182,11 +182,28 @@ class SnapEngageChatController extends Controller {
 
 	public function loadAction(Request $request, $fechaDesde, $fechaHasta) {	
 
-		//TODO : COPIA DE LA INDEX PERO PARAMETRIZADA.
+	echo '$uri: ' . SNAPCHAT_URI . '<br>';
+		echo '$uri: ' . var_dump($this->HttpHeaderSnapchat) . '<br>';
+
+		//$ApiGatorSnapChat = new ApiGator(SNAPCHAT_URI, $this->httpHeaderSnapchat);
+		$ApiGatorSnapChat = new ApiGator(SNAPCHAT_URI, $this->HttpHeaderSnapchat);
+
+		//forsinnext.
+		$NextUri = SNAPCHAT_URI;
+		while (false != $NextUri) {
+			$ApiGatorSnapChat->setUri($NextUri);
+			$NextUri = $this->Persist100AndGetNextUri($ApiGatorSnapChat->getCurlResponse());
+		}
+		
 		//NO ME BORRRES o renderiza , o mejor manda a alguien a renderizar...xd .
 		return new Response(nl2br('Extracción de datos de Api Rest de SnapEngageChatController.
-									fecha desde:' . $fechaDesde . '
-				                    Numero de Uris Procesadas: ' . $fechaHasta));
+								
+				                    Numero de Uris Procesadas (100 regs): ' . $this->CounterBloqueDatos100Registros . '
+				                    Chats Leidos :  ' . $this->CounterChatsLeidos . '
+									Chats Persistidos :' . $this->CounterCasosPersistidos . '
+									Chats Perdidos por falta de algun indice :' . $this->counterExcepcionesPorFaltaDeIndices . '
+									Lineas Leidas :  ' . $this->CounterLineas . '
+									'));
 	}
 
 	public function log($data) {
