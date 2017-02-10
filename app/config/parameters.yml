@@ -1,9 +1,9 @@
 # This file is auto-generated during the composer install
 parameters:
-    database_host: lacuevadelgrillo.net
+    database_host: lacuevadelgrillo.com
     database_port: null
-    database_name: lacueva1_delgrillo
-    database_user: lacue_admin
+    database_name: lacuevad_prueba
+    database_user: lacuevad_prueba
     database_password: capullo100
     mailer_transport: smtp
     mailer_host: 127.0.0.1
